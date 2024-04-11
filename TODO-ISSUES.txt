@@ -1,0 +1,194 @@
+ISSUES:
+
+
+
+
+FIRST ENHANCEMENTS (all other see below in RFE section):
+// calculations are not validated across the configuration options => need to check for calculations to be performed at all - start at calcDCConfig() and all functions contributing
+// especially, check dcConfigDetermineNumberOfServersInitially() or dcConfigAdjustNumberOfServers() for alignment of NVMe5 to rerquired SSDs in terms of ratio and size
+
+// dcConfigMinNumberOfServersNeededWithReducedNumberOfRolesPerServer() 
+  // check the use of numberOfServersNeededForReplicaInSameDC - is it set already (computed at all ?)
+
+
+
+TODO:
+======
+// (A) Cleanup the unneeded comments and explanations
+// (B) Check for unused functions.
+
+// (B2) Check and wrap any console.log outputs to be only used when debugging is on.
+// (C) Check for possible reduction in complexity in a single function - split it up if possible and feasible for reuse
+
+// (E) rework chassis table header column 
+// (F) Apply checking for optional settings of NVMe sizes and ratios
+
+// (G1) Check the variables used and remove those unsued
+// (G2) Check the parameters and remove unused.
+
+// Clean up RFEs and changes below
+
+
+
+
+
+
+Program flow:
+=============
+(M0) Initialization for:
+- generalSettings
+- SizingConstraints
+- tableHeaderChassisArray
+(M1) -> successConvertTib = userCalcConvertTiB()
+(M2) - create HTML page additions
+
+(M5) - documentAddWorkloadsTable() for chassis => add chassis config table to HTML page
+(M6) - add "apply changes" button below chassis table
+(M7) - documentAddOutputConfigsTable() for resultsoverview => add overview table for results
+(M8) - add separation before workloads table
+(M9) -> tableHeaderWorkloadsInputArray
+     - documentAddOutputConfigsTable() for workload => add workloads input table 
+(M10) - add apply changes button after workloads table
+(M11) -> arrayOfConfigsResults
+      - documentAddOutputConfigsTable() (multiple) => display all individual results for configs 
+(M12) -> workloadsArray
+(M13) -> chassisArray
+(M14) -> configsArray, resultsOverviewArray
+(M15) -> resultsOverviewArray 
+(M16) -> buttonApplyChangesClicked = buttonApplyChanges() <- applyAllChanges() <-- calcDCConfig() <- workloadsDetermineRocksDBSpace() 
+                                                                              |                +- dcConfigDetermineNumberOfDCsInUse()
+                                                                              |                +- dcConfigDetermineNumberOfDCsForWorkload()
+                                                                              |                +- workloadDetermineCapacityRaw()
+                                                                              |                +- dcConfigDetermineCapacityRaw()
+                                                                              |                +- dcConfigDetermineNumberOfRoleInstances()
+                                                                              |                +- dcConfigDetermineNumberOfMediaRequired()
+                                                                              |                +- dcConfigDetermineNumberOfServersInitially()
+                                                                              |                +- //checkForMisconfigReplicaInDC()
+                                                                              |                +- dcConfigCorrectNumberOfServersForMONs()
+                                                                              |                +- dcConfigCorrectNumberOfServersForiSCSI()
+                                                                              |                +- dcConfigCalcPreliminaryMediaPerServer()
+                                                                              |                +- dcConfigNumberOfCoresNeededInitial()
+                                                                              |                +- dcConfigMemNeededInitial()
+                                                                              |                +- dcConfigCheckResourceConstraints()
+                                                                              |                +- dcConfigMinNumberOfServersNeededWithReducedNumberOfRolesPerServer()
+                                                                              |                +- dcConfigAdjustNumberOfServers()
+                                                                              |                +- dcConfigFinalNumberOfCoresPerServer()
+                                                                              |                +- dcConfigFinalMemoryPerServer()
+                                                                              |                +- dcConfigFinalSSDPerServer()
+                                                                              |                +- dcConfigFinalHDDPerServer()
+                                                                              |                +- dcConfigFinalNVMePerServer()
+                                                                              |                +- dcConfigFinalPublicNetwork()
+                                                                              |                +- dcConfigFinalClusterNetwork()
+                                                                              +- calcResultsOverview()
+                                                                              +- calcResultsPerDC()
+                                                                              +- resultsOverviewDisplay()
+                                                                              +- resultsPerDCDisplay()
+
+
+
+
+
+RFE / future work:
+==================
+DO: research a way of displaying error messages (or a summary of all warnings and info) to the user in an overlay or ,e.g., by listing those
+    in a prominent place but changing the background color.
+
+// (0) dcConfigDetermineNumberOfMediaRequired() should allow setting a different object index replication factor if only using a single DC 
+//       (currently, the specific replication factor for the index is only used if more DCs in use)
+
+// (1) script.js should contain somewhere setting of the additional values for similar, same, hdd separate, and SSD w/ dedicated NVMe 
+//     selections.
+
+// (2) check all separated function files for properly importing needed functions used
+
+// (3) streamline the use of either cores or HT cores for the media
+
+// ALL in function dcConfigDetermineNumberOfMediaRequired():
+// (6) Add calculation of NVMe4 for HDD fronting into the function according to selection.
+
+
+
+// (8) Correction needed for NVMe types 4, 3, 5, and 7 as per location of the associated media ?
+
+// (9) Fix resultsDCConfigDetermineNumberOfMediaRequired(): the call to parameters for dcConfigDetermineNumberOfMediaRequired() doesn't make sense - especially, check the use for resultDCConfigLocalresultsDCConfigDetermineNumberOfMediaRequired
+
+// (12) Add overall the selection for SSD old and new => this affects dcConfigNumberOfCoresNeededInitial()
+
+// (13) Add selection to use HT or not per chassis configuration, and change the default settings in SizingConstraints for all instances accordingly (see (3))
+
+// (14) dcConfigNumberOfCoresNeededInitial() => Change the calculation of #cores for data NVme according to the selected distribution scheme (TBD)
+
+// (15) Important: cores per NVMe for object index on RocksDB NVMe => this is the value of cores one would need to add for NVMe covering
+//      HDD or SSD but having some space left for creating an OSD off the unassigned space => would need resources on this one.
+//      However, in the new code here, currently we don't provide splitting NVMe being used ofr RocksDB/WAL for those media into this
+//      original functionality plus the index OSDs. This would make a huge difference in terms of additional devices needed for a rather
+//      small capacity footprint needed for the index.
+//      So, check those places where coresPerNVMeForObjectIndexOnNVMe6 is currently used but is rather meant to cover the space for index pools
+//      using dedicated NVMe type 6 media.
+
+// (16) dcConfigFinalNumberOfCores() - n/// TODO - total rewrite needed for the changed N41 vs NVMe2, and all other NVMe
+
+// (17) check the number of SSD4 go respected in all the functions after dcConfigDetermineNumberOfServersInitially() was called by calcDCConfig() - this is not yet a config parameter of DCConfig
+
+
+(R0) Add calculation for filled chassis:
+    - potential max config SSD with current CPU & mem
+    - potential max config HDD with current CPU & mem
+    - potential max config NVMe with current CPU & mem
+    - recommended network with potential full with SSD
+    - recommended network with potential full with HDD
+    - recommended network with potential full with NVMe
+
+(R1) Add a way to provide cost for individual components of the chassis config.
+(R2) Calculate cost of summarized and individual DC configs and display it
+(R3) Add NVMe 1 as type of block device media
+     Add NVMe type 7 calculation when adding NVMe1 support
+     Check the number of NVMe type 7 for capacity as well as for coverage
+
+(R4) Add a way of provide performance numbers of media 
+(R5) Add a way of determining the ratio of media in coupled configurations based on media performance
+(R6) Add a way of respecting different workloads for IO size and IO mix for calculating ratios of coupled media based on need (e.g., <4K IO size vs. 1 MB size)
+(R7) Provide useful utilization of full performance and high density configurations 
+(R10) Add code for detemining recovery time for a host failure based on media used
+(R11) Add a way of specifying split configs - with multiple different sets of nodes for different configs (actually, the cluster is assumed to have all equal nodes in terms of media config and one needs to manually apply different workloads in different sizings)
+(R12) Add a way to export the chassis configuration and reimport it (or to provide a reference to a file to read from)
+(R13) Add a way to export all settings and results
+(R14) Add a way to provide two different speeds of NICs for public and cluster networks
+(R15) Add a way to provide an indication based on calculated performance numbers from media and config
+(R16) Add calculation of netCapacityDataDevices for the estimated net capacity the would be available in the DC/config based on linear projection for used devices based on workload requirements running in the actual DC/config
+
+
+
+// Add selector for EC into the row of workloads: replication or EC and if EC add selector for scheme
+
+// HDD fronting selection of SSD vs NVMe is prepared but needs implementation checking and test data
+
+// dcConfigDetermineNumberOfRoleInstances()
+  // Actually, the number of instances for each workload per DC is using the minimum number but spreads this minium number across all
+  // DCs in a way that if there is one at all, all DCs get an instances regardless whether the minimum would require a lot lower number
+  // if the instances would be distributed not evenly but only with the number of instances required as minimum.
+
+// Add advanced section or additional page to change the defaults => settings for the instances, defaults of RocksDB, etc.
+
+// Add advanced section for number of roles per workload => to adjust e.g. number of RGW instances
+
+// Add advanced section for number of roles per DC - for DC based selection if clients are located there within a sub-set of DCs
+
+
+// Add configurable number of h/w configs, and workloads.
+
+// dcConfigDetermineNumberOfServersInitially() should support different kinds of configurations for NVMe distribution
+
+// Add simplified config page for input of capacity, number of nodes, etc. only
+
+
+
+
+
+
+
+
+
+
+
+
