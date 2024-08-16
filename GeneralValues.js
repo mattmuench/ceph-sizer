@@ -25,7 +25,7 @@ class GeneralValues {
         this.desiredCapacityInTB = desiredCapacityInTB
         this.globalDebug = false        // false or true
         this.numberOfConfigsPossible = 8  // default: 8 (?)
-        this.numberOfWorkloadsPossible = 6  // actually must be set to #workloads + 1
+        this.numberOfWorkloadsPossible = 8  // actually must be set to #workloads + 1
         this.numberOfDCsPossible = 8
         this.desiredSimilarConfig = 0
         this.desiredSimilarMediaConfig = 1
