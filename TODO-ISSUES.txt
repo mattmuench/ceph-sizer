@@ -1,6 +1,6 @@
 ISSUES:
 
-
+// *** OBSOLETE NOW - issues opened //
 
 
 FIRST ENHANCEMENTS (all other see below in RFE section):
@@ -153,7 +153,7 @@ DO: research a way of displaying error messages (or a summary of all warnings an
 (R11) Add a way of specifying split configs - with multiple different sets of nodes for different configs (actually, the cluster is assumed to have all equal nodes in terms of media config and one needs to manually apply different workloads in different sizings)
 (R12) Add a way to export the chassis configuration and reimport it (or to provide a reference to a file to read from)
 (R13) Add a way to export all settings and results
-(R14) Add a way to provide two different speeds of NICs for public and cluster networks
+XX Done.(R14) Add a way to provide two different speeds of NICs for public and cluster networks
 (R15) Add a way to provide an indication based on calculated performance numbers from media and config
 (R16) Add calculation of netCapacityDataDevices for the estimated net capacity the would be available in the DC/config based on linear projection for used devices based on workload requirements running in the actual DC/config
 

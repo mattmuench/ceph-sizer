@@ -4,11 +4,11 @@ A Ceph sizer for capacity and h/w configuration design
 
 The Ceph Sizer is intended to provide a tool to design a Ceph cluster based on required workloads, infrastructure dependencies, config requirements, etc., mapped to a h/w configuration available. From a set of possible configurations given by a supported set of config options of server hardware, variations can be assessed for the same workloads at a time.
 
-The actual implementation is by no means complete, nor nice, but simply an beginners level for JavaScript port of previous spreadsheet based prototype. There are many things to improve or develop.
+The actual implementation is by no means complete, nor nice, but simply a beginners level for JavaScript port of previous spreadsheet based prototype. There are many things to improve and develop.
 
 The basic functionality is intended to work like this:
 
-- any viable h/w configuration can be provided into the "Available chassis cofniguration options" table
+- any viable h/w configuration can be provided into the "Available chassis configuration options" table
 - the required workloads are entered into the table "workloads required with characteristics"
 - once both tables have desired values entered, the resulting configurations processed and displayed
 - as an overview for the configs in table "Resulting configuration"

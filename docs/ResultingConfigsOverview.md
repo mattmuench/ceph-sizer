@@ -10,7 +10,15 @@ Per config, the line shows the sum of the number of the servers used, the media 
 
 Since no performance, pricing, etc., and similar information is incorporated, actually those configurations lack any hints on viability for economics and price/performance.
 
-<B?>Resulting configuration</B>Individual configurations for the resulting cluster based on workloads when using the corresponding hardware configuration. Each row gives the aggregated number of servers, hardware, etc. according to the rules configured for placement of role instances, OSDs, selection of DCs, etc.
+Depending on the setting of "All servers have the same NIC, cores & mem in config ?", the configuration is shown as the maximum config values per DC in this config. Choosing those would result in a server configuration of NICs, CPU, and memory equal for all DCs. However, the number of media per server will be specific to the DCs config.  
+When "All servers have the same NIC, cores & mem in config ?" is not selected, the differing resulting configs for the different involved DCs cannot be shown but there will be a hint to check the appropriate config for specific information. See the tables below workload input. 
+ 
+The column of "raw capacity" hdisplays the overall deployed raw media capacity, excluding the OS devices (not asked for anyway). This is regardless of the setting for same config or not across the DCs.
+ 
+The SKU columns display the SKUs to use for this configuration. Multi-PB SKUs are not used and the expectation is that basic math would be sufficient for now."
+
+
+<B>Resulting configuration</B>Individual configurations for the resulting cluster based on workloads when using the corresponding hardware configuration. Each row gives the aggregated number of servers, hardware, etc. according to the rules configured for placement of role instances, OSDs, selection of DCs, etc.
 
 <B>#servers high density</B>unused actually
 
