@@ -26,12 +26,17 @@ const dcConfigFinalClusterNetwork   = function (sizingConstraints, dcConfigArray
       // )
   if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
     console.log(`dcConfigFinalClusterNetwork() 28: [chassisID=${actualChassisID},DC=${dcItem}] chassisArrayLocal[actualChassisID].speedNicCluster=${chassisArrayLocal[actualChassisID].speedNicCluster}`)
-    if (typeof chassisArrayLocal[actualChassisID].speedNicCluster === 'number') {
+  // ONLY as temporary working local workaround
+    //  if (typeof chassisArrayLocal[actualChassisID].speedNicCluster === 'number') {
       switch (chassisArrayLocal[actualChassisID].speedNicCluster) {
-        case 10:
-        case 25:
-        case 50:
-        case 100:
+        case "10":
+        case "25":
+        case "50":
+        case "100":
+        //case 10:
+        //case 25:
+        //case 50:
+        //case 100:
           dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs = Math.round((dcConfigArrayLocal[dcItem].resultingNumberOfSSD * sizingConstraints.networkBandwidthPerSSDoldinMBsec
                                                                                   + dcConfigArrayLocal[dcItem].resultingNumberOfHDD * sizingConstraints.networkBandwidthPerHDDinMBsec
                                                                                   + dcConfigArrayLocal[dcItem].resultingNumberOfNVMe1 * sizingConstraints.networkBandwidthPerNVMeinMBsec
@@ -41,10 +46,10 @@ const dcConfigFinalClusterNetwork   = function (sizingConstraints, dcConfigArray
         default:
           console.log(`dcConfigFinalClusterNetwork() 42: [chassisID=${actualChassisID},DC=${dcItem}] ERROR: no valid NIC speed specified for ports`)
       }
-    }
-    else {
-      console.log(`dcConfigFinalClusterNetwork() 46: [chassisID=${actualChassisID},DC=${dcItem}] ERROR: NIC speed for ports must be a number`)
-    }
+    //}
+    //else {
+      //console.log(`dcConfigFinalClusterNetwork() 46: [chassisID=${actualChassisID},DC=${dcItem}] ERROR: NIC speed for ports must be a number`)
+    //}
   }
   else {
     dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs = 0

@@ -155,7 +155,7 @@ class SizingConstraints {
         this.defaultCoresPerRGWCacheDevice = 4
         this.defaultCoresPerNVMeOForWALDevice = 12
         this.defaultCoresPerHDD = 2
-        this.defaultCoresPerSSDold = 4
+        this.defaultCoresPerSSDold = 8
         this.defaultCoresPerSSDnew = 8
         this.defaultCoresPerNVMe = 16 // logical CPUs seen => for HT #cores/2
         this.defaultCoresPerNVMe1 = 8

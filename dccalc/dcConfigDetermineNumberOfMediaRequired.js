@@ -223,7 +223,7 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
       }
 
 
-      // Two different kinds of RocksDB capacity: with and withiout dedicated - with dedicated, there must be a different kind of media
+      // Two different kinds of RocksDB capacity: with and without dedicated - with dedicated, there must be a different kind of media
       // for hosting the dedicated RocksDB: NVMe5; 
       // Note: the capacity of localDCCorrectionForUnalignedObjectsSSDWithDedicatedNVMe is not changing the RocksDB capacity.
       // Check also the number of NVMe would be sufficient for the number of SSD allowed to cover Chassis.ssdToNVMe5

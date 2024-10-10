@@ -23,14 +23,20 @@ const dcConfigFinalPublicNetwork   = function (sizingConstraints, dcConfigArrayL
     //  ,
     //      0
     //  )
+    
+    // ONLY as temporary working local workaround
     if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
-      if (typeof chassisArrayLocal[actualChassisID].speedNicPublic === 'number') {
+      //if (typeof chassisArrayLocal[actualChassisID].speedNicPublic === 'number') {
         console.log(`dcConfigFinalPublicNetwork() 28: [chassisID=${actualChassisID},DC=${dcItem}] chassisArrayLocal[actualChassisID].speedNicPublic=${chassisArrayLocal[actualChassisID].speedNicPublic}`)
         switch (chassisArrayLocal[actualChassisID].speedNicPublic) {
-          case 10:
-          case 25:
-          case 50:
-          case 100:
+          case "10":
+          case "25":
+          case "50":
+          case "100":
+          // case 10:
+          // case 25:
+          // case 50:
+          // case 100:
             dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs = Math.ceil((dcConfigArrayLocal[dcItem].resultingNumberOfSSD * sizingConstraints.networkBandwidthPerSSDoldinMBsec
                                                                                     + dcConfigArrayLocal[dcItem].resultingNumberOfHDD * sizingConstraints.networkBandwidthPerHDDinMBsec
                                                                                     + dcConfigArrayLocal[dcItem].resultingNumberOfNVMe1 * sizingConstraints.networkBandwidthPerNVMeinMBsec
@@ -49,10 +55,10 @@ console.log(`dcConfigFinalPublicNetwork() 41: [chassisID=${actualChassisID},DC=$
           default:
             console.log(`dcConfigFinalPublicNetwork() 50: [chassisID=${actualChassisID},DC=${dcItem}]  ERROR: no valid NIC speed specified for ports`)
         }
-      }
-      else {
-        console.log(`dcConfigFinalPublicNetwork() 54: [chassisID=${actualChassisID},DC=${dcItem}]  ERROR: NIC speed for ports must be a number`)
-      }
+      //}
+      //else {
+      //  console.log(`dcConfigFinalPublicNetwork() 54: [chassisID=${actualChassisID},DC=${dcItem}]  ERROR: NIC speed for ports must be a number`)
+      //}
     }
     else {
       dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs = 0
