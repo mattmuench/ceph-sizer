@@ -71,7 +71,8 @@ class Chassis {
             ["speed-nic-cluster","speedNicCluster"],
             ["use-rgw-caching","useRGWCaching"],
             ["use-optane-1","useOptane1"],
-            ["nvme-to-nvme7","nvmeToNVMe7"]
+            ["nvme-to-nvme7","nvmeToNVMe7"],
+            ["use-nvme-7","useNVMe7"] // use NVMe7 for dedicated WAL for NVMe1
             
         ]
         
@@ -107,6 +108,7 @@ class Chassis {
         this.useOptane1 = 0
         this.sizeNVMe7 = 0
         this.nvmeToNVMe7 = 4
+        this.useNVMe7 = 0
 
     }
 }

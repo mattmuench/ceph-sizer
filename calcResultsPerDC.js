@@ -19,7 +19,7 @@ const calcResultsPerDC = function (generalValues, configsArrayLocal, chassisArra
         resultsPerDCArray[actualChassisID][dcItem].numServers += configsArrayLocal[actualChassisID][dcItem].resultingNumberOfServersAsPerChassis
         
         // resultsPerDCArray[actualChassisID][dcItem].highDensity 
-        // resultsPerDCArray[actualChassisID][dcItem].fullPerformance
+        // resultsPerDCArray[actualChassisID][dcItem].nvmePerformance
         if (localNICPublicHighestNum < configsArrayLocal[actualChassisID][dcItem].resultingNumberOfPublicNetNICs) {
             localNICPublicHighestNum = configsArrayLocal[actualChassisID][dcItem].resultingNumberOfPublicNetNICs
         }

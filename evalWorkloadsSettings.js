@@ -70,10 +70,17 @@ const workloadDetermineCapacityRaw = function (generalValuesLocal, workloadsArra
   for (let workloadItem = 0; workloadItem < generalValuesLocal.numberOfWorkloadsPossible; workloadItem++) {
     let localGrossCapacity = workloadsArrayLocal[workloadItem].reqCapacityNet * workloadsArrayLocal[workloadItem].reqNumReplica / sizingConstraints.cephClusterNearFull
     workloadsArrayLocal[workloadItem].reqCapacityGrossHDD = localGrossCapacity * (1 - workloadsArrayLocal[workloadItem].reqFlashPercent/100)
-    workloadsArrayLocal[workloadItem].reqCapacityGrossSSD = localGrossCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent/100
+    // if nvme performance selected (for flash), the flash capacity should be provided by NVMe
+    if (workloadsArrayLocal[workloadItem].selectorNVMe == true ){
+      workloadsArrayLocal[workloadItem].reqCapacityGrossNVMe = localGrossCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent/100
+    }
+    else {
+      workloadsArrayLocal[workloadItem].reqCapacityGrossSSD = localGrossCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent/100
+    }
+    
     if (generalValuesLocal.globalDebug == true || localDebug == true) {
-      console.log(`workloadDetermineCapacityRaw() 75: input for calc: net=${workloadsArrayLocal[workloadItem].reqCapacityNet}, replica=${workloadsArrayLocal[workloadItem].reqNumReplica}, clusterNearFull=${sizingConstraints.cephClusterNearFull};localGrossCapacity=${localGrossCapacity} `)
-      console.log(`workloadDetermineCapacityRaw() 76: gross capacity per used DC based on replica for workloadID=${workloadItem} => HDD=${workloadsArrayLocal[workloadItem].reqCapacityGrossHDD}, SSD=${workloadsArrayLocal[workloadItem].reqCapacityGrossSSD} `)
+      console.log(`workloadDetermineCapacityRaw() 82: input for calc: net=${workloadsArrayLocal[workloadItem].reqCapacityNet}, replica=${workloadsArrayLocal[workloadItem].reqNumReplica}, clusterNearFull=${sizingConstraints.cephClusterNearFull};localGrossCapacity=${localGrossCapacity} `)
+      console.log(`workloadDetermineCapacityRaw() 83: gross capacity per used DC based on replica for workloadID=${workloadItem} => HDD=${workloadsArrayLocal[workloadItem].reqCapacityGrossHDD}, SSD=${workloadsArrayLocal[workloadItem].reqCapacityGrossSSD}, NVMe=${workloadsArrayLocal[workloadItem].reqCapacityGrossNVMe}`)
     }
   }
 }

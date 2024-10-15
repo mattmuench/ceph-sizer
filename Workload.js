@@ -7,7 +7,7 @@ class Workload {
         useCase,
         reqNumReplica,
         reqNumberFd,
-        selectorFullperf,
+        selectorNVMe, // Indicates the use of NVMe for flash
         selectorHighdense,
         sizeAvgObj,
         sizeAvgFile,
@@ -55,7 +55,7 @@ class Workload {
             ["use-case","useCase"],
             ["req-num-replica","reqNumReplica"],
             ["req-number-fd","reqNumberFd"],
-            ["selector-fullperf","selectorFullperf"],
+            ["selector-nvme","selectorNVMe"],
             ["selector-highdense","selectorHighdense"],
             ["size-avg-obj","sizeAvgObj"],
             ["size-avg-file","sizeAvgFile"],
@@ -92,7 +92,7 @@ class Workload {
         this.useCase = "rbd"
         this.reqNumReplica = 3
         this.reqNumberFd = 1
-        this.selectorFullperf = 1
+        this.selectorNVMe = 0  // by default, still use SSD instead of NVMe for capacity
         this.selectorHighdense = 0
         this.sizeAvgObj = 100
         this.sizeAvgFile = 4

@@ -85,7 +85,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                   break
                 }
                 case "selector-highdense":
-                case "selector-fullperf": 
+                case "selector-nvme": 
                 case "selector-rgw-index-flash":
                 case "selector-rgw-cache":
                 case "selector-dedicatedNVMe":

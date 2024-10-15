@@ -7,7 +7,7 @@ class TableHeaderResults {
             ["Resulting configuration","gen"],
             ["# servers","num-servers"],
             ["high density","selector-highdense"],
-            ["full performance","selector-fullperf"],
+            ["full performance","selector-nvme"],
             ["NIC config (public network)","nic-num-pub"],
             ["NIC config (cluster network)","nic-num-cluster"],
             ["CPU vcores","num-cpu-cores"],

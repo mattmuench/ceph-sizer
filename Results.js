@@ -4,7 +4,7 @@ class Results {
         chassisID,
         numServers,
         highDensity,
-        fullPerformance,
+        nmvePerformance,
         publicNICs,
         clusterNICs,
         cpuCores,
@@ -46,7 +46,7 @@ class Results {
             ["gen","chassisID"],
             ["num-servers","numServers"],
             ["selector-highdense","highDensity"],
-            ["selector-fullperf","fullPerformance"],
+            ["selector-nvme","nvmePerformance"],
             ["nic-num-pub","publicNICs"],
             ["nic-num-cluster","clusterNICs"],
             ["num-cpu-cores","cpuCores"],
@@ -85,7 +85,7 @@ class Results {
         this.chassisID = 0
         this.numServers = 0
         this.highDensity = false
-        this.fullPerformance = false
+        this.nvmePerformance = false
         this.publicNICs = 0
         this.clusterNICs = 0
         this.cpuCores = 0

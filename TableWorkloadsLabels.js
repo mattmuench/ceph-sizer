@@ -10,7 +10,7 @@ class TableHeaderWorkloads {
             ["use case","use-case","radio",["rbd","rgwdata","filedata","filemetadata","iscsi"]],
             ["number of replica","req-num-replica","input"],
             ["# main failure domains","req-number-fd","input"],
-            ["do sizing for full performance","selector-fullperf","checkbox"],
+            ["do sizing for data media using NVMe instead of SSD for full performance for flash","selector-nvme","checkbox"],
             ["do sizing for high density","selector-highdense","checkbox"],
             ["for RGW: avg object size in KiB, default=100KiB","size-avg-obj","input"],
             ["for file: avg file size in KiB, default=10KiB","size-avg-file","input"],
@@ -37,7 +37,7 @@ class TableHeaderWorkloads {
             ["Check: min # servers in DC 8","output-check-min-servers-dc7","output"],
             ["Life cycle enabled on rgwdata ? #of versions per object (1=default, off)","rgw-lifecycle-num-versions","input"],
             ["Use dedicated flash pool for rgw index ?","selector-rgw-index-flash","checkbox"],
-            ["Use dedicated flash media for RocksDB (OSD metadata) - default for HDD?","selector-dedicatedNVMe","checkbox"]
+            ["Use dedicated flash media for RocksDB (OSD metadata) (default for HDD, selection for SSD only)?","selector-dedicatedNVMe","checkbox"]
         ]
     }
 }
