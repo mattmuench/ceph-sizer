@@ -16,7 +16,7 @@ import documentAddWorkloadsTable from "./documentAddWorkloadsTable.js"
 
 
 const calculateDCDistribution = function (generalValues,workloadsArrayLocal,chassisArrayLocal) {
-  // From Google Sheet - idea is to check the selection made, give some warnings perhaps but also
+  // From Google Sheet - idea is to c heck the selection made, give some warnings perhaps but also
   // other information - from sheet area Cover!U32-Cover!AB40, checks on Cover!R33-Cover!S40
   // Not used yet
 }
@@ -83,6 +83,14 @@ buttonApplyChangedChassisConfigs.textContent = "Apply chassis changes"
 interSectChangeChassisConfigs.appendChild(buttonApplyChangedChassisConfigs)
 document.body.appendChild(interSectChangeChassisConfigs)
 
+// Separate configs output table from config input table
+// Program flow (M6a)
+const intersectOverviewConfigFromOverview = document.createElement("p");
+intersectOverviewConfigFromOverview.innerHTML = "<b>Resulting configurations as per workloads per config from above - as BOM for each -- in sum across all DCs and servers :</b>"
+//buttonApplyChangedChassisConfigs.setAttribute("class","favorite styled")
+//interSectChangeChassisConfigs.appendChild(buttonApplyChangedChassisConfigs)
+document.body.appendChild(intersectOverviewConfigFromOverview)
+
 // create tableHeaderChassis object - populating the table header for chassis configurations
 // Program flow (M7)
 // display the table for overview of all resulting configurations for all configs across all DCs
@@ -112,6 +120,14 @@ buttonApplyWorkloadsConfigs.textContent = "Apply workloads changes"
 //buttonApplyWorkloadsConfigs.setAttribute("class","favorite styled")
 interSectApplyWorkloadChanges.appendChild(buttonApplyWorkloadsConfigs)
 document.body.appendChild(interSectApplyWorkloadChanges)
+
+// Separate configs output table from config input table
+// Program flow (M10a)
+const intersectWorkloadsFromDCConfigs = document.createElement("p");
+intersectWorkloadsFromDCConfigs.innerHTML = "<b>Resulting configurations as per workloads per config from above - as detailed server configuration per DC:</b>"
+//buttonApplyChangedChassisConfigs.setAttribute("class","favorite styled")
+//interSectChangeChassisConfigs.appendChild(buttonApplyChangedChassisConfigs)
+document.body.appendChild(intersectWorkloadsFromDCConfigs)
 
 // display the tables for an individual config across all DCs
 // Program flow (M11)
@@ -162,7 +178,7 @@ for (let workloadConfig = 0; workloadConfig < generalSettings.numberOfWorkloadsP
   
   // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
 
-  console.log(`Tmain script() 184: his is length of workloadNew array: ${Object.keys(workloadNew).length}`)
+  console.log(`main script() 184: his is length of workloadNew array: ${Object.keys(workloadNew).length}`)
   workloadNew.workloadID = `${workloadConfig}`
   
   workloadsArray.push(workloadNew)

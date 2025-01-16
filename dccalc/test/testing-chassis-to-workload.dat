@@ -1,0 +1,227 @@
+# testData{
+#   {
+#     testID, 
+#     testDataChassis{
+#       {
+#         ChassisID, maxHDDSlots, maxSSDSlots, maxNVMeSlots, maxAllSlots, maxDedicatedNVMeSlots, maxAllMediaSum, maxCpuSockets, maxCpuCores, maxMemGb, maxPciSlots, speedNicPublic, speedNicCluster,
+#   
+#         sizeHDD1, useSSD4overNVMe4, sizeSSD4, hddToSSD4, sizeNVMe4, hddToNVMe4,
+#   
+#         sizeSSD1, useOptane1, sizeNVMe5, ssdToNVMe5, sizeOptane1, ssdToOptane,
+#   
+#         sizeNVMe1, useNVMe7, sizeNVMe7, nvmeToNVMe7, useNVMe8, sizeNVMe8, nvmeToNVMe8,
+#   
+#         sizeNVMe6, useRGWCaching, sizeNVMe2
+#       }
+#     },
+#     workload{
+#         {
+#           id, reqNetCapacity, flashPercentage, useCase, numReplica, numFD, useNVMe, highDensity, avgObjSize, avgFileSize, dcSelection {dc1, dc2, dc3, dc4, dc5, dc6, dc7}, lifeCycle, useDedicatedIndexPool, separateWALSSD, separateRocksDBNVMe1, separateWALNVMe1
+#         }
+#     },
+#     expected{
+#       overViewConfig{
+#         config{
+#           { configID,
+#             servers, highDensity, useNVMe, nicPublic, nicCluster, cpuVCores, mem, hddSize, hddNumber, ssd4, nvme4, ssd1Size, ssd1Number, nvme3, nvme7, nvme8, nvme6, nvme2, rawCapacityDataDevices, netCapacity, rawCapacityDeployed
+#           }
+#         }
+#       },
+#       detailedConfig{
+#         config{
+#           { 
+#             configID,
+#             {
+#               {
+#                 dcID, servers, highDensity, useNVMe, nicPublic, nicCluster, cpuVCores, mem, hddSize, hddNumber, ssd4, nvme4, ssd1Size, ssd1Number, nvme3, nvme7, nvme8, nvme6, nvme2, rawCapacityDataDevices, netCapacity, rawCapacityDeployed
+#               }
+#             }
+#           }
+#         }
+#       }
+#     }
+#   }
+#}
+### SUCCEEDED TESTS
+{
+  testData{
+    {
+      0,
+      testDataChassis{
+        {
+          0, 24, 24, 24, 24, 2, 26, 2, 32, 256, 3, 25, 25,
+          8, false, 1.6, 5, 1.6, 17,
+          3.2, false, 1.6, 5, 1.6, 5,
+          6.4, false, 1.6, 5, false, 1.6, 5,
+          1.6, false, 1.6
+        }
+      },
+      workload{
+        {0, 100, 100, rbd, 3, 1, false, false, unselected, unselected, dcSelection {true, false, false, false, false, false, false}, unselected, unselected, unselected, unselected, unselected}
+      },
+      expected{
+        overViewConfig{
+          config{
+            {0, 10, false, false, 10, 20, 560, 1960, 8,0,0,0,3.2,120,0,0,6.4,0,0,0,0,0,384,0,384}
+          }
+        },
+        detailedConfig{
+          config{
+            0, 
+            {
+              {
+                0, 10,false,false,1,2,56,196,8,0,0,0,3.2,12,0,0,6.4,0,0,0,0,0,39,0,39
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      1,
+      testDataChassis{
+        {
+          0, 24, 24, 24, 24, 2, 26, 2, 32, 256, 3, 25, 25,
+          8, false, 1.6, 5, 1.6, 17,
+          6.4, false, 1.6, 5, 1.6, 5,
+          6.4, false, 1.6, 5, false, 1.6, 5,
+          1.6, false, 1.6
+        }
+      },
+      workload{
+        {0, 100, 100, rbd, 3, 1, false, false, unselected, unselected, dcSelection {true, false, false, false, false, false, false}, unselected, unselected, unselected, unselected, unselected}
+      },
+      expected{
+        overViewConfig{
+          config{
+            {0, 5, false, false, 5, 10, 280, 980, 8,0,0,0, 6.4,60,0,0,6.4,0,0,0,0,0,384,0,384}
+          }
+        },
+        detailedConfig{
+          config{
+            0, 
+            {
+              {
+                0, 5,false,false,1,2,56,196,8,0,0,0,6.4,12,0,0,6.4,0,0,0,0,0,77,0,77
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      2,
+      testDataChassis{
+        {
+          0, 24, 24, 24, 24, 2, 26, 2, 32, 256, 3, 25, 25,
+          8, false, 1.6, 5, 1.6, 17,
+          12.8, false, 1.6, 5, 1.6, 5,
+          6.4, false, 1.6, 5, false, 1.6, 5,
+          1.6, false, 1.6
+        }
+      },
+      workload{
+        {0, 100, 100, rbd, 3, 1, false, false, unselected, unselected, dcSelection {true, false, false, false, false, false, false}, unselected, unselected, unselected, unselected, unselected}
+      },
+      expected{
+        overViewConfig{
+          config{
+            {0, 3, false, false, 3, 3, 144, 498, 8,0,0,0, 12.8,30,0,0,6.4,0,0,0,0,0,384,0,384}
+          }
+        },
+        detailedConfig{
+          config{
+            0, 
+            {
+              {
+                0, 3,false,false,1,1,48,166,8,0,0,0,12.8,10,0,0,6.4,0,0,0,0,0,128,0,128
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      3,
+      testDataChassis{
+        {
+          0, 24, 24, 24, 24, 2, 26, 2, 32, 256, 3, 25, 25,
+          8, false, 1.6, 5, 1.6, 17,
+          15.384, false, 1.6, 5, 1.6, 5,
+          6.4, false, 1.6, 5, false, 1.6, 5,
+          1.6, false, 1.6
+        }
+      },
+      workload{
+        {0, 100, 100, rbd, 3, 1, false, false, unselected, unselected, dcSelection {true, false, false, false, false, false, false}, unselected, unselected, unselected, unselected, unselected}
+      },
+      expected{
+        overViewConfig{
+          config{
+            {0, 3, false, false, 3, 3, 120, 408, 8,0,0,0, 15.384,24,0,0,6.4,0,0,0,0,0,370,0,370}
+          }
+        },
+        detailedConfig{
+          config{
+            0, 
+            {
+              {
+                0, 3,false,false,1,1,40,136,8,0,0,0,15.384,8,0,0,6.4,0,0,0,0,0,124,0,124
+              }
+            }
+          }
+        }
+      }
+    }
+
+  }
+}
+
+
+
+### FAILED TESTS
+{
+  testData{
+    {
+      0,
+      testDataChassis{
+        {
+          0, 24, 24, 24, 24, 2, 26, 2, 32, 256, 3, 25, 25,
+          8, false, 1.6, 5, 1.6, 17,
+          3.2, false, 1.6, 5, 1.6, 5,
+          6.4, false, 1.6, 5, false, 1.6, 5,
+          1.6, false, 1.6
+        }
+      },
+      workload{
+        {0, 100, 100, rbd, 3, 3, false, false, unselected, unselected, dcSelection {true, true, true, false, false, false, false}, unselected, unselected, unselected, unselected, unselected}
+      },
+      expected{
+        overViewConfig{
+          config{
+            0, 
+            {
+              3, false, false, 3, 3, 120, 408, 8,0,0,0, 15.384,24,0,0,6.4,0,0,0,0,0,370,0,370
+            }
+          }
+        },
+        detailedConfig{
+          config{
+            0, 
+            {
+              {
+                0, 1,false,false,1,1,40,136,8,0,0,0,15.384,8,0,0,6.4,0,0,0,0,0,124,0,124
+              },
+              { 
+                1, 1,false,false,1,1,40,136,8,0,0,0,15.384,8,0,0,6.4,0,0,0,0,0,124,0,124
+              }, 
+              {
+                2, 1,false,false,1,1,40,136,8,0,0,0,15.384,8,0,0,6.4,0,0,0,0,0,124,0,124
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

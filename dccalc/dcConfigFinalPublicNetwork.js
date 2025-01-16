@@ -24,7 +24,7 @@ const dcConfigFinalPublicNetwork   = function (sizingConstraints, dcConfigArrayL
     //      0
     //  )
     
-    // ONLY as temporary working local workaround
+    // ONLY as temporary working local workaround - use of strings
     if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
       //if (typeof chassisArrayLocal[actualChassisID].speedNicPublic === 'number') {
         console.log(`dcConfigFinalPublicNetwork() 28: [chassisID=${actualChassisID},DC=${dcItem}] chassisArrayLocal[actualChassisID].speedNicPublic=${chassisArrayLocal[actualChassisID].speedNicPublic}`)
@@ -37,6 +37,7 @@ const dcConfigFinalPublicNetwork   = function (sizingConstraints, dcConfigArrayL
           // case 25:
           // case 50:
           // case 100:
+            // There will be no reduction for bi-directional traffic, since nearly the complete traffic might be either reads or writes - this would utilize mainly one direction only of bi-directional network connections.
             dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs = Math.ceil((dcConfigArrayLocal[dcItem].resultingNumberOfSSD * sizingConstraints.networkBandwidthPerSSDoldinMBsec
                                                                                     + dcConfigArrayLocal[dcItem].resultingNumberOfHDD * sizingConstraints.networkBandwidthPerHDDinMBsec
                                                                                     + dcConfigArrayLocal[dcItem].resultingNumberOfNVMe1 * sizingConstraints.networkBandwidthPerNVMeinMBsec

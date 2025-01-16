@@ -23,7 +23,7 @@ const dcConfigFinalMemoryPerServer   = function (sizingConstraints, dcConfigArra
 
   let localAdditionalRoleMemory = 0
   if (dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances > 0) {
-    if (Math.round((dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances - dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances)/dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances) < 1) {
+    if (Math.ceil((dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances - dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances)/dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances) < 1) {
       localAdditionalRoleMemory = sizingConstraints.memPerAdditionalRole
     }
     else {
@@ -35,9 +35,9 @@ const dcConfigFinalMemoryPerServer   = function (sizingConstraints, dcConfigArra
   }
 
   if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
-    dcConfigArrayLocal[dcItem].resultingMem = Math.round(dcConfigArrayLocal[dcItem].numberOfHDDNeeded / dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis) * sizingConstraints.memInGBPerHDD
-                                              + Math.round(dcConfigArrayLocal[dcItem].numberOfSSDNeeded / dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis) * sizingConstraints.memInGBPerSSD
-                                              + Math.round(dcConfigArrayLocal[dcItem].numberOfNVMe6Needed / dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis) * sizingConstraints.memInGBPerNVMeForObjectIndexOnNVMe6
+    dcConfigArrayLocal[dcItem].resultingMem = Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDDNeeded / dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis) * sizingConstraints.memInGBPerHDD
+                                              + Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSDNeeded / dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis) * sizingConstraints.memInGBPerSSD
+                                              + Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe6Needed / dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis) * sizingConstraints.memInGBPerNVMeForObjectIndexOnNVMe6
                                               + sizingConstraints.memPerNodeBase
                                               + localAdditionalRoleMemory
   }

@@ -26,6 +26,7 @@ class TableHeaderResults {
             ["NVMe size type 1","size-nvme-1"],
             ["NVMe: # NVMe type 1","num-nvme-1"],
             ["NVMe: # NVMe type 7","num-nvme-7"],
+            ["NVMe: # NVMe type 8","num-nvme-8"],
             ["RGW index: # NVMe type 6","num-nvme-6"],
             ["RGW cache: # NVMe type 2","num-nvme-2"],
             

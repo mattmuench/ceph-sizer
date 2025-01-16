@@ -20,7 +20,10 @@ class Workload {
         checkArrayMinServersDC = [],
         RGWLifecycleNumVersions,
         selectorRGWIndexDedicatedFlashPool,
-        selectorDedicatedNVMe, // for RocksDB placement
+        selectorSSDDedicatedNVMe, // SSD: for separating RocksDB placement 
+        selectorSSDDedicatedNVMeForWAL, // SSD: for WAL separation from media and RocksDB - w/ or w/o RocksDB dedicated 
+        selectorNVMe1DedicatedNVMe, // NVMe1: for separating RocksDB placement 
+        selectorNVMe1DedicatedNVMeForWAL, // NVMe1: for WAL separation from media - w/ or w/o RocksDB dedicated 
         reqIndexCapacityHDD,   // capacity needed for any kind of flash to host the object index for HDD portion
         reqIndexCapacityFlash, // capacity needed for index on flash only part of workload
 
@@ -56,7 +59,7 @@ class Workload {
             ["req-num-replica","reqNumReplica"],
             ["req-number-fd","reqNumberFd"],
             ["selector-nvme","selectorNVMe"],
-            ["selector-highdense","selectorHighdense"],
+            ["selector-highdense","selectorHighdense"], // this could be used to pick from reduced h/w requriements for CPU/mem/network (instead of full perf SizingConstraints)
             ["size-avg-obj","sizeAvgObj"],
             ["size-avg-file","sizeAvgFile"],
             ["selector-dc","selectorArrayDC",dcSelectorList],
@@ -83,7 +86,10 @@ class Workload {
             // number of versions in life cycle is 1 without versioning enabled
             ["rgw-lifecycle-num-versions","RGWLifecycleNumVersions"],
             ["selector-rgw-index-flash","selectorRGWIndexDedicatedFlashPool"],
-            ["selector-dedicatedNVMe","selectorDedicatedNVMe"]
+            ["selector-SSDdedicatedNVMe","selectorSSDDedicatedNVMe"],
+            ["selector-SSDdedicatedNVMeForWAL","selectorSSDDedicatedNVMeForWAL"],
+            ["selector-NVMe1dedicatedNVMe","selectorNVMe1DedicatedNVMe"],
+            ["selector-NVMe1dedicatedNVMeForWAL","selectorNVMe1DedicatedNVMeForWAL"]
         ]
         
         this.workloadID = 99
@@ -127,7 +133,11 @@ class Workload {
 
         this.selectorRGWLifecycleNumVersions = 1
         this.selectorRGWIndexDedicatedFlashPool = 0
-        this.selectorDedicatedNVMe = 0
+        this.selectorSSDDedicatedNVMe = 0
+        this.selectorSSDDedicatedNVMeForWAL = 0
+        this.selectorNVMe1DedicatedNVMe = 0
+        this.selectorNVMe1DedicatedNVMeForWAL = 0
+
         this.reqIndexCapacityHDD = 0
         this.reqIndexCapacityFlash = 0
 

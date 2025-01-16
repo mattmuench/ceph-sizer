@@ -32,7 +32,11 @@ class Chassis {
         useRGWCaching,
         useOptane1,
         sizeNVMe7,
-        nvmeToNVMe7
+        nvmeToNVMe7,
+        useNVMe7,
+        sizeNVMe8,
+        nvmeToNVMe8,
+        useNVMe8
     ) {
 
             /// For debugging purposes, this translates the cell names into the 
@@ -58,9 +62,10 @@ class Chassis {
             ["size-nvme-2","sizeNVMe2"], // for RGW cache etc.
             ["size-nvme-4","sizeNVMe4"], // for RocksDBcache HDD
             ["hdd-to-nvme4","hddToNVMe4"], // ratio of number of HDD fronted by NVMe type 4 - either SSD or NVMe fronted
-            ["size-nvme-5","sizeNVMe5"], // for RocksDBcache SSD
+            ["size-nvme-5","sizeNVMe5"], // for dedicated RocksDB SSD
             ["size-nvme-6","sizeNVMe6"], // for RGW index data
             ["size-nvme-7","sizeNVMe7"], // for NVMe1 dedicated WAL
+            ["size-nvme-8","sizeNVMe8"], // for NVMe1 dedicated RocksDB
             ["size-ssd-1","sizeSSD1"],
             ["ssd-to-optane","ssdToOptane"],
             ["size-optane-1","sizeOptane1"], // NVMe type 3
@@ -72,7 +77,9 @@ class Chassis {
             ["use-rgw-caching","useRGWCaching"],
             ["use-optane-1","useOptane1"],
             ["nvme-to-nvme7","nvmeToNVMe7"],
-            ["use-nvme-7","useNVMe7"] // use NVMe7 for dedicated WAL for NVMe1
+            ["use-nvme-7","useNVMe7"], // use NVMe7 for dedicated WAL for NVMe1
+            ["nvme-to-nvme8","nvmeToNVMe8"], // for NVMe1 dedicated RocksDB
+            ["use-nvme-8","useNVMe8"] // use NVMe8 for dedicated RocksDB for NVMe1
             
         ]
         
@@ -109,6 +116,9 @@ class Chassis {
         this.sizeNVMe7 = 0
         this.nvmeToNVMe7 = 4
         this.useNVMe7 = 0
+        this.nvmeToNVMe8 = 4
+        this.useNVMe8 = 0
+        this.sizeNVMe8 = 0
 
     }
 }

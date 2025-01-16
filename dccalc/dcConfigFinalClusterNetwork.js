@@ -26,7 +26,7 @@ const dcConfigFinalClusterNetwork   = function (sizingConstraints, dcConfigArray
       // )
   if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
     console.log(`dcConfigFinalClusterNetwork() 28: [chassisID=${actualChassisID},DC=${dcItem}] chassisArrayLocal[actualChassisID].speedNicCluster=${chassisArrayLocal[actualChassisID].speedNicCluster}`)
-  // ONLY as temporary working local workaround
+  // ONLY as temporary working local workaround - strings
     //  if (typeof chassisArrayLocal[actualChassisID].speedNicCluster === 'number') {
       switch (chassisArrayLocal[actualChassisID].speedNicCluster) {
         case "10":
@@ -37,25 +37,27 @@ const dcConfigFinalClusterNetwork   = function (sizingConstraints, dcConfigArray
         //case 25:
         //case 50:
         //case 100:
-          dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs = Math.round((dcConfigArrayLocal[dcItem].resultingNumberOfSSD * sizingConstraints.networkBandwidthPerSSDoldinMBsec
+          // There will be bi-directional traffic between all the OSDs, since the complete traffic between OSDs consists of local writes plus peer writes that might be relevant for travelling the cluster network. 
+          dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs = Math.ceil((dcConfigArrayLocal[dcItem].resultingNumberOfSSD * sizingConstraints.networkBandwidthPerSSDoldinMBsec
                                                                                   + dcConfigArrayLocal[dcItem].resultingNumberOfHDD * sizingConstraints.networkBandwidthPerHDDinMBsec
                                                                                   + dcConfigArrayLocal[dcItem].resultingNumberOfNVMe1 * sizingConstraints.networkBandwidthPerNVMeinMBsec
-                                                                                 ) / 100 / chassisArrayLocal[actualChassisID].speedNicCluster
+                                                                                 ) / 100 / chassisArrayLocal[actualChassisID].speedNicCluster / 2
                                                                                 )
+          console.log(`dcConfigFinalClusterNetwork() 46: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs}`)
           break
         default:
-          console.log(`dcConfigFinalClusterNetwork() 42: [chassisID=${actualChassisID},DC=${dcItem}] ERROR: no valid NIC speed specified for ports`)
+          console.log(`dcConfigFinalClusterNetwork() 49: [chassisID=${actualChassisID},DC=${dcItem}] ERROR: no valid NIC speed specified for ports`)
       }
     //}
     //else {
-      //console.log(`dcConfigFinalClusterNetwork() 46: [chassisID=${actualChassisID},DC=${dcItem}] ERROR: NIC speed for ports must be a number`)
+      //console.log(`dcConfigFinalClusterNetwork() 53: [chassisID=${actualChassisID},DC=${dcItem}] ERROR: NIC speed for ports must be a number`)
     //}
   }
   else {
     dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs = 0
   }
 
-  console.log(`dcConfigFinalClusterNetwork() 53: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs}`)
+  console.log(`dcConfigFinalClusterNetwork() 60: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs}`)
 }
 
 export default dcConfigFinalClusterNetwork

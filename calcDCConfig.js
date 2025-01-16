@@ -46,9 +46,9 @@ const calcDCConfig = function (generalValuesLocal, workloadsArrayLocal, sizingCo
 
         for (let dcItem = 0; dcItem < generalValuesLocal.numberOfDCsPossible; dcItem++) {
           if (dcConfigArrayLocal[dcItem].numberOfWorkloadsInDC > 0) {
+            dcConfigCorrectNumberOfServersForMONs(generalValuesLocal, sizingConstraints, dcConfigArrayLocal,dcItem)
             dcConfigDetermineNumberOfServersInitially(generalValuesLocal, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem)
             //checkForMisconfigReplicaInDC(generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, dcItem)
-            dcConfigCorrectNumberOfServersForMONs(generalValuesLocal, sizingConstraints, dcConfigArrayLocal,dcItem)
             dcConfigCorrectNumberOfServersForiSCSI(generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, dcItem)
             dcConfigCalcPreliminaryMediaPerServer(dcConfigArrayLocal, dcItem, chassisArrayLocal, actualChassisID)
             dcConfigNumberOfCoresNeededInitial(sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem)

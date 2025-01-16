@@ -15,18 +15,26 @@ class DCConfig {
 
         numberOfHDDNeeded, // J41
         numberOfSSDNeeded, // J42
-        numberOfSSDWithoutDedicatedNVMeNeeded,
-        numberOfSSDWithDedicatedNVMeNeeded,
-        numberOfNVMe1NeededWithoutDedicatedWAL, // M41 - for data
-        numberOfNVMe1NeededWithDedicatedWAL,
+
+        numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL, // // WAL is included here together with RocksDB 
+        numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL, // WAL is not included here (separate) but RocksDB is not separate - for slower Read-Intensive NVMe1
+        numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL, // WAL is not included here (separate) and RocksDB is definitely separate - for slower Read-Intensive NVMe1
+        numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL, // WAL is included here with RocksDB and RocksDB is separate 
+
+        numberOfNVMe1NeededWithoutDedicatedRocksDBNorWAL, // // WAL is included here together with RocksDB 
+        numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL, // WAL is not included here (separate) but RocksDB is not separate - for slower Read-Intensive NVMe1
+        numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL, // WAL is not included here (separate) and RocksDB is definitely separate - for slower Read-Intensive NVMe1
+        numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL, // WAL is included here with RocksDB and RocksDB is separate 
         
         numberOfSSD4Needed, // none yet - RocksDB+WAL HDD on SSD
+        numberOfNVMe1Needed, 
         numberOfNVMe2Needed, // N41 - for RGW dedicated cache (distinct per use case)
-        numberOfNVMe3Needed, // U41 - "Optanes"
-        numberOfNVMe4Needed, // none yet => RocksDB+WAL HDD on NVMe
-        numberOfNVMe5Needed, // none yet => RocksDB SSD
-        numberOfNVMe6Needed, // none yet => RGW index data
-        numberOfNVMe7Needed, // none yet =? WAL for NVMe
+        numberOfNVMe3Needed, // => WAL on NVMe for SSD1 - aka Optane
+        numberOfNVMe4Needed, // => RocksDB+WAL HDD on NVMe
+        numberOfNVMe5Needed, // => RocksDB SSD
+        numberOfNVMe6Needed, // => RGW index data
+        numberOfNVMe7Needed, // => WAL on NVMe for NVMe1
+        numberOfNVMe8Needed, // => RocksDB on NVMe for NVMe1
         
         numberOfCoresNeeded, // V41
         memNeededPerServer, // W41
@@ -38,13 +46,16 @@ class DCConfig {
         prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL, // NVMe1 per server
         prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL,
         
+        
         prelimPerServerNumberOfSSD4Needed,  // SSD4 per server
+        prelimPerServerNumberOfNVMe1Needed, // NVMe1 per server
         prelimPerServerNumberOfNVMe2Needed, // NVMe2 per server
         prelimPerServerNumberOfNVMe3Needed, // NVMe3 per server
         prelimPerServerNumberOfNVMe4Needed, // NVMe4 per server
         prelimPerServerNumberOfNVMe5Needed, // NVMe5 per server
         prelimPerServerNumberOfNVMe6Needed, // NVMe6 per server
         prelimPerServerNumberOfNVMe7Needed, // NVMe7 per server
+        prelimPerServerNumberOfNVMe8Needed, // NVMe8 per server
         prelimPerServerNumberOfCoresNeeded, // cores per server
         prelimPerServerMemNeededPerServer,  // memory per server
         prelimNumberOfServers,              // instead of resultingNumberOfServers that was used differently before
@@ -58,15 +69,16 @@ class DCConfig {
         resultingNumberOfServers, // somehow equal to Y41
         resultingNumberOfCores, // Z41
         resultingMem, // AA41
-        resultingNumberOfNVMe1, // AB41 (unused yet)
         resultingNumberOfSSD, // AC41
         resultingNumberOfHDD, // AD41
+        resultingNumberOfNVMe1, // AB41 (unused yet)
         resultingNumberOfNVMe2, // AE41
-        resultingNumberOfNVMe3, //AF41
+        resultingNumberOfNVMe3, //AF41  - aka Optane
         resultingNumberOfNVMe4,
         resultingNumberOfNVMe5,
         resultingNumberOfNVMe6,
         resultingNumberOfNVMe7,
+        resultingNumberOfNVMe8,
         resultingNumberOfServersAsPerChassis, // Y41
         resultingNumberOfServersForiSCSILocalAsPerChassis, // Y42
         resultingNumberOfPublicNetNICs,
@@ -87,18 +99,22 @@ class DCConfig {
 
         this.numberOfHDDNeeded = 0 // J41
         this.numberOfSSDNeeded = 0 // J42
-        this.numberOfSSDWithoutDedicatedNVMeNeeded = 0
-        this.numberOfSSDWithDedicatedNVMeNeeded = 0
-        this.numberOfNVMe1NeededWithoutDedicatedWAL = 0 // M41 - for data
-        this.numberOfNVMe1NeededWithDedicatedWAL = 0
+
+        this.numberOfNVMe1NeededWithoutDedicatedRocksDBNorWAL = 0 // // WAL is included here together with RocksDB 
+        this.numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL = 0 // WAL is not included here (separate) but RocksDB is not separate - for slower Read-Intensive NVMe1
+        this.numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL = 0 // WAL is not included here (separate) and RocksDB is definitely separate - for slower Read-Intensive NVMe1
+        this.numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL = 0 // WAL is included here with RocksDB and RocksDB is separate 
+        
         
         this.numberOfSSD4Needed = 0 // none yet - RocksDB+WAL HDD on SSD
+        this.numberOfNVMe1Needed = 0 
         this.numberOfNVMe2Needed = 0 // N41 - for RGW dedicated cache (distinct per use case)
         this.numberOfNVMe3Needed = 0 // U41 - "Optanes"
-        this.numberOfNVMe4Needed = 0 // none yet => RocksDB+WAL HDD on NVMe
-        this.numberOfNVMe5Needed = 0 // none yet => RocksDB SSD
-        this.numberOfNVMe6Needed = 0 // none yet => RGW index data
-        this.numberOfNVMe7Needed = 0 // none yet =? WAL for NVMe
+        this.numberOfNVMe4Needed = 0 //  => RocksDB+WAL HDD on NVMe
+        this.numberOfNVMe5Needed = 0 // => RocksDB SSD
+        this.numberOfNVMe6Needed = 0 // => RGW index data
+        this.numberOfNVMe7Needed = 0 // => WAL on NVMe for NVMe1
+        this.numberOfNVMe8Needed = 0 // => RocksDB on NVMe for NVMe1
         
         this.numberOfCoresNeeded = 4 // V41
         this.memNeededPerServer = 0 // W41
@@ -111,15 +127,16 @@ class DCConfig {
         this.resultingNumberOfServers = 0 // Y41
         this.resultingNumberOfCores = 0 // Z41
         this.resultingMem = 0 // AA41
-        this.resultingNumberOfNVMe1 = 0 // AB41 (unused yet)
         this.resultingNumberOfSSD = 0 // AC41
         this.resultingNumberOfHDD = 0 // AD41
+        this.resultingNumberOfNVMe1 = 0 // AB41 
         this.resultingNumberOfNVMe2 = 0 // AE41
         this.resultingNumberOfNVMe3 = 0 //AF41
         this.resultingNumberOfNVMe4 = 0
         this.resultingNumberOfNVMe5 = 0
         this.resultingNumberOfNVMe6 = 0
         this.resultingNumberOfNVMe7 = 0
+        this.resultingNumberOfNVMe8 = 0
 
         this.resultingNumberOfServersAsPerChassis = 0
         this.resultingNumberOfServersForiSCSILocalAsPerChassis = 0 // Y42

@@ -13,6 +13,7 @@ class SizingConstraints {
         coresPerNVMe5,
         coresPerNVMe6,
         coresPerNVMe7,
+        coresPerNVMe8,
         coresPerNVMeForObjectIndexOnNVMe6, // AH5
         coresPerAdditionalRole,
         coresPerNodeBase,  // AR5 w/o the special roles needs (below)
@@ -25,8 +26,14 @@ class SizingConstraints {
 
         memInGBPerHDD,
         memInGBPerSSD,
-        memInGBPerNVMe,
+        memInGBPerNVMe1,
         memInGBPerNVMe2,
+        memInGBPerNVMe3,
+        memInGBPerNVMe4,
+        memInGBPerNVMe5,
+        memInGBPerNVMe6,
+        memInGBPerNVMe7,
+        memInGBPerNVMe8,
         memInGBPerNVMeForObjectIndexOnNVMe6, //AH6 
         memPerNodeBase,
         memPerMONInstance,
@@ -43,6 +50,7 @@ class SizingConstraints {
         defaultCoresPerNVMeOForWALDevice, // G4
         defaultCoresPerHDD, // G5
         defaultCoresPerSSDold, // J5
+        defaultCoresPerSSD, // used for compatibility because the code is using SSD but neither SSDold nor SSDnew across the board (needs fixing and enhancement by allowing selectiong SSDnew and SSDold styles as well)
         defaultCoresPerSSDnew,
         defaultCoresPerNVMe, // N5
         defaultCoresPerNVMe1,
@@ -52,6 +60,7 @@ class SizingConstraints {
         defaultCoresPerNVMe5,
         defaultCoresPerNVMe6,
         defaultCoresPerNVMe7,
+        defaultCoresPerNVMe8,
         defaultCoresPerNVMeForObjectIndexOnNVMe6,
         defaultCoresPerAdditionalRole,
         defaultCoresPerNodeBase,
@@ -64,8 +73,14 @@ class SizingConstraints {
 
         defaultMemInGBPerHDD,   // G6
         defaultMemInGBPerSSD,   // J6
-        defaultMemInGBPerNVMe, // N6 (2 OSDs)
+        defaultMemInGBPerNVMe1, // N6 (2 OSDs)
         defaultMemInGBPerNVMe2,
+        defaultMemInGBPerNVMe3,
+        defaultMemInGBPerNVMe4,
+        defaultMemInGBPerNVMe5,
+        defaultMemInGBPerNVMe6,
+        defaultMemInGBPerNVMe7,
+        defaultMemInGBPerNVMe8,
         defaultMemInGBPerNVMeForObjectIndexOnNVMe6,
         defaultMemPerNodeBase,
         defaultMemPerMONInstance,
@@ -156,6 +171,7 @@ class SizingConstraints {
         this.defaultCoresPerNVMeOForWALDevice = 12
         this.defaultCoresPerHDD = 2
         this.defaultCoresPerSSDold = 4
+        this.defaultCoresPerSSD = this.defaultCoresPerSSDold
         this.defaultCoresPerSSDnew = 8
         this.defaultCoresPerNVMe = 16 // logical CPUs seen => for HT #cores/2
         this.defaultCoresPerNVMe1 = 8
@@ -164,7 +180,8 @@ class SizingConstraints {
         this.defaultCoresPerNVMe4 = 0  // is accounted for in HDD cores
         this.defaultCoresPerNVMe5 = 0  // is accounted for in SSD cores
         this.defaultCoresPerNVMe6 = 4
-        this.defaultCoresPerNVMe7 = 4  // is accounted for in ordinary NVMe cores (for block device)
+        this.defaultCoresPerNVMe7 = 0  // is accounted for in ordinary NVMe cores (for block device)
+        this.defaultCoresPerNVMe8 = 4  // is accounted for in ordinary NVMe cores (for block device)
         this.defaultCoresPerNVMeForObjectIndexOnNVMe6 = 4
         this.defaultCoresPerAdditionalRole = 4
         this.defaultCoresPerNodeBase = 8
@@ -172,7 +189,7 @@ class SizingConstraints {
         this.defaultCoresPerMGRInstance = 3
         this.defaultCoresPerRGWInstance = 8
         this.defaultCoresPeriSCSIInstance = 8
-        this.defaultCoresPerMDSInstanc = 8
+        this.defaultCoresPerMDSInstance = 8
         this.defaultCoresPerRBDMirrorInstance = 4
 
         this.defaultSizeOfWALOnNVMeInGB = 30
@@ -184,8 +201,14 @@ class SizingConstraints {
         // However, this would be at cost for higher latency. Because of this, it's more
         // economical still to use 2 OSD per NVMe with the same or higher number of vCPU to 
         // stay below the latency boundary of single used NVMe but deliver at least the same performance.
-        this.defaultMemInGBPerNVMe = 30
+        this.defaultMemInGBPerNVMe1 = 15
         this.defaultMemInGBPerNVMe2 = 8
+        this.defaultMemInGBPerNVMe3 = 8
+        this.defaultMemInGBPerNVMe4 = 8
+        this.defaultMemInGBPerNVMe5 = 8
+        this.defaultMemInGBPerNVMe6 = 8
+        this.defaultMemInGBPerNVMe7 = 8
+        this.defaultMemInGBPerNVMe8 = 8
         this.defaultMemInGBPerNVMeForObjectIndexOnNVMe6 = 15
         this.defaultMemPerNodeBase = 16
         this.defaultMemPerMONInstance = 8
@@ -256,6 +279,7 @@ class SizingConstraints {
         this.coresPerNVMeOForWALDevice = this.defaultCoresPerNVMeOForWALDevice
         this.coresPerHDD = this.defaultCoresPerHDD
         this.coresPerSSDold = this.defaultCoresPerSSDold
+        this.coresPerSSD = this.defaultCoresPerSSD
         this.coresPerSSDnew = this.defaultCoresPerSSDnew
         this.coresPerNVMe = this.defaultCoresPerNVMe
         this.coresPerNVMe1 = this.defaultCoresPerNVMe1
@@ -265,6 +289,7 @@ class SizingConstraints {
         this.coresPerNVMe5 = this.defaultCoresPerNVMe5
         this.coresPerNVMe6 = this.defaultCoresPerNVMe6
         this.coresPerNVMe7 = this.defaultCoresPerNVMe7
+        this.coresPerNVMe8 = this.defaultCoresPerNVMe8
         this.coresPerNVMeForObjectIndexOnNVMe6 = this.defaultCoresPerNVMeForObjectIndexOnNVMe6
         this.coresPerAdditionalRole = this.defaultCoresPerAdditionalRole
         this.coresPerNodeBase = this.defaultCoresPerNodeBase
@@ -279,8 +304,14 @@ class SizingConstraints {
 
         this.memInGBPerHDD = this.defaultMemInGBPerHDD
         this.memInGBPerSSD = this.defaultMemInGBPerSSD
-        this.memInGBPerNVMe = this.defaultMemInGBPerNVMe
+        this.memInGBPerNVMe1 = this.defaultMemInGBPerNVMe1
         this.memInGBPerNVMe2 = this.defaultMemInGBPerNVMe2
+        this.memInGBPerNVMe3 = this.defaultMemInGBPerNVMe3
+        this.memInGBPerNVMe4 = this.defaultMemInGBPerNVMe4
+        this.memInGBPerNVMe5 = this.defaultMemInGBPerNVMe5
+        this.memInGBPerNVMe6 = this.defaultMemInGBPerNVMe6
+        this.memInGBPerNVMe7 = this.defaultMemInGBPerNVMe7
+        this.memInGBPerNVMe8 = this.defaultMemInGBPerNVMe8
         this.memInGBPerNVMeForObjectIndexOnNVMe6 = this.defaultMemInGBPerNVMeForObjectIndexOnNVMe6
         this.memPerNodeBase = this.defaultMemPerNodeBase
         this.memPerMONInstance = this.defaultMemPerMONInstance

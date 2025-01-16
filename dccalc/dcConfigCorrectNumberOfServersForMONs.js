@@ -3,6 +3,7 @@ const dcConfigCorrectNumberOfServersForMONs = function (generalValuesLocal, sizi
   // Determine the number of MONs that must be deployed in this actual DC.
   console.log(`dcConfigCorrectNumberOfServersForMONs() 4: [DC=${dcItem}] starting #MONs is ${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances}`)
   /// First, determine the number of DCs used for all workloads.
+  //// Probably this is not needed since calcDCconfig() is calling dcConfigDetermineNumberOfDCsInUse() before this function which provides GeneralValues.numberOfDCsInUse
   let localNumberOfDCsInUse = 0
   for (let dcCheck = 0; dcCheck < generalValuesLocal.numberOfDCsPossible; dcCheck++) {
     if (dcConfigArrayLocal[dcCheck].numberOfWorkloadsInDC > 0) {

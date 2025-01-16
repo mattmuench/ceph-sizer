@@ -40,18 +40,17 @@
             ["SSD: #SSD per NVMe type 3 for WAL (#SSD covered by one NVMe)","ssd-to-optane","input"],
 
             ["NMVe: NVMe type 1 (for data) size in TB","size-nvme-1","input"],
+            ["NVMe: NVMe type 1 fronted by NVMe type 7 for WAL ?","use-nvme-7","checkbox"],
             ["NMVe: NVMe7 (as WAL for NVMe1) size in TB","size-nvme-7","input"],
             ["NMVe: #NVMe1 per NVMe type 7 for WAL (#NVMe covered by one NVMe7)","nvme-to-nvme7","input"],
+            ["NVMe: NVMe type 1 fronted by NVMe type 8 for RocksDB ?","use-nvme-8","checkbox"],
+            ["NMVe: NVMe8 (as RocksDB for NVMe1) size in TB","size-nvme-8","input"],
+            ["NMVe: #NVMe1 per NVMe type 8 for RocksDB (#NVMe covered by one NVMe8)","nvme-to-nvme8","input"],
             
             
             ["RGW index: NVMe type 6 (for RGW dedicated index pools) size in TB","size-nvme-6","input"],
-
             ["RGW cache: Use RGW caching ? (x=yes) - this per config, otherwise the cache device is ignored","use-rgw-caching","checkbox"],
             ["RGW cache: NVMe type 2 (for RGW cache) size in TB","size-nvme-2","input"]
-            
-            
-            
-            
         ]
     }
 }

@@ -22,6 +22,7 @@ class Results {
         numNVMe5,
         numNVMe6,
         numNVMe7,
+        numNVMe8,
         rawCapacityDataDevices,
         netCapacityDataDevices,
         rawCapacityAllDevices,
@@ -63,6 +64,7 @@ class Results {
             ["num-nvme-5","numNVMe5"],
             ["num-nvme-6","numNVMe6"],
             ["num-nvme-7","numNVMe7"],
+            ["num-nvme-8","numNVMe8"],
             ["num-ssd-4","numSSD4"],
             ["capacity-raw-data","rawCapacityDataDevices"],
             ["capacity-net","netCapacityDataDevices"],
@@ -103,6 +105,7 @@ class Results {
         this.numNVMe5 = 0
         this.numNVMe6 = 0
         this.numNVMe7 = 0
+        this.numNVMe8 = 0
         this.rawCapacityDataDevices = 0
         this.netCapacityDataDevices = 0
         this.rawCapacityAllDevices = 0

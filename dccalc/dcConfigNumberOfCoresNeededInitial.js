@@ -38,6 +38,10 @@ const dcConfigNumberOfCoresNeededInitial = function (sizingConstraints, dcConfig
                                                                * sizingConstraints.coresPerSSDold 
                                                    + localCoresForRGWCaching 
                                                    + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.coresPerNVMeForObjectIndexOnNVMe6 
+                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerNVMe2
+                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed * sizingConstraints.coresPerNVMe3 
+                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed * sizingConstraints.coresPerNVMe4 
+                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.coresPerNVMe5 
                                                    + sizingConstraints.coresPerNodeBase 
                                                    + localCoresForScaleOutInstances
                                                    + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances / dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances)
@@ -47,7 +51,7 @@ const dcConfigNumberOfCoresNeededInitial = function (sizingConstraints, dcConfig
     //   definitely not the case: depending on the configuration chosen, either those NVMe are assigned as needed to the nodes, or special distribution is required and then depends on the number of devices resulting from this 
     //   distribution.
     //   With the current approach, all NVMe with workloads are taken, equally distributed across all nodes in a "virtual way" and then the number of cores are calculated.
-    dcConfigArrayLocal[dcItem].numberOfCoresNeeded += (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL) * sizingConstraints.coresPerNVMe1 + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed * sizingConstraints.coresPerNVMe3
+    dcConfigArrayLocal[dcItem].numberOfCoresNeeded += (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL) * sizingConstraints.coresPerNVMe1 + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.coresPerNVMe7 + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.coresPerNVMe8
     console.log(`dcConfigNumberOfCoresNeededInitial() 51: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfCoresNeeded=${dcConfigArrayLocal[dcItem].numberOfCoresNeeded} += (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL})*sizingConstraints.coresPerNVMe1=${sizingConstraints.coresPerNVMe1} + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} * sizingConstraints.coresPerNVMe3=${sizingConstraints.coresPerNVMe3}`)
   }
   console.log(`dcConfigNumberOfCoresNeededInitial() 53: [chassisID=${actualChassisID},DC=${dcItem}] number of cores initial = ${dcConfigArrayLocal[dcItem].numberOfCoresNeeded}`)

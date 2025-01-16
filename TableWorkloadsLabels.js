@@ -37,7 +37,10 @@ class TableHeaderWorkloads {
             ["Check: min # servers in DC 8","output-check-min-servers-dc7","output"],
             ["Life cycle enabled on rgwdata ? #of versions per object (1=default, off)","rgw-lifecycle-num-versions","input"],
             ["Use dedicated flash pool for rgw index ?","selector-rgw-index-flash","checkbox"],
-            ["Use dedicated flash media for RocksDB (OSD metadata) (default for HDD, selection for SSD only)?","selector-dedicatedNVMe","checkbox"]
+            ["SSD: Use dedicated flash media for RocksDB (OSD metadata) (default for HDD, selection for SSD only)?","selector-SSDdedicatedNVMe","checkbox"],
+            ["SSD: Use dedicated flash media for separating WAL (w/ or w/o separate RocksDB) ?","selector-SSDdedicatedNVMeForWAL","checkbox"],
+            ["NVMe1: Use dedicated flash media for RocksDB (OSD metadata) (default for HDD, selection for SSD only)?","selector-NVMe1dedicatedNVMe","checkbox"],
+            ["NVMe1: Use dedicated flash media for separating WAL (w/ or w/o separate RocksDB) ?","selector-NVMe1dedicatedNVMeForWAL","checkbox"]
         ]
     }
 }

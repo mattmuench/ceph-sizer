@@ -21,11 +21,11 @@ const dcConfigCorrectNumberOfServersForiSCSI = function (generalValuesLocal, wor
   /// if any of the workloads have iscsi-block, and if the workload is in this DC only
   if (localiSCSIworkload > 0){
     /// ..... then, if (round(scale-roles_without_mons / DCs used for all workloads) - #Mons_in_this_DC) > 0
-    if ( (Math.round(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances) > 0) {
+    if ( (Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances) > 0) {
       /// .... then, if (#Mons_in_this_DC + round(scale-roles_without_mons / DCs used for all workloads) - DCs used for all workloads + round((#servers_for_cnt_single - min#for_special_roles)/ DCs used for all workloads) + min#for_special_roles) > numberOfServersNeededForReplicaInSameDC
-      if ( (dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.round(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - localDCsInUse + Math.round((dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances - sizingConstraints.minNumberOfServersForSpecialRoles) / localDCsInUse) + dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances) > dcConfigArrayLocal[dcItem].numberOfServersNeededForReplicaInSameDC ) {
+      if ( (dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - localDCsInUse + Math.ceil((dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances - sizingConstraints.minNumberOfServersForSpecialRoles) / localDCsInUse) + dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances) > dcConfigArrayLocal[dcItem].numberOfServersNeededForReplicaInSameDC ) {
         /// .... then use numberOfServersNeededBasedOnChassisConfig + round((scale-roles_without_mons / DCs used for all workloads) - numberOfNeededMonInstances/2) + round((#servers_for_cnt_single - min#for_special_roles)/DCs used for all workloads) + min#for_special_roles
-        dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances = dcConfigArrayLocal[dcItem].numberOfServersNeededBasedOnChassisConfig + Math.round((dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances/2) + Math.round((dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances - sizingConstraints.minNumberOfServersForSpecialRoles)/localDCsInUse) + sizingConstraints.minNumberOfServersForSpecialRoles
+        dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances = dcConfigArrayLocal[dcItem].numberOfServersNeededBasedOnChassisConfig + Math.ceil((dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances/2) + Math.ceil((dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances - sizingConstraints.minNumberOfServersForSpecialRoles)/localDCsInUse) + sizingConstraints.minNumberOfServersForSpecialRoles
       }
       else {
         /// else use numberOfServersNeededForReplicaInSameDC
@@ -34,9 +34,9 @@ const dcConfigCorrectNumberOfServersForiSCSI = function (generalValuesLocal, wor
     }
     else {
       /// else, if (numberOfNeededMonInstances + round((#servers_for_cnt_single - min#for_special_roles)/DCs used for all workloads) + min#for_special_roles) > numberOfNeededMonInstances
-      if ((dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.round((dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances - sizingConstraints.minNumberOfServersForSpecialRoles)/localDCsInUse) + sizingConstraints.minNumberOfServersForSpecialRoles) > dcConfigArrayLocal[dcItem].numberOfNeededMonInstances ) {
+      if ((dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.ceil((dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances - sizingConstraints.minNumberOfServersForSpecialRoles)/localDCsInUse) + sizingConstraints.minNumberOfServersForSpecialRoles) > dcConfigArrayLocal[dcItem].numberOfNeededMonInstances ) {
         /// ..... then use numberOfNeededMonInstances + round((#servers_for_cnt_single - min#for_special_roles)/DCs used for all workloads) + min#for_special_roles
-        dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances = dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.round((dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances - sizingConstraints.minNumberOfServersForSpecialRoles)/localDCsInUse) + sizingConstraints.minNumberOfServersForSpecialRoles
+        dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances = dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.ceil((dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances - sizingConstraints.minNumberOfServersForSpecialRoles)/localDCsInUse) + sizingConstraints.minNumberOfServersForSpecialRoles
       }
       else {
         /// else use numberOfServersNeededForReplicaInSameDC
@@ -46,12 +46,12 @@ const dcConfigCorrectNumberOfServersForiSCSI = function (generalValuesLocal, wor
   }
   else {
     /// else, if round(scale-roles_without_mons / DCs used for all workloads) - #Mons_in_this_DC) > 0
-    if ((Math.round(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances) > 0) {
+    if ((Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances) > 0) {
       /// .... then, if ((numberOfNeededMonInstances + round((round(scale-roles_without_mons / DCs used for all workloads) - numberOfNeededMonInstances)/2) + round(#servers_for_cnt_single/DCs used for all workloads)) > numberOfServersNeededForReplicaInSameDC
     // ??
-      if ((dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.round((Math.round(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances)/2) + Math.round(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances / localDCsInUse)) > dcConfigArrayLocal[dcItem].numberOfServersNeededForReplicaInSameDC) {
+      if ((dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.ceil((Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances)/2) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances / localDCsInUse)) > dcConfigArrayLocal[dcItem].numberOfServersNeededForReplicaInSameDC) {
         /// ... then use ((numberOfNeededMonInstances + round((round(scale-roles_without_mons / DCs used for all workloads) - numberOfNeededMonInstances)/2) + round(#servers_for_cnt_single /DCs used for all workloads))
-        dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances = dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.round((Math.round(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances)/2) + Math.round(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances / localDCsInUse)
+        dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances = dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.ceil((Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances / localDCsInUse) - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances)/2) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances / localDCsInUse)
       }
       else {
         /// else use numberOfServersNeededForReplicaInSameDC
@@ -60,9 +60,9 @@ const dcConfigCorrectNumberOfServersForiSCSI = function (generalValuesLocal, wor
     }
     else {
       /// else, if (numberOfNeededMonInstances + round(#servers_for_cnt_single / DCs used for all workloads)) > numberOfServersNeededBasedOnChassisConfig
-      if ((dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.round(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstance / localDCsInUse)) > dcConfigArrayLocal[dcItem].numberOfServersNeededBasedOnChassisConfig) {
+      if ((dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstance / localDCsInUse)) > dcConfigArrayLocal[dcItem].numberOfServersNeededBasedOnChassisConfig) {
         /// ... then use (numberOfNeededMonInstances + round(#servers_for_cnt_single / DCs used for all workloads))
-        dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances = dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.round(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstance / localDCsInUse)
+        dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances = dcConfigArrayLocal[dcItem].numberOfNeededMonInstances + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstance / localDCsInUse)
       }
       else {
         /// else use numberOfServersNeededBasedOnChassisConfig
