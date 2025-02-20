@@ -103,6 +103,8 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                   //// Multiple entries to check here - stay here and loop through the registered DCs from 
                   ////   Workload.workloadItemsDict["selector-dc"] in the dcSelectorList
                   for (let dcItem = 0; dcItem < generalValues.numberOfDCsPossible; dcItem++) {
+                    // clearing the DC selector from previous run - otherwise, all previously selected DCs will stay
+                    workloadsValues[item.workloadID][entry[1]][dcItem]=false
                     console.log(`applyAllChanges() 102: [workloadID=${item}]  checking DC selector - ${entry[2][dcItem]}`)                      
                     let lookupDOMElement = `${idStringToFind}`+`${dcItem}`
                     if (generalValues.globalDebug) {

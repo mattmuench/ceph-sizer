@@ -7,8 +7,12 @@ const localDebug = true
   for (let dcItem = 0; dcItem < generalValuesLocal.numberOfDCsPossible; dcItem++) {
     let localDCCapacityFlash = 0
     let localDCCapacityHDD = 0
+    // clean the previous selection for number of workloads per DC
+    dcConfigArrayLocal[dcItem].numberOfWorkloadsInDC = 0
+    
     for (let workloadItem = 0; workloadItem < generalValuesLocal.numberOfWorkloadsPossible; workloadItem++) {
       if (workloadsArrayLocal[workloadItem].selectorArrayDC[dcItem] === true) {
+        console.log(`dcConfigDetermineCapacityRaw() 12: workload=${workloadItem} found selector for DC=${dcItem}`)
         // workload uses this DC
         dcConfigArrayLocal[dcItem].numberOfWorkloadsInDC += 1
         localDCCapacityFlash += workloadsArrayLocal[workloadItem].reqCapacityGrossSSD / workloadsArrayLocal[workloadItem].sumNumberDC

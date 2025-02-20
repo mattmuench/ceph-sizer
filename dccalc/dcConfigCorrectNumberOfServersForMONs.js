@@ -8,6 +8,7 @@ const dcConfigCorrectNumberOfServersForMONs = function (generalValuesLocal, sizi
   for (let dcCheck = 0; dcCheck < generalValuesLocal.numberOfDCsPossible; dcCheck++) {
     if (dcConfigArrayLocal[dcCheck].numberOfWorkloadsInDC > 0) {
       localNumberOfDCsInUse++
+      console.log(`dcConfigCorrectNumberOfServersForMONs() 11: found workload in dc=${dcCheck} and added it`);
     }
   }
   console.log(`dcConfigCorrectNumberOfServersForMONs() 12: [DC=${dcItem}] localNumberOfDCsInUse=${localNumberOfDCsInUse}`)
