@@ -188,7 +188,7 @@
         {
           0, 24, 24, 24, 24, 2, 26, 2, 32, 256, 3, 25, 25,
           8, false, 1.6, 5, 1.6, 17,
-          3.2, false, 1.6, 5, 1.6, 5,
+          15.384, false, 1.6, 5, 1.6, 5,
           6.4, false, 1.6, 5, false, 1.6, 5,
           1.6, false, 1.6
         }
@@ -217,6 +217,53 @@
               }, 
               {
                 2, 1,false,false,1,1,40,136,8,0,0,0,15.384,8,0,0,6.4,0,0,0,0,0,124,0,124
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+{
+  testData{
+    {
+      0,
+      testDataChassis{
+        {
+          0, 24, 24, 24, 24, 2, 26, 2, 32, 256, 3, 25, 25,
+          8, false, 1.6, 5, 1.6, 17,
+          3.2, false, 1.6, 5, 1.6, 5,
+          6.4, false, 1.6, 5, false, 1.6, 5,
+          1.6, false, 1.6
+        }
+      },
+      workload{
+        {0, 100, 100, rbd, 3, 1, false, false, unselected, unselected, dcSelection {true, true, true, false, false, false, false}, unselected, unselected, unselected, unselected, unselected},
+        {1, 0, 100, rbd, 3, 1, false, false, unselected, unselected, dcSelection {false, false, false, true, true, true, false}, unselected, unselected, unselected, unselected, unselected}
+      },
+      expected{
+        overViewConfig{
+          config{
+            0, 
+            {
+              12, false, false, 12, 12, 576, 1992, 8,0,0,0, 3.2,120,0,0,6.4,0,0,0,0,0,384,0,384
+            }
+          }
+        },
+        detailedConfig{
+          config{
+            0, 
+            {
+              {
+                0, 4,false,false,1,1,48,166,8,0,0,0,3.2,10,0,0,6.4,0,0,0,0,0,32,0,32
+              },
+              { 
+                1, 4,false,false,1,1,48,166,8,0,0,0,3.2,10,0,0,6.4,0,0,0,0,0,32,0,32
+              }, 
+              {
+                2, 4,false,false,1,1,48,166,8,0,0,0,3.2,10,0,0,6.4,0,0,0,0,0,32,0,32
               }
             }
           }
