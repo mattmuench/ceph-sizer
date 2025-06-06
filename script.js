@@ -1,4 +1,5 @@
 import GeneralValues from "./GeneralValues.js";
+import LoadedConfigs from "./LoadedConfigs.js";
 import TableHeaderChassis from "./TableChassisLabels.js";
 import TableHeaderResults from "./TableResultsLabels.js";
 import TableHeaderWorkloads from "./TableWorkloadsLabels.js";
@@ -13,6 +14,8 @@ import buttonApplyChanges from "./buttonApplyChanges.js";
 import Results from "./Results.js";
 import documentAddOutputConfigsTable from "./documentAddOutputConfigsTable.js"
 import documentAddWorkloadsTable from "./documentAddWorkloadsTable.js"
+import {installEventHandlerLoadChassisConfig} from "./fileInput/installEventHandlerLoadChassisConfig.js"
+import {installEventHandlerLoadWorkloadConfig} from "./fileInput/installEventHandlerLoadWorkloadConfig.js"
 
 
 const calculateDCDistribution = function (generalValues,workloadsArrayLocal,chassisArrayLocal) {
@@ -33,6 +36,9 @@ const generalSettings = new GeneralValues
 
 // SizingConstraints
 const sizingConstraints = new SizingConstraints
+
+// LoadedConfigs
+const loadedConfigs = new LoadedConfigs
 
 // check:
 console.log(`main script() 57: Checking on sizingConstraints: ${sizingConstraints.addCapacityPerPoolUse[0]}`)
@@ -56,7 +62,7 @@ console.log(`main script() 73: call to convertTib resulted in: ${successConvertT
 
   /// CALL TO FUNCTIONS to create tables ///
 
-// Put the Apply chassis changes button before the overview table
+  // Put the Apply chassis changes button before the overview table
 // Program Flow (M2)
 const preSectChangeChassisConfigs = document.createElement("p");
 const buttonApplyChangesConfigs= document.createElement("button")
@@ -322,7 +328,10 @@ for (let resultingConfig = 0; resultingConfig < generalSettings.numberOfConfigsP
 
 // Program flow (M16)
 let buttonApplyChangesClicked = buttonApplyChanges(document, generalSettings, workloadsArray, chassisArray, sizingConstraints,  configsArray, tableHeaderResultingConfigsArray, resultsOverviewArray )
-// installed EventListeners for Apply Changes buttons
+let resultInstallEventHandler1 = installEventHandlerLoadChassisConfig (document, chassisArray, generalSettings, loadedConfigs)
+let resultInstallEventHandler2 = installEventHandlerLoadWorkloadConfig (document, workloadsArray, generalSettings, loadedConfigs)
+
+// installed EventListeners 
 
     // CHECK the external values - perhaps, need to work with an external object or do we return the newObject ?
     for (let workloads = 0; workloads < workloadsArray.length; workloads++) {

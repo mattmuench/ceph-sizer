@@ -75,6 +75,7 @@ class Workload {
             ["output-check-input-dc","checkInputDC"],
             ["selector-rgw-cache","selectorRGWCache"],
             ["output-check-min-servers-dc","checkArrayMinServersDC",dcMinServerList],
+            // This is for checking the min # of servers supported in the individual configuration - output only upon calculation and performed check
             // ["check-min-servers-all",0],
             // ["check-min-servers-dc1",0],
             // ["check-min-servers-dc2",0],
