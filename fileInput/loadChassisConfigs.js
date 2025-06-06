@@ -30,3 +30,13 @@
  * - the file must have a matching format to be able to read it as an array
  * 
  */
+const loadChassisConfigs = function (chassisConfig, generalValues, chassisArrayLocal) {
+  
+  
+
+  
+ 
+}
+
+
+export default loadChassisConfigs;
