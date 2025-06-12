@@ -200,23 +200,6 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                     console.log(`applyAllChanges() 192: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`)                    
                     break
                   }
-                  case "selector-dc": {
-                    //// Multiple entries to check here - stay here and loop through the registered DCs from 
-                    ////   Chassis.ChassisItemsDict["selector-dc"] in the dcSelectorList
-                    for (let dcItem = 0; dcItem < generalValues.numberOfDCsPossible; dcItem++) {
-                      console.log(`applyAllChanges() 199: [chassisID=${item}] checking DC selector - ${entry[2][dcItem]}`)
-                      let lookupDOMElement = `${idStringToFind}`+`${dcItem}`
-                      if (generalValues.globalDebug) {
-                        const checkForDOMElement =  documentMain.getElementById(lookupDOMElement)
-                        console.log(`applyAllChanges() 203: [chassisID=${item}] Is checked ${lookupDOMElement} ? =${checkForDOMElement.checked}`)
-                        let resultCheck = checkForDOMElement.checked
-                        console.log(`applyAllChanges() 205: [chassisID=${item}] checking DC selector NOW - ${entry[2][dcItem]}:${resultCheck}`)
-                      }
-                      chassisValues[item.chassisID][entry[1]][dcItem]=documentMain.getElementById(lookupDOMElement).checked
-                      console.log(`applyAllChanges() 208: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value ${dcItem} is NEW: chassisValues[${item.chassisID}].${entry[1]}[${dcItem}]=${chassisValues[item.chassisID][entry[1]][dcItem]}`)
-                    }
-                    break
-                  }
                   default:  {
                     // Keep the default or actual value  if nothing is provided
                     if (inputElement.value !== '') {
