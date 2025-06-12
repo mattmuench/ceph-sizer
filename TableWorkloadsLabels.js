@@ -21,7 +21,6 @@ class TableHeaderWorkloads {
             ["DC 5","selector-dc4","checkbox"],
             ["DC 6","selector-dc5","checkbox"],
             ["DC 7","selector-dc6","checkbox"],
-            ["DC 8","selector-dc7","checkbox"],
             ["# DCs in use for workload","output-sum-number-dc","output"],
             ["DC check","output-check-num-dc","output"],
             ["Input check","output-check-input-dc","output"],
