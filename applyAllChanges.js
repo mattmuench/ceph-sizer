@@ -96,7 +96,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                 {
                   /// Get value of checked or unchecked from checkboxes 
                   workloadsValues[item.workloadID][entry[1]]=documentMain.getElementById(idStringToFind).checked
-                  console.log(`applyAllChanges() 95: [workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value is NEW: workloadsValues[${item.workloadID}].${entry[1]}=${workloadsValues[item.workloadID][entry[1]]}`)                    
+                  console.log(`applyAllChanges() 99: [workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value is NEW: workloadsValues[${item.workloadID}].${entry[1]}=${workloadsValues[item.workloadID][entry[1]]}`)                    
                   break
                 }
                 case "selector-dc": {
@@ -105,37 +105,37 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                   for (let dcItem = 0; dcItem < generalValues.numberOfDCsPossible; dcItem++) {
                     // clearing the DC selector from previous run - otherwise, all previously selected DCs will stay
                     workloadsValues[item.workloadID][entry[1]][dcItem]=false
-                    console.log(`applyAllChanges() 102: [workloadID=${item}]  checking DC selector - ${entry[2][dcItem]}`)                      
+                    console.log(`applyAllChanges() 108: [workloadID=${item}]  checking DC selector - ${entry[2][dcItem]}`)                      
                     let lookupDOMElement = `${idStringToFind}`+`${dcItem}`
                     if (generalValues.globalDebug) {
                       const checkForDOMElement =  documentMain.getElementById(lookupDOMElement)
-                      console.log(`applyAllChanges() 106: [workloadID=${item}]  Is checked ${lookupDOMElement} ? =${checkForDOMElement.checked}`)
+                      console.log(`applyAllChanges() 112: [workloadID=${item}]  Is checked ${lookupDOMElement} ? =${checkForDOMElement.checked}`)
                       let resultCheck = checkForDOMElement.checked
-                      console.log(`applyAllChanges() 108: [workloadID=${item}]  checking DC selector NOW - ${entry[2][dcItem]}:${resultCheck}`)
+                      console.log(`applyAllChanges() 114: [workloadID=${item}]  checking DC selector NOW - ${entry[2][dcItem]}:${resultCheck}`)
                     }
                     workloadsValues[item.workloadID][entry[1]][dcItem]=documentMain.getElementById(lookupDOMElement).checked
-                    console.log(`applyAllChanges() 111: [workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value ${dcItem} is NEW: workloadsValues[${item.workloadID}].${entry[1]}[${dcItem}]=${workloadsValues[item.workloadID][entry[1]][dcItem]}`)
+                    console.log(`applyAllChanges() 117: [workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value ${dcItem} is NEW: workloadsValues[${item.workloadID}].${entry[1]}[${dcItem}]=${workloadsValues[item.workloadID][entry[1]][dcItem]}`)
                   }
                   break
                 } 
                 default:  {
                   // Keep the default or actual value  if nothing is provided
-                  console.log(`applyAllChanges() 117: [workloadID=${item}]  CHECK: workloadID=${item.workloadID}, workloadsValues[${item.workloadID}] is ${entry[0]}, variable name associated is: ${entry[1]}`)
+                  console.log(`applyAllChanges() 123: [workloadID=${item}]  CHECK: workloadID=${item.workloadID}, workloadsValues[${item.workloadID}] is ${entry[0]}, variable name associated is: ${entry[1]}`)
                   
                   if (inputElement.value !== '') {
-                    console.log(`applyAllChanges() 120: [workloadID=${item}]  CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
+                    console.log(`applyAllChanges() 126: [workloadID=${item}]  CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
                     if (!isNaN(Number(inputElement.value))) {
                       workloadsValues[item.workloadID][entry[1]] = inputElement.value
                     }
                     else {
-                      console.log(`aapplyAllChanges() 125: [workloadID=${item}]  ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`)
+                      console.log(`aapplyAllChanges() 131: [workloadID=${item}]  ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`)
                     }
                   }
                   else {
                     // Don't change the actual value (default)
-                    console.log(`applyAllChanges() 130: [workloadID=${item}]  DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`)
+                    console.log(`applyAllChanges() 136: [workloadID=${item}]  DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`)
                   }
-                  console.log(`applyAllChanges() 132: [workloadID=${item}] For ${item.workloadID} is workloadsValues.item.value is NEW ${value}: ${testToConsoleValue}=${workloadsValues[item.workloadID][entry[1]]}`)
+                  console.log(`applyAllChanges() 138: [workloadID=${item}] For ${item.workloadID} is workloadsValues.item.value is NEW ${value}: ${testToConsoleValue}=${workloadsValues[item.workloadID][entry[1]]}`)
                 }
               }
             }
@@ -153,69 +153,59 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
     
 
     chassisValues.forEach((item) => {
-      console.log(`applyAllChanges() 150: [chassisID=${item}]: chassisID = ${item}`)
+      console.log(`applyAllChanges() 156: [chassisID=${item}]: chassisID = ${item}`)
       Object.keys(item).forEach((value) => {
         item.ChassisItemsDict.forEach((entry) => {
           if (generalValues.globalDebug) {
             // console.log(`applyAllChanges() 2: Working on entry for ChassisItemsDict - check ChassisItemsDict: ${item.ChassisItemsDict}`)
             // console.log(`applyAllChanges() 2: "chassis = item", entry is = ${entry}`)
-            console.log(`applyAllChanges() 156: [chassisID=${item}] Working on entry for ChassisItemsDict: ${entry[1]}`)
+            console.log(`applyAllChanges() 1562 [chassisID=${item}] Working on entry for ChassisItemsDict: ${entry[1]}`)
           }
           
           if (entry[1] == `${value}`) {
             console.log(`found value: ${value}`)
             const testToConsoleValue = `chassisValues[item.chassisID].${entry[1]}`
             const testForConsoleValue = chassisValues[item.chassisID][entry[1]]
-            console.log(`applyAllChanges() 163: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is actually ${value}: ${testToConsoleValue}=${testForConsoleValue}`) 
+            console.log(`applyAllChanges() 169: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is actually ${value}: ${testToConsoleValue}=${testForConsoleValue}`) 
             if (value == "chassisID") {
               // console.log(`applyAllChanges -- workloads(): entry for chassisID ${item}=> skip it`)
             }
             else {
               // constructing the id string for the cell to read from
               let idStringToFind =  `chassis-${item.chassisID}-${entry[0]}`
-              console.log(`applyAllChanges() 170: [chassisID=${item}] looking up the DOM element id ${idStringToFind}`)
+              console.log(`applyAllChanges() 176: [chassisID=${item}] looking up the DOM element id ${idStringToFind}`)
               const inputElement = documentMain.getElementById(idStringToFind)
               let outputSubString = "output-"
               if (entry[0].includes(outputSubString)) {
-                console.log(`applyAllChanges() 174: [chassisID=${item}] skipping entry[0] for input which is output: ${entry[0]}`)
+                console.log(`applyAllChanges() 180: [chassisID=${item}] skipping entry[0] for input which is output: ${entry[0]}`)
               }
               else {
                 switch (entry[0]) {
-                  case "use-case": {
-                    let rbs = document.getElementsByName(idStringToFind);
-                    for (let i=0, iLen=rbs.length; i<iLen; i++) {
-                      if (rbs[i].checked) {
-                        chassisValues[item.chassisID][entry[1]] = rbs[i].value;
-                        console.log(`applyAllChanges() 183: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`)
-                      }
-                    }
-                    break
-                  }
                   case "use-SSD4-over-NVMe4":
                   case "use-rgw-caching": 
                   case "use-nvme-7":
                   case "use-nvme-8": 
                   case "use-optane-1": {
                     chassisValues[item.chassisID][entry[1]]=documentMain.getElementById(idStringToFind).checked
-                    console.log(`applyAllChanges() 192: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`)                    
+                    console.log(`applyAllChanges() 190: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`)                    
                     break
                   }
                   default:  {
                     // Keep the default or actual value  if nothing is provided
                     if (inputElement.value !== '') {
-                      console.log(`applyAllChanges() 215: [chassisID=${item}] CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
+                      console.log(`applyAllChanges() 196: [chassisID=${item}] CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
                       if (!isNaN(Number(inputElement.value))) {
                         chassisValues[item.chassisID][entry[1]] = inputElement.value
                       }
                       else {
-                        console.log(`applyAllChanges() 220: [chassisID=${item}] ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`)
+                        console.log(`applyAllChanges() 201: [chassisID=${item}] ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`)
                       }
                     }
                     else {
                       // Don't change the actual value (default)
-                      console.log(`applyAllChanges() 225: [chassisID=${item}] DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`)
+                      console.log(`applyAllChanges() 206: [chassisID=${item}] DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`)
                     }
-                    console.log(`applyAllChanges() 227: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW ${value}: ${testToConsoleValue}=${chassisValues[item.chassisID][entry[1]]}`)
+                    console.log(`applyAllChanges() 208: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW ${value}: ${testToConsoleValue}=${chassisValues[item.chassisID][entry[1]]}`)
                   }
                 }
               }
@@ -249,9 +239,9 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
       // Calculate the media and server configuration based on changed workloads and chassis configuration. 
 
       let actualChassisID = 0
-      console.log(`applyAllChanges() 261: working on config ${actualChassisID}`)
-      console.log(`applyAllChanges() 262:  the array is ${configsArrayLocal}`)
-      console.log(`applyAllChanges() 263:  ... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`)
+      console.log(`applyAllChanges() 242: working on config ${actualChassisID}`)
+      console.log(`applyAllChanges() 243:  the array is ${configsArrayLocal}`)
+      console.log(`applyAllChanges() 244:  ... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`)
       /// HERE: change to use  configsArray
       ///// TESTING:
       /**
@@ -338,7 +328,7 @@ for (let resultingConfig = 0; resultingConfig < generalValues.numberOfConfigsPos
   
   // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
 
-  console.log(`applyAllChanges() 350: This is length of chassisNew array: ${Object.keys(resultNew).length}`)
+  console.log(`applyAllChanges() 331: This is length of chassisNew array: ${Object.keys(resultNew).length}`)
   resultNew.chassisID = `${resultingConfig}`
   
   resultsOverviewArray.push(resultNew)
@@ -357,7 +347,7 @@ for (let config = 0; config < generalValues.numberOfConfigsPossible; config++) {
     
     // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
   
-    console.log(`applyAllChanges() 369: This is length of chassisNew array: ${Object.keys(dcResultsNew).length}`)
+    console.log(`applyAllChanges() 350: This is length of chassisNew array: ${Object.keys(dcResultsNew).length}`)
     dcResultsNew.chassisID = `${dcConfig}`
     
     resultsArray.push(dcResultsNew)
