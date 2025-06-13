@@ -41,6 +41,8 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
   /////////
   ///////// Reading in all value for WORKLOADS
   /////////
+  let workloadValid = 0
+
   workloadsValues.forEach((item) => {
     console.log(`applyAllChanges -- workloads() 45: workloadID = ${item}`)
     Object.keys(item).forEach((value) => {
@@ -61,6 +63,8 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
           
           if (value == "workloadID") {
             // console.log(`applyAllChanges -- workloads(): entry for workloadID ${item}=> skip it`)
+            workloadValid = 1
+              console.log(`applyAllChanges() 66: RE-SETTING workloadValid=${workloadValid}`)
           }
           else {
             // constructing the id string for the cell to read from
@@ -74,6 +78,31 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
             }
             else {
               switch (entry[0]) {
+                case "req-capacity-net": {
+                  if (inputElement.value !== '') {
+                    console.log(`applyAllChanges() 79: [workloadID=${item}]  CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
+                    if (!isNaN(Number(inputElement.value))) {
+                      workloadsValues[item.workloadID][entry[1]] = inputElement.value
+                      if (inputElement.value == 0){
+                        workloadValid = 0
+                        console.log(`applyAllChanges() 79a: [workloadID=${item}]  INVALID workload: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
+                      }
+                      else {
+                        workloadValid = 1
+                        console.log(`applyAllChanges() 79b: [workloadID=${item}]  VALID workload: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
+                      }
+                    }
+                    else {
+                      workloadValid = 0
+                      console.log(`applyAllChanges() 79c: [workloadID=${item}]  ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`)
+                    }
+                  }
+                  else {
+                      workloadValid = 0
+                      console.log(`applyAllChanges() 79d: [workloadID=${item}]  INVALID workload: workloadID=${item.workloadID} - inputElement.value=${inputElement.value} - workloadValid=${workloadValid}`)
+                  }
+                  break
+                }
                 case "use-case": {
                   let rbs = document.getElementsByName(idStringToFind);
                   for (let i=0, iLen=rbs.length; i<iLen; i++) {
@@ -113,8 +142,14 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                       let resultCheck = checkForDOMElement.checked
                       console.log(`applyAllChanges() 114: [workloadID=${item}]  checking DC selector NOW - ${entry[2][dcItem]}:${resultCheck}`)
                     }
-                    workloadsValues[item.workloadID][entry[1]][dcItem]=documentMain.getElementById(lookupDOMElement).checked
-                    console.log(`applyAllChanges() 117: [workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value ${dcItem} is NEW: workloadsValues[${item.workloadID}].${entry[1]}[${dcItem}]=${workloadsValues[item.workloadID][entry[1]][dcItem]}`)
+                    if (workloadValid == 0){
+                      console.log(`applyAllChanges() 117a: [workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value ${dcItem} is INVALID: workloadsValues[${item.workloadID}].${entry[1]}[${dcItem}]=${workloadsValues[item.workloadID][entry[1]][dcItem]} -- workloadValid=${workloadValid}`)
+                      workloadsValues[item.workloadID][entry[1]][dcItem]=0
+                    }
+                    else {
+                      workloadsValues[item.workloadID][entry[1]][dcItem]=documentMain.getElementById(lookupDOMElement).checked
+                      console.log(`applyAllChanges() 117b: [workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value ${dcItem} is VALID: workloadsValues[${item.workloadID}].${entry[1]}[${dcItem}]=${workloadsValues[item.workloadID][entry[1]][dcItem]}`)
+                    }
                   }
                   break
                 } 

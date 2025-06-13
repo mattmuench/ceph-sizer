@@ -1,0 +1,70 @@
+
+
+{
+  "workloadConfig":[
+  {
+    "workloadID": 0,
+    "members": 
+      {
+        "reqCapacityNet":100,
+        "reqFlashPercent":100,
+        "useCase":"rbd",
+        "reqNumReplica":3,
+        "reqNumberFd":1,
+        "selectorNVMe":false,
+        "selectorHighdense":false,
+        "sizeAvgObj":4,
+        "sizeAvgFile":64,
+        "selectorArrayDC":{
+          "0":1,
+          "1":1,
+          "2":1,
+          "3":0,
+          "4":0,
+          "5":0,
+          "6":0,
+          "7":0
+        },
+        "selectorRGWCache":false,
+        "RGWLifecycleNumVersions":1,
+        "selectorRGWIndexDedicatedFlashPool":false,
+        "selectorSSDDedicatedNVMe":false,
+        "selectorSSDDedicatedNVMeForWAL":false,
+        "selectorNVMe1DedicatedNVMe":false,
+        "selectorNVMe1DedicatedNVMeForWAL":false
+      }
+  },
+  {
+    "workloadID": 1,
+    "members": 
+      {
+        "reqCapacityNet":0,
+        "reqFlashPercent":100,
+        "useCase":"rbd",
+        "reqNumReplica":3,
+        "reqNumberFd":1,
+        "selectorNVMe":false,
+        "selectorHighdense":false,
+        "sizeAvgObj":4,
+        "sizeAvgFile":64,
+        "selectorArrayDC":{
+          "0":0,
+          "1":0,
+          "2":0,
+          "3":1,
+          "4":1,
+          "5":1,
+          "6":0,
+          "7":0
+        },
+        "selectorRGWCache":false,
+        "RGWLifecycleNumVersions":1,
+        "selectorRGWIndexDedicatedFlashPool":false,
+        "selectorSSDDedicatedNVMe":false,
+        "selectorSSDDedicatedNVMeForWAL":false,
+        "selectorNVMe1DedicatedNVMe":false,
+        "selectorNVMe1DedicatedNVMeForWAL":false
+      }
+  }
+]
+ }
