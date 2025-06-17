@@ -19,7 +19,8 @@ class Workload {
         checkMinServersAll,
         checkArrayMinServersDC = [],
         RGWLifecycleNumVersions,
-        selectorRGWIndexDedicatedFlashPool,
+        selectorRGWIndexDedicatedFlashPool, // additional OSD on flash media used for RocksDB now used also for RGW index
+        selectorRGWIndexDedicatedSeparateFlashPool, // separte media to be used for RGW index pool
         selectorSSDDedicatedNVMe, // SSD: for separating RocksDB placement 
         selectorSSDDedicatedNVMeForWAL, // SSD: for WAL separation from media and RocksDB - w/ or w/o RocksDB dedicated 
         selectorNVMe1DedicatedNVMe, // NVMe1: for separating RocksDB placement 
@@ -87,6 +88,7 @@ class Workload {
             // number of versions in life cycle is 1 without versioning enabled
             ["rgw-lifecycle-num-versions","RGWLifecycleNumVersions"],
             ["selector-rgw-index-flash","selectorRGWIndexDedicatedFlashPool"],
+            ["selector-rgw-index-dedicatedflash","selectorRGWIndexDedicatedSeparateFlashPool"]
             ["selector-SSDdedicatedNVMe","selectorSSDDedicatedNVMe"],
             ["selector-SSDdedicatedNVMeForWAL","selectorSSDDedicatedNVMeForWAL"],
             ["selector-NVMe1dedicatedNVMe","selectorNVMe1DedicatedNVMe"],
@@ -134,6 +136,7 @@ class Workload {
 
         this.selectorRGWLifecycleNumVersions = 1
         this.selectorRGWIndexDedicatedFlashPool = 0
+        this.selectorRGWIndexDedicatedSeparateFlashPool = 0
         this.selectorSSDDedicatedNVMe = 0
         this.selectorSSDDedicatedNVMeForWAL = 0
         this.selectorNVMe1DedicatedNVMe = 0

@@ -30,11 +30,13 @@
             ["HDD: NVMe type 4 (for dedicated RocksDB+WAL) size in TB (0 => don't use NVMe for HDD fronting)","size-nvme-4","input"],
             ["HDD: #HDD per NVMe type 4 for RocksDB+WAL (#HDD covered by NVMe)","hdd-to-nvme4","input"],
 
-            ["SSD: SSD size 1 in TB","size-ssd-1","input"],
             ["SSD: SSD fronted by NVMe type 3 for WAL ?","use-optane-1","checkbox"],
+            ["SSD: SSD size 1 in TB","size-ssd-1","input"],
+            
+            
             
             ["SSD: NVMe type 5 (for dedicated RocksDB+WAL) size in TB (0 => don't use NVMe for SSD fronting)","size-nvme-5","input"],
-            ["SSD: SSD fronted by NVMe type 5 for RocksDB/WAL (#SSD covered by NVMe)","ssd-to-nvme5","input"],
+            ["SSD: # SSD fronted by NVMe type 5 for RocksDB/WAL (#SSD covered by NVMe)","ssd-to-nvme5","input"],
             
             ["SSD: NVMe type 3 (for dedicated WAL) size in TB (0 => don't use NVMe3 for fronting)","size-optane-1","input"],
             ["SSD: #SSD per NVMe type 3 for WAL (#SSD covered by one NVMe)","ssd-to-optane","input"],
