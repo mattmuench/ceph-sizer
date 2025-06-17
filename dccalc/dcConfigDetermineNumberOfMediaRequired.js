@@ -426,9 +426,10 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
         console.log(`dcConfigDetermineNumberOfMediaRequired() 419: [chassisID=${actualChassisID},DC=${dcItem}] (localDCRocksDBSizeHDD=${localDCRocksDBSizeHDD} + localDCRequiredIndexCapacityOnNVMe4=${localDCRequiredIndexCapacityOnNVMe4}) / chassisArrayLocal[actualChassisID].sizeSSD4=${chassisArrayLocal[actualChassisID].sizeSSD4})`)
         console.log(`dcConfigDetermineNumberOfMediaRequired() 420: [chassisID=${actualChassisID},DC=${dcItem}] #SSD4 needed=${dcConfigArrayLocal[dcItem].numberOfSSD4Needed}`)
       }
-
+      
+      // SSD as pool media: 
       // Two different kinds of RocksDB capacity: with and without dedicated - with dedicated, there must be a different kind of media
-      // for hosting the dedicated RocksDB: NVMe5; NVMe8
+      // for hosting the dedicated RocksDB: NVMe5 (RocksDB+WAL all-in-one); NVMe3 (WAL dedicated and separated from NVMe5)
       // Note: the capacity of localDCCorrectionForUnalignedObjectsSSD1WithDedicatedRocksDBIncludingWAL is not changing the RocksDB capacity. Similar for NMVe1.
       // Check also the number of NVMe would be sufficient for the number of SSD allowed to cover Chassis.ssdToNVMe5
       // SSD:
