@@ -349,6 +349,7 @@ let resultInstallEventHandler2 = installEventHandlerLoadWorkloadConfig (document
       })
     }
     
-
+    document.getElementById("misc-message").innerText = `none`
+    document.getElementById("error-message").innerText = `none`
 
 

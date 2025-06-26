@@ -3,10 +3,16 @@ import calcResultsOverview from "./calcResultsOverview.js"
 import calcResultsPerDC from "./calcResultsPerDC.js"
 import resultsOverviewDisplay from "./resultsOverviewDisplay.js"
 import resultsPerDCDisplay from "./resultsPerDCDisplay.js"
+import displayMsg from "./common/displayMsg.js"
 // For testing only:
 import Results from "./Results.js"
 
 const applyAllChanges = function (documentMain, generalValues, workloadsValues, chassisValues, sizingConstraints, configsArrayLocal, tableHeaderResultingConfigsArray, resultsOverviewArrayLocal) {
+  
+  // clear any previous messages
+  documentMain.getElementById("misc-message").innerText = ``
+  documentMain.getElementById("error-message").innerText = ``
+
   // read all current values from all input fields
   // Start with actual global values.
   console.log(`applyAllChanges() 12: workloadsArray passed contains: ${workloadsValues}`)
@@ -94,7 +100,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                     }
                     else {
                       workloadValid = 0
-                      console.log(`applyAllChanges() 79c: [workloadID=${item}]  ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`)
+                      displayMsg(documentMain, "applyAllChanges", 104, "error", `workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
                     }
                   }
                   else {
@@ -163,7 +169,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                       workloadsValues[item.workloadID][entry[1]] = inputElement.value
                     }
                     else {
-                      console.log(`aapplyAllChanges() 131: [workloadID=${item}]  ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`)
+                      displayMsg(documentMain, "applyAllChanges", 174, "error", `workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
                     }
                   }
                   else {
@@ -233,7 +239,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                         chassisValues[item.chassisID][entry[1]] = inputElement.value
                       }
                       else {
-                        console.log(`applyAllChanges() 201: [chassisID=${item}] ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`)
+                        displayMsg(documentMain, "applyAllChanges", 244, "error", `[chassisID=${item}] ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
                       }
                     }
                     else {
