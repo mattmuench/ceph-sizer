@@ -29,11 +29,6 @@ const dcConfigFinalNumberOfCoresPerServer   = function (sizingConstraints, dcCon
   //      0
   //   )
   if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
-    // check for use of RGW caching
-    let localRGWCacheUsed = 0
-    if (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed > 0) {
-      localRGWCacheUsed = sizingConstraints.coresPerRGWCacheDevice
-    }
 
     let localAdditionRoleCores = 0
     if (dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances > 0) {
@@ -48,10 +43,22 @@ const dcConfigFinalNumberOfCoresPerServer   = function (sizingConstraints, dcCon
       localAdditionRoleCores = 0
     }
 
-    dcConfigArrayLocal[dcItem].resultingNumberOfCores = Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDDNeeded / dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis) * sizingConstraints.coresPerHDD 
-                                                        + Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSDNeeded / dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis) * sizingConstraints.coresPerSSDold
-                                                        + localRGWCacheUsed
-                                                        + Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe6Needed/dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis) * sizingConstraints.coresPerNVMeForObjectIndexOnNVMe6
+    /**
+     * For the effective number of media of a given type based on the dependencies, the resulting number is now based of recalculation of the number with taking dependencies into account.
+     * Note that SSD4 generally doesn't need additional resources since this is already accounted for with the resources for the HDD cores. Expecting no change for futher code changes.
+     */
+    dcConfigArrayLocal[dcItem].resultingNumberOfCores = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded * sizingConstraints.coresPerHDD 
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded * sizingConstraints.coresPerSSDold
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded * sizingConstraints.coresPerSSDold
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL * sizingConstraints.coresPerNVMe1
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL * sizingConstraints.coresPerNVMe1
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerNVMe2
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed * sizingConstraints.coresPerNVMe3
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed * sizingConstraints.coresPerNVMe4
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.coresPerNVMe5
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.coresPerNVMe6
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.coresPerNVMe7
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.coresPerNVMe8
                                                         + sizingConstraints.coresPerNodeBase
                                                         + localAdditionRoleCores
   }
