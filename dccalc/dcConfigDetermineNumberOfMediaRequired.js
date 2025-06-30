@@ -1,3 +1,4 @@
+import displayMsg from "../common/displayMsg.js"
 const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID) {
   const localDebug = true
   /**
@@ -194,8 +195,14 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
 
             // Determine the need of RGW dedicated cache and sum up a dedicated media per workload and minNumber of instances for RGW per workload
             if (workloadsArrayLocal[workloadItem].selectorRGWCache === true) {
-              localDCNumberOfRGWCacheMedia += minNumberOfInstancesRoleRGW
-              console.log(`dcConfigDetermineNumberOfMediaRequired() 198: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] RGW cache media needed=${localDCNumberOfRGWCacheMedia}`)
+              if (chassisArrayLocal[actualChassisID].useRGWCaching == 1) {
+                localDCNumberOfRGWCacheMedia += sizingConstraints.minNumberOfInstancesRoleRGW
+                console.log(`dcConfigDetermineNumberOfMediaRequired() 198: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] RGW cache media needed=${localDCNumberOfRGWCacheMedia}`)
+              }
+              else {
+                displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 203, "error", `[chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] RGW cache media selected but chassis doesn't support it`,0,0,0)
+              }
+              
             }
 
             // Apply corrections to RGW use cases based on avg object size   ===> This might need to go prior to calculating the HDD and assigning it in top of the function
