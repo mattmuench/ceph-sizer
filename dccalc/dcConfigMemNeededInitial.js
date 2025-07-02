@@ -12,20 +12,21 @@ const dcConfigMemNeededInitial = function (sizingConstraints, dcConfigArrayLocal
   
     dcConfigArrayLocal[dcItem].memNeededPerServer = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded * sizingConstraints.memInGBPerHDD 
                                                   + (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded)*sizingConstraints.memInGBPerSSD 
-                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.memInGBPerNVMe2
+                                                  + (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL) * sizingConstraints.memInGBPerNVMe1
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.memInGBPerNVMeForObjectIndexOnNVMe6 
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.memInGBPerNVMe2
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed * sizingConstraints.memInGBPerNVMe3
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed * sizingConstraints.memInGBPerNVMe4
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.memInGBPerNVMe5
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.memInGBPerNVMe7
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.memInGBPerNVMe8
                                                   + sizingConstraints.memPerNodeBase 
                                                   + localMemPerAdditionalRole
   }
-  console.log(`dcConfigMemNeededInitial() 20: [DC=${dcItem} dcConfigArrayLocal[dcItem].memNeededPerServer=${dcConfigArrayLocal[dcItem].memNeededPerServer}`)
+  console.log(`dcConfigMemNeededInitial() 26: [DC=${dcItem} dcConfigArrayLocal[dcItem].memNeededPerServer=${dcConfigArrayLocal[dcItem].memNeededPerServer}`)
   dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer = dcConfigArrayLocal[dcItem].memNeededPerServer
 
-  // Need to add all cores needed for NVMe of any sort (not in sheet this way): NOTE that this is actually incorrect since it's simply saying that those are equally assigned across all nodes in a similar way which is
-    //   definitely not the case: depending on the configuration chosen, either those NVMe are assigned as needed to the nodes, or special distribution is required and then depends on the number of devices resulting from this 
-    //   distribution.
-    //   With the current approach, all NVMe with workloads are taken, equally distributed across all nodes in a "virtual way" and then the number of cores are calculated.
-    dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer += (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL) * sizingConstraints.memInGBPerNVMe1
-    console.log(`dcConfigMemNeededInitial() 28: [DC=${dcItem} dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer=${dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer} += (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL})*sizingConstraints.coresPerNVMe1=${sizingConstraints.memInGBPerNVMe1}`)
+  console.log(`dcConfigMemNeededInitial() 29: [DC=${dcItem} dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer=${dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer}`)
   
 }
 

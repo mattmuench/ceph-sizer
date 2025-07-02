@@ -1,9 +1,16 @@
-// trying to implement AC41
+
+/**
+ * For the effective number of media of a given type based on the dependencies, the resulting number is now based of recalculation of the number with taking dependencies into account.
+ * Note that SSD4 generally doesn't need additional resources since this is already accounted for with the resources for the HDD coreing it. Expecting no change for futher code changes.
+ */
+
 const dcConfigFinalSSDPerServer   = function (dcConfigArrayLocal, actualChassisID, dcItem) {
-  // =if($Y41>0,roundup($J42/$Y41,0),0)
-  console.log(`dcConfigFinalSSDPerServer() 4: dcConfigArrayLocal[dcItem=${dcItem}].resultingNumberOfServersAsPerChassis=${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis} > 0 ?`)
+console.log(`dcConfigFinalSSDPerServer() 4: dcConfigArrayLocal[dcItem=${dcItem}].resultingNumberOfServersAsPerChassis=${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis} > 0 ?`)
+// RGW caching uses NVMe2 now
+
   if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
-    dcConfigArrayLocal[dcItem].resultingNumberOfSSD = Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSDNeeded / dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis)
+    dcConfigArrayLocal[dcItem].resultingNumberOfSSD = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded
+                                                    + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded
   }
   else {
     console.log(`dcConfigFinalSSDPerServer() 9: dcConfigArrayLocal[dcItem=${dcItem}].resultingNumberOfServersAsPerChassis=${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis}`)

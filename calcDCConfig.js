@@ -50,12 +50,15 @@ const calcDCConfig = function (generalValuesLocal, workloadsArrayLocal, sizingCo
             dcConfigDetermineNumberOfServersInitially(generalValuesLocal, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem)
             //checkForMisconfigReplicaInDC(generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, dcItem)
             dcConfigCorrectNumberOfServersForiSCSI(generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, dcItem)
-            dcConfigCalcPreliminaryMediaPerServer(dcConfigArrayLocal, dcItem, chassisArrayLocal, actualChassisID)
+            // calculate the depending number of media as per preliminary number of servers
+            dcConfigCalcPreliminaryMediaPerServer(dcConfigArrayLocal, dcItem, chassisArrayLocal, actualChassisID, dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances)
             dcConfigNumberOfCoresNeededInitial(sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem)
             dcConfigMemNeededInitial(sizingConstraints, dcConfigArrayLocal, dcItem)
             dcConfigCheckResourceConstraints(dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem)
             dcConfigMinNumberOfServersNeededWithReducedNumberOfRolesPerServer(generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, dcItem)
             dcConfigAdjustNumberOfServers(sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem)
+            // recalculate the depending number of media as per corrected number of servers
+            dcConfigCalcPreliminaryMediaPerServer(dcConfigArrayLocal, dcItem, chassisArrayLocal, actualChassisID, dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis)
             dcConfigFinalNumberOfCoresPerServer(sizingConstraints, dcConfigArrayLocal, actualChassisID,dcItem)
             dcConfigFinalMemoryPerServer(sizingConstraints, dcConfigArrayLocal, actualChassisID, dcItem)
             dcConfigFinalSSDPerServer(dcConfigArrayLocal, actualChassisID, dcItem)
