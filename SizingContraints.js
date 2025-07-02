@@ -167,7 +167,7 @@ class SizingConstraints {
     {
         // pre-sets for defaults
         // Cores = HT cores = vCPU
-        this.defaultCoresPerRGWCacheDevice = 4
+        //this.defaultCoresPerRGWCacheDevice = 4  - now NVMe2
         this.defaultCoresPerNVMeOForWALDevice = 12
         this.defaultCoresPerHDD = 2
         this.defaultCoresPerSSDold = 4
@@ -175,7 +175,7 @@ class SizingConstraints {
         this.defaultCoresPerSSDnew = 8
         this.defaultCoresPerNVMe = 16 // logical CPUs seen => for HT #cores/2
         this.defaultCoresPerNVMe1 = 8
-        this.defaultCoresPerNVMe2 = 2
+        this.defaultCoresPerNVMe2 = 4
         this.defaultCoresPerNVMe3 = 4
         this.defaultCoresPerNVMe4 = 0  // is accounted for in HDD cores
         this.defaultCoresPerNVMe5 = 0  // is accounted for in SSD cores
