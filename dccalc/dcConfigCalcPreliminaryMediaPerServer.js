@@ -8,13 +8,14 @@ const dcConfigCalcPreliminaryMediaPerServer = function (dcConfigArrayLocal, dcIt
   else {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded = 0
   }
-
+  /**
   if (chassisArrayLocal[actualChassisID].sizeSSD1 > 0) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDNeeded = Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSDNeeded / numberOfServersNeeded)
   }
   else {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDNeeded = 0
   }
+   */
   if (chassisArrayLocal[actualChassisID].sizeSSD1 > 0) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded = Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL / numberOfServersNeeded) +  Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL / numberOfServersNeeded)
   }
@@ -27,6 +28,9 @@ const dcConfigCalcPreliminaryMediaPerServer = function (dcConfigArrayLocal, dcIt
   else {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded = 0
   }
+  dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDNeeded = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded 
+                                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded
+  
   if (chassisArrayLocal[actualChassisID].sizeNVMe1 > 0) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBNorWAL / numberOfServersNeeded) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL / numberOfServersNeeded)
   }
@@ -39,6 +43,9 @@ const dcConfigCalcPreliminaryMediaPerServer = function (dcConfigArrayLocal, dcIt
   else {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL =0
   }
+  dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1Needed = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL
+                                                                + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL
+
   if (chassisArrayLocal[actualChassisID].sizeSSD4 > 0) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSD4Needed / numberOfServersNeeded)
     if (Math.ceil(dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded/chassisArrayLocal[dcItem].hddToSSD4) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed){

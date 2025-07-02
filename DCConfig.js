@@ -48,7 +48,7 @@ class DCConfig {
         
         
         // prelimPerServerNumberOfSSD4Needed,  // SSD4 per server - not needed anymore because of separation into prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL and prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL
-        // prelimPerServerNumberOfNVMe1Needed, // NVMe1 per server - not needed anymore because of separation into prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded and prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded
+        prelimPerServerNumberOfNVMe1Needed, // NVMe1 per server - not needed anymore because of separation into prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded and prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded
         prelimPerServerNumberOfNVMe2Needed, // NVMe2 per server
         prelimPerServerNumberOfNVMe3Needed, // NVMe3 per server
         prelimPerServerNumberOfNVMe4Needed, // NVMe4 per server

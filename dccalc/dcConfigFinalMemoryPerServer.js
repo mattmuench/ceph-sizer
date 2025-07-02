@@ -51,14 +51,29 @@ const dcConfigFinalMemoryPerServer   = function (sizingConstraints, dcConfigArra
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.memInGBPerNVMe5
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.memInGBPerNVMe6
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.memInGBPerNVMe7
-                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.memInGBPerNVMe18
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.memInGBPerNVMe8
                                               + sizingConstraints.memPerNodeBase
                                               + localAdditionalRoleMemory
   }
   else {
     dcConfigArrayLocal[dcItem].resultingMem = 0
   }
-
+  console.log(`dcConfigFinalMemoryPerServer() 48:
+  dcConfigArrayLocal[dcItem].resultingMem=${dcConfigArrayLocal[dcItem].resultingMem} = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.memInGBPerHDD=${sizingConstraints.memInGBPerHDD}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.memInGBPerNVMe2=${sizingConstraints.memInGBPerNVMe2}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} * sizingConstraints.memInGBPerNVMe3=${sizingConstraints.memInGBPerNVMe3}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} * sizingConstraints.memInGBPerNVMe4=${sizingConstraints.memInGBPerNVMe4}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.memInGBPerNVMe5=${sizingConstraints.memInGBPerNVMe5}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.memInGBPerNVMe6=${sizingConstraints.memInGBPerNVMe6}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.memInGBPerNVMe7=${sizingConstraints.memInGBPerNVMe7}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.memInGBPerNVMe18=${sizingConstraints.memInGBPerNVMe8}
+                                              + sizingConstraints.memPerNodeBase=${sizingConstraints.memPerNodeBase}
+                                              + localAdditionalRoleMemor=${localAdditionalRoleMemory}
+  `)
   console.log(`dcConfigFinalMemoryPerServer() 48: [chassisID=${actualChassisID}] dcConfigArrayLocal[dcItem=${dcItem}].resultingMem=${dcConfigArrayLocal[dcItem].resultingMem}`)
 }
 

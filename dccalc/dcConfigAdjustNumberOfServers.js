@@ -89,7 +89,7 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.coresPerNVMe6
                                                           - sizingConstraints.coresPerNodeBase 
                                                           - localCoresMinForMinRolesInitiallyAnyServer
-                                                          - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerRGWCacheDevice
+                                                          - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerNVMe2
                                                 ) /
                                                 ( dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded * sizingConstraints.coresPerHDD 
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded * sizingConstraints.coresPerSSDold 
@@ -109,7 +109,7 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
           (  (chassisArrayLocal[actualChassisID].maxCpuSockets=${chassisArrayLocal[actualChassisID].maxCpuSockets} * chassisArrayLocal[actualChassisID].maxCpuCores=${chassisArrayLocal[actualChassisID].maxCpuCores}) 
                 - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe6}
                     - sizingConstraints.coresPerNodeBase=${sizingConstraints.coresPerNodeBase} - localCoresMinForMinRolesInitiallyAnyServer=${localCoresMinForMinRolesInitiallyAnyServer}
-                    - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerRGWCacheDevice=${sizingConstraints.coresPerRGWCacheDevice}
+                    - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe2}
           ) /
           ( dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.coresPerHDD=${sizingConstraints.coresPerHDD} 
             + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold} 
@@ -131,7 +131,7 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.coresPerNVMe6
                                                           - sizingConstraints.coresPerNodeBase 
                                                           - localCoresMinForMaxRolesInitiallyAnyServer
-                                                          - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerRGWCacheDevice
+                                                          - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerNVMe2
                                                 ) /
                                                 ( dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded * sizingConstraints.coresPerHDD 
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded * sizingConstraints.coresPerSSDold 
@@ -151,7 +151,7 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
           (  (chassisArrayLocal[actualChassisID].maxCpuSockets=${chassisArrayLocal[actualChassisID].maxCpuSockets} * chassisArrayLocal[actualChassisID].maxCpuCores=${chassisArrayLocal[actualChassisID].maxCpuCores}) 
                 - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe6}
                     - sizingConstraints.coresPerNodeBase=${sizingConstraints.coresPerNodeBase} - localCoresMinForMaxRolesInitiallyAnyServer=${localCoresMinForMaxRolesInitiallyAnyServer}
-                    - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerRGWCacheDevice=${sizingConstraints.coresPerRGWCacheDevice}
+                    - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe2}
           ) /
           ( dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.coresPerHDD=${sizingConstraints.coresPerHDD} 
             + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold} 
@@ -170,7 +170,7 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
       // NEW 2024/11/15 - try to define the reduction by a single media
       //   Any media requiring cores could be removed in order to get to the supportable number of cores. Each device has a different portion that it takes from the overall cores needed per server.
       //   If a media requires 4 cores and it has 6 media in this configuration but the number of supported cores would be 64 with a demand of 160 cores, it could reduce the numnber of cores by reducing a number of media: 160 - 4 * 6 = 160 - 24 = 1136 >> 64 - which would not work.
-      //   However, the combination of reducing everything by a single media first (for smaller differences) could lead to success. In a second step, also the portions of possible reductions compared to number of media to reduce further could lead to omptimizing the config.
+      //   However, the combination of reducing everything by a single media first (for smaller differences) could lead to success. In a second step, also the portions of possible reductions compared to number of media to reduce further could lead to optimizing the config.
       //   Iteratively then going forward while respecting the minimal media required per node of a certain kind will bring down the number of cores.
       
       
@@ -203,7 +203,7 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
             mediaNumber = mediatype
             // Calculate needed elements max for staying within the limits of cores:
             // After all other cores needed by any of the elements of the actual server configuration, except the one we check for, divide the rest of cores by the cores needed for the element.
-            // Reduce the number first by all fixed (NVMe2, NVMe6, ...) assignments with minimum deployment per server for equal config of servers but then add the amount back for the actual element.
+            // Reduce the number first by all fixed (NVMe2, NVMe6, ...) assignments with minimum deployment per server for equal config of servers but then add the amount back for the actual element.  ===> WHY ?
             // All flexible elements, like NVMe1 or HDD, can be handled with default.
             
             switch (prelimString) {
@@ -217,7 +217,7 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.coresPerNVMe6
                                                       - sizingConstraints.coresPerNodeBase
                                                       - localCoresMinForMinRolesInitiallyAnyServer
-                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerRGWCacheDevice
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerNVMe2
                                                       + localAddBackElement
                                                      
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded * sizingConstraints.coresPerSSDold
@@ -265,7 +265,7 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.coresPerNVMe6
                                                       - sizingConstraints.coresPerNodeBase
                                                       - localCoresMinForMaxRolesInitiallyAnyServer
-                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerRGWCacheDevice
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerNVMe2
                                                       + localAddBackElement
                                                      
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded * sizingConstraints.coresPerSSDold
@@ -329,7 +329,7 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
                                                                                                    - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.coresPerNVMe6
                                                                                                    - sizingConstraints.coresPerNodeBase
                                                                                                    - localCoresMinForRolesInitiallyAnyServer
-                                                                                                   - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerRGWCacheDevice
+                                                                                                   - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed * sizingConstraints.coresPerNVMe2
                                                                                                   ) / 
                                                                                                   (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded * sizingConstraints.coresPerHDD
                                                                                                    + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded * sizingConstraints.coresPerSSDold
@@ -347,7 +347,7 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
         console.log(`dcConfigAdjustNumberOfServers() 354: [chassisID=${actualChassisID},DC=${dcItem}] localReducedByNumberOfRoles=${localReducedByNumberOfRoles} = Math.ceil(dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers} / (((chassisArrayLocal[actualChassisID].maxCpuSockets=${chassisArrayLocal[actualChassisID].maxCpuSockets} * chassisArrayLocal[actualChassisID].maxCpuCores=${chassisArrayLocal[actualChassisID].maxCpuCores})
         - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.coresPerNVMe6=${sizingConstraints.coresPerNVMe6}
         - sizingConstraints.coresPerNodeBase=${sizingConstraints.coresPerNodeBase} - localCoresMinForRolesInitiallyAnyServer=${localCoresMinForRolesInitiallyAnyServer}
-        - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerRGWCacheDevice=${sizingConstraints.coresPerRGWCacheDevice}
+        - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe2}
         )   / 
         (  dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.coresPerHDD=${sizingConstraints.coresPerHDD}
         +dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold}
@@ -674,7 +674,29 @@ const dcConfigAdjustNumberOfServers   = function (sizingConstraints, dcConfigArr
                                       )
                                      )
                                     )
-      
+      console.log(`dcConfigAdjustNumberOfServers() 585:
+      localReduceMemByRatioMaxRoles=${localReduceMemByRatioMaxRoles} = Math.ceil( dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers} / 
+      ((chassisArrayLocal[actualChassisID].maxMemGb=${chassisArrayLocal[actualChassisID].maxMemGb} 
+        - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.memInGBPerNVMe6=${sizingConstraints.memInGBPerNVMe6}
+        - sizingConstraints.memPerNodeBase=${sizingConstraints.memPerNodeBase}
+        - localMemMinForMaxRolesInitiallyAnyServer=${localMemMinForMaxRolesInitiallyAnyServer}
+        - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.memInGBPerNVMe2=${sizingConstraints.memInGBPerNVMe2}
+       ) / 
+       (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.memInGBPerHDD=${sizingConstraints.memInGBPerHDD}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded} * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1Needed} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} * sizingConstraints.memInGBPerNVMe3=${sizingConstraints.memInGBPerNVMe3}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} * sizingConstraints.memInGBPerNVMe4=${sizingConstraints.memInGBPerNVMe3}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.memInGBPerNVMe5=${sizingConstraints.memInGBPerNVMe3}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.memInGBPerNVMe7=${sizingConstraints.memInGBPerNVMe3}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.memInGBPerNVMe8=${sizingConstraints.memInGBPerNVMe3}
+       )
+      )
+     )
+      `)
       // # The other only option would be to reduce the additional role by one.
       localReduceMemByRole = Math.ceil(dcConfigArrayLocal[dcItem].prelimNumberOfServers /
                                        ((chassisArrayLocal[actualChassisID].maxMemGb 
