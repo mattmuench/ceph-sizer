@@ -1,0 +1,47 @@
+
+
+{
+  "chassisConfig":[
+  {
+    "chassisID": 0,
+    "members": 
+      {
+        "maxHDDSlots":12,
+        "maxSSDSlots":12,
+        "maxNVMeSlots":12,
+        "maxAllSlots":12,
+        "maxDedicatedNVMeSlots":4,
+        "maxAllMediaSum":16,
+        "maxCpuSockets":1,
+        "maxCpuCores":64,
+        "maxMemGb":512,
+        "maxPciSlots":3,
+        "sizeHDD1":8,
+        "speedNicPublic":25,
+        "speedNicCluster":25,
+        "sizeNVMe1":6.4,
+        "sizeNVMe2":1.6,
+        "sizeNVMe4":1.6,
+        "hddToNVMe4":5,
+        "sizeNVMe5":1.6,
+        "sizeNVMe6":1.6,
+        "sizeNVMe7":1.6,
+        "sizeNVMe8":1.6,
+        "sizeSSD1":3.2,
+        "ssdToOptane":5,
+        "sizeOptane1":1.6,
+        "useSSD4overNVMe4":5,
+        "hddToSSD4":5,
+        "sizeSSD4":1.6,
+        "ssdToNVMe5":5,
+        "useRGWCaching":true,
+        "useOptane1":true,
+        "nvmeToNVMe7":5,
+        "useNVMe8":true,
+        "nvmeToNVMe8":5,
+        "useNVMe7":true
+      }
+  }
+  
+]
+ }

@@ -1,0 +1,36 @@
+{
+  "workloadConfig":[
+  {
+    "workloadID": 0,
+    "members": 
+      {
+        "reqCapacityNet":100,
+        "reqFlashPercent":100,
+        "useCase":"filedata",
+        "reqNumReplica":3,
+        "reqNumberFd":3,
+        "selectorNVMe":1,
+        "selectorHighdense":0,
+        "sizeAvgObj":4,
+        "sizeAvgFile":64,
+        "selectorArrayDC":{
+          "0":1,
+          "1":1,
+          "2":1,
+          "3":0,
+          "4":0,
+          "5":0,
+          "6":0,
+          "7":0
+        },
+        "selectorRGWCache":1,
+        "RGWLifecycleNumVersions":1,
+        "selectorRGWIndexDedicatedFlashPool":1,
+        "selectorSSDDedicatedNVMe":1,
+        "selectorSSDDedicatedNVMeForWAL":1,
+        "selectorNVMe1DedicatedNVMe":1,
+        "selectorNVMe1DedicatedNVMeForWAL":true
+      }
+  }
+]
+ }
