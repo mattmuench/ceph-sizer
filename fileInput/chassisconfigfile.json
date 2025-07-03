@@ -39,7 +39,7 @@
         "nvmeToNVMe7":5,
         "useNVMe7":0,
         "nvmeToNVMe8":5,
-        "useNVMe8":5
+        "useNVMe8":0
       }
   },
   {
@@ -79,7 +79,7 @@
         "nvmeToNVMe7":5,
         "useNVMe7":0,
         "nvmeToNVMe8":5,
-        "useNVMe8":5
+        "useNVMe8":0
       }
   },
   {
@@ -119,7 +119,7 @@
         "nvmeToNVMe7":5,
         "useNVMe7":0,
         "nvmeToNVMe8":5,
-        "useNVMe8":5
+        "useNVMe8":0
       }
   }
 ]
