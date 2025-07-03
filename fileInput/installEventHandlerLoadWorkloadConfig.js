@@ -3,14 +3,6 @@ import displayMsg from "../common/displayMsg.js";
 
 const installEventHandlerLoadWorkloadConfig = function (documentMain, workloadsArrayLocal, generalValues, loadedConfigsLocal) {
 
-    // clear any previous messages
-    const miscMess = documentMain.getElementById("misc-message")
-    miscMess.innerText = `messages cleared`
-    documentMain.getElementById("misc-message").appendChild(miscMess);
-    const errorMess = documentMain.getElementById("error-message")
-    errorMess.innerText = `messages cleared`
-    documentMain.getElementById("error-message").appendChild(errorMess);
-
   // recognize button for loading presaved workload config definition file
   const clickedLoadWorkloadConfig = documentMain.getElementById("input-filename-workload-config")
   clickedLoadWorkloadConfig.addEventListener("change", (event) => {
