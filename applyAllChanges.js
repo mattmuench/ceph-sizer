@@ -4,10 +4,14 @@ import calcResultsPerDC from "./calcResultsPerDC.js"
 import resultsOverviewDisplay from "./resultsOverviewDisplay.js"
 import resultsPerDCDisplay from "./resultsPerDCDisplay.js"
 import displayMsg from "./common/displayMsg.js"
+import {debugMsg} from "./common/debug.js";
 // For testing only:
 import Results from "./Results.js"
 
+
 const applyAllChanges = function (documentMain, generalValues, workloadsValues, chassisValues, sizingConstraints, configsArrayLocal, tableHeaderResultingConfigsArray, resultsOverviewArrayLocal) {
+
+  let localDebugOn = true
   
   // clear any previous messages
   documentMain.getElementById("misc-message").innerText = ``
@@ -15,15 +19,15 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
 
   // read all current values from all input fields
   // Start with actual global values.
-  console.log(`applyAllChanges() 12: workloadsArray passed contains: ${workloadsValues}`)
-  console.log(`applyAllChanges() 13: number of entries in array: ${workloadsValues.length}`)
+  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 22, `workloadsArray passed contains: ${workloadsValues}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 23, `number of entries in array: ${workloadsValues.length}`,0,0,0)
 
   // get general settings from header of the page (like similar/different config) -  capacity is set by readDesiredCapacity()
   let rbsSimilarConfig = document.getElementsByName("global-similar-config");
   for (let i=0, iLen=rbsSimilarConfig.length; i<iLen; i++) {
     if (rbsSimilarConfig[i].checked) {
       generalValues.desiredSimilarConfig = rbsSimilarConfig[i].value;
-      console.log(`applyAllChanges -- similarConfig 20(): For General is desiredSimilarConfig is NEW: desiredSimilarConfig=${generalValues.desiredSimilarConfig}`)
+      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 30, `similarConfig -- For General is desiredSimilarConfig is NEW: desiredSimilarConfig=${generalValues.desiredSimilarConfig}`,0,0,0)
     }
   }
 
@@ -31,7 +35,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
   for (let i=0, iLen=rbsSimilarConfig.length; i<iLen; i++) {
     if (rbsSimilarMediaConfig[i].checked) {
       generalValues.desiredSimilarMediaConfig = rbsSimilarMediaConfig[i].value;
-      console.log(`applyAllChanges -- similarMediaConfig 28(): For General is desiredSimilarMediaConfig is NEW: desiredSimilarMediaConfig=${generalValues.desiredSimilarMediaConfig}`)
+      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 38, `similarConfig -- For General is desiredSimilarConfig is NEW: desiredSimilarConfig=${generalValues.desiredSimilarConfig}`,0,0,0)
       
     }
   }
@@ -56,56 +60,56 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
         if (generalValues.globalDebug) {
           // console.log(`applyAllChanges() 2: Working on entry for workloadsDict - check workloadItemsDict: ${item.workloadItemsDict}`)
           // console.log(`applyAllChanges() 2: "workloads = item", entry is = ${entry}`)
-          console.log(`applyAllChanges() 51: [workloadID=${item}] Working on entry for workloadsDict: ${entry[1]}`)
+          debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 63, `[workloadID=${item}] Working on entry for workloadsDict: ${entry[1]}`,0,0,0)
         }
         
         
         if (entry[1] == `${value}`) {
-          console.log(`found value: ${value}`)
+          debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 69, `found value: ${value}`,0,0,0)
           const testToConsoleValue = `workloadsValues[item.workloadID].${entry[1]}`
           const testForConsoleValue = workloadsValues[item.workloadID][entry[1]]
-          console.log(`applyAllChanges() 59: [workloadID=${item}] For ${item.workloadID} is workloadsValues.item.value is actually ${value}: ${testToConsoleValue}=${testForConsoleValue}`)
+          debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 71, `[workloadID=${item}] For ${item.workloadID} is workloadsValues.item.value is actually ${value}: ${testToConsoleValue}=${testForConsoleValue}`,0,0,0)
           
           
           if (value == "workloadID") {
-            // console.log(`applyAllChanges -- workloads(): entry for workloadID ${item}=> skip it`)
+            debugMsg(generalValues, localDebugOn, 6, "applyAllChanges", 75, `entry for workloadID ${item}=> skip it`,0,0,0)
             workloadValid = 1
-              console.log(`applyAllChanges() 66: RE-SETTING workloadValid=${workloadValid}`)
+              debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 77, `RE-SETTING workloadValid=${workloadValid}`,0,0,0)
           }
           else {
             // constructing the id string for the cell to read from
             let idStringToFind =  `workload-${item.workloadID}-${entry[0]}`
-            console.log(`applyAllChanges() 68: [workloadID=${item}] looking up the DOM element id ${idStringToFind}`)
+            debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 82, `[workloadID=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
             const inputElement = documentMain.getElementById(idStringToFind)
             let myValue;
             let outputSubString = "output-"
             if (entry[0].includes(outputSubString)) {
-              console.log(`applyAllChanges() 73: [workloadID=${item}] skipping entry[0] for input which is output: ${entry[0]}`)
+              debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 87, `[workloadID=${item}] skipping entry[0] for input which is output: ${entry[0]}`,0,0,0)
             }
             else {
               switch (entry[0]) {
                 case "req-capacity-net": {
                   if (inputElement.value !== '') {
-                    console.log(`applyAllChanges() 79: [workloadID=${item}]  CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
+                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 93, `[workloadID=${item}]  CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`,0,0,0)
                     if (!isNaN(Number(inputElement.value))) {
                       workloadsValues[item.workloadID][entry[1]] = inputElement.value
                       if (inputElement.value == 0){
                         workloadValid = 0
-                        console.log(`applyAllChanges() 79a: [workloadID=${item}]  INVALID workload: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
+                        debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 98, `[workloadID=${item}]  INVALID workload: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`,0,0,0)
                       }
                       else {
                         workloadValid = 1
-                        console.log(`applyAllChanges() 79b: [workloadID=${item}]  VALID workload: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
+                        debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 102, `[workloadID=${item}]  VALID workload: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`,0,0,0)
                       }
                     }
                     else {
                       workloadValid = 0
-                      displayMsg(documentMain, "applyAllChanges", 104, "error", `workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
+                      displayMsg(documentMain, "applyAllChanges", 107, "error", `workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
                     }
                   }
                   else {
                       workloadValid = 0
-                      console.log(`applyAllChanges() 79d: [workloadID=${item}]  INVALID workload: workloadID=${item.workloadID} - inputElement.value=${inputElement.value} - workloadValid=${workloadValid}`)
+                      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 112, `[workloadID=${item}]  INVALID workload: workloadID=${item.workloadID} - inputElement.value=${inputElement.value} - workloadValid=${workloadValid}`,0,0,0)
                   }
                   break
                 }
@@ -114,7 +118,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                   for (let i=0, iLen=rbs.length; i<iLen; i++) {
                     if (rbs[i].checked) {
                       workloadsValues[item.workloadID][entry[1]] = rbs[i].value;
-                      console.log(`applyAllChanges() 82: [workloadID=${item}] For ${item.workloadID} is workloadsValues.item.value is NEW: workloadsValues[${item.workloadID}].${entry[1]}=${workloadsValues[item.workloadID][entry[1]]}`)
+                      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 121, `[workloadID=${item}] For ${item.workloadID} is workloadsValues.item.value is NEW: workloadsValues[${item.workloadID}].${entry[1]}=${workloadsValues[item.workloadID][entry[1]]}`,0,0,0)
                     }
                   }
                   break
@@ -131,7 +135,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                 {
                   /// Get value of checked or unchecked from checkboxes 
                   workloadsValues[item.workloadID][entry[1]]=documentMain.getElementById(idStringToFind).checked
-                  console.log(`applyAllChanges() 99: [workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value is NEW: workloadsValues[${item.workloadID}].${entry[1]}=${workloadsValues[item.workloadID][entry[1]]}`)                    
+                  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 138, `[workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value is NEW: workloadsValues[${item.workloadID}].${entry[1]}=${workloadsValues[item.workloadID][entry[1]]}`,0,0,0)                  
                   break
                 }
                 case "selector-dc": {
@@ -140,43 +144,43 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                   for (let dcItem = 0; dcItem < generalValues.numberOfDCsPossible; dcItem++) {
                     // clearing the DC selector from previous run - otherwise, all previously selected DCs will stay
                     workloadsValues[item.workloadID][entry[1]][dcItem]=false
-                    console.log(`applyAllChanges() 108: [workloadID=${item}]  checking DC selector - ${entry[2][dcItem]}`)                      
+                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges",147, `[workloadID=${item}]  checking DC selector - ${entry[2][dcItem]}`,0,0,0)                   
                     let lookupDOMElement = `${idStringToFind}`+`${dcItem}`
                     if (generalValues.globalDebug) {
                       const checkForDOMElement =  documentMain.getElementById(lookupDOMElement)
-                      console.log(`applyAllChanges() 112: [workloadID=${item}]  Is checked ${lookupDOMElement} ? =${checkForDOMElement.checked}`)
+                      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 151, `[workloadID=${item}]  Is checked ${lookupDOMElement} ? =${checkForDOMElement.checked}`,0,0,0)
                       let resultCheck = checkForDOMElement.checked
-                      console.log(`applyAllChanges() 114: [workloadID=${item}]  checking DC selector NOW - ${entry[2][dcItem]}:${resultCheck}`)
+                      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 153, `[workloadID=${item}]  checking DC selector NOW - ${entry[2][dcItem]}:${resultCheck}`,0,0,0)
                     }
                     if (workloadValid == 0){
-                      console.log(`applyAllChanges() 117a: [workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value ${dcItem} is INVALID: workloadsValues[${item.workloadID}].${entry[1]}[${dcItem}]=${workloadsValues[item.workloadID][entry[1]][dcItem]} -- workloadValid=${workloadValid}`)
+                      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 156, `[workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value ${dcItem} is INVALID: workloadsValues[${item.workloadID}].${entry[1]}[${dcItem}]=${workloadsValues[item.workloadID][entry[1]][dcItem]} -- workloadValid=${workloadValid}`,0,0,0)
                       workloadsValues[item.workloadID][entry[1]][dcItem]=0
                     }
                     else {
                       workloadsValues[item.workloadID][entry[1]][dcItem]=documentMain.getElementById(lookupDOMElement).checked
-                      console.log(`applyAllChanges() 117b: [workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value ${dcItem} is VALID: workloadsValues[${item.workloadID}].${entry[1]}[${dcItem}]=${workloadsValues[item.workloadID][entry[1]][dcItem]}`)
+                      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 162, `[workloadID=${item}]  For ${item.workloadID} is workloadsValues.item.value ${dcItem} is VALID: workloadsValues[${item.workloadID}].${entry[1]}[${dcItem}]=${workloadsValues[item.workloadID][entry[1]][dcItem]}`,0,0,0)
                     }
                   }
                   break
                 } 
                 default:  {
                   // Keep the default or actual value  if nothing is provided
-                  console.log(`applyAllChanges() 123: [workloadID=${item}]  CHECK: workloadID=${item.workloadID}, workloadsValues[${item.workloadID}] is ${entry[0]}, variable name associated is: ${entry[1]}`)
+                  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 168, `[workloadID=${item}]  CHECK: workloadID=${item.workloadID}, workloadsValues[${item.workloadID}] is ${entry[0]}, variable name associated is: ${entry[1]}`,0,0,0)
                   
                   if (inputElement.value !== '') {
-                    console.log(`applyAllChanges() 126: [workloadID=${item}]  CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
+                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 172, `[workloadID=${item}]  CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`,0,0,0)
                     if (!isNaN(Number(inputElement.value))) {
                       workloadsValues[item.workloadID][entry[1]] = inputElement.value
                     }
                     else {
-                      displayMsg(documentMain, "applyAllChanges", 174, "error", `workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
+                      displayMsg(documentMain, "applyAllChanges", 176, "error", `workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
                     }
                   }
                   else {
                     // Don't change the actual value (default)
-                    console.log(`applyAllChanges() 136: [workloadID=${item}]  DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`)
+                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 181, `[workloadID=${item}]  DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`,0,0,0)
                   }
-                  console.log(`applyAllChanges() 138: [workloadID=${item}] For ${item.workloadID} is workloadsValues.item.value is NEW ${value}: ${testToConsoleValue}=${workloadsValues[item.workloadID][entry[1]]}`)
+                  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 184, `[workloadID=${item}] For ${item.workloadID} is workloadsValues.item.value is NEW ${value}: ${testToConsoleValue}=${workloadsValues[item.workloadID][entry[1]]}`,0,0,0)
                 }
               }
             }
@@ -194,31 +198,31 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
     
 
     chassisValues.forEach((item) => {
-      console.log(`applyAllChanges() 156: [chassisID=${item}]: chassisID = ${item}`)
+      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 201, `[chassisID=${item}]: chassisID = ${item}`,0,0,0)
       Object.keys(item).forEach((value) => {
         item.ChassisItemsDict.forEach((entry) => {
           if (generalValues.globalDebug) {
             // console.log(`applyAllChanges() 2: Working on entry for ChassisItemsDict - check ChassisItemsDict: ${item.ChassisItemsDict}`)
             // console.log(`applyAllChanges() 2: "chassis = item", entry is = ${entry}`)
-            console.log(`applyAllChanges() 1562 [chassisID=${item}] Working on entry for ChassisItemsDict: ${entry[1]}`)
+            debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 207, `[chassisID=${item}] Working on entry for ChassisItemsDict: ${entry[1]}`,0,0,0)
           }
           
           if (entry[1] == `${value}`) {
-            console.log(`found value: ${value}`)
+            debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 212, `found value: ${value}`,0,0,0)
             const testToConsoleValue = `chassisValues[item.chassisID].${entry[1]}`
             const testForConsoleValue = chassisValues[item.chassisID][entry[1]]
-            console.log(`applyAllChanges() 169: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is actually ${value}: ${testToConsoleValue}=${testForConsoleValue}`) 
+            debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 214, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is actually ${value}: ${testToConsoleValue}=${testForConsoleValue}`,0,0,0)
             if (value == "chassisID") {
               // console.log(`applyAllChanges -- workloads(): entry for chassisID ${item}=> skip it`)
             }
             else {
               // constructing the id string for the cell to read from
               let idStringToFind =  `chassis-${item.chassisID}-${entry[0]}`
-              console.log(`applyAllChanges() 176: [chassisID=${item}] looking up the DOM element id ${idStringToFind}`)
+              debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 221, `[chassisID=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
               const inputElement = documentMain.getElementById(idStringToFind)
               let outputSubString = "output-"
               if (entry[0].includes(outputSubString)) {
-                console.log(`applyAllChanges() 180: [chassisID=${item}] skipping entry[0] for input which is output: ${entry[0]}`)
+                debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 225, `[chassisID=${item}] skipping entry[0] for input which is output: ${entry[0]}`,0,0,0)
               }
               else {
                 switch (entry[0]) {
@@ -228,25 +232,25 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                   case "use-nvme-8": 
                   case "use-optane-1": {
                     chassisValues[item.chassisID][entry[1]]=documentMain.getElementById(idStringToFind).checked
-                    console.log(`applyAllChanges() 190: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`)                    
+                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 235, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)                 
                     break
                   }
                   default:  {
                     // Keep the default or actual value  if nothing is provided
                     if (inputElement.value !== '') {
-                      console.log(`applyAllChanges() 196: [chassisID=${item}] CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`)
+                      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 242, `[chassisID=${item}] CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`,0,0,0)
                       if (!isNaN(Number(inputElement.value))) {
                         chassisValues[item.chassisID][entry[1]] = inputElement.value
                       }
                       else {
-                        displayMsg(documentMain, "applyAllChanges", 244, "error", `[chassisID=${item}] ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
+                        displayMsg(documentMain, "applyAllChanges", 245, "error", `[chassisID=${item}] ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
                       }
                     }
                     else {
                       // Don't change the actual value (default)
-                      console.log(`applyAllChanges() 206: [chassisID=${item}] DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`)
+                      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 251, `[chassisID=${item}] DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`,0,0,0)
                     }
-                    console.log(`applyAllChanges() 208: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW ${value}: ${testToConsoleValue}=${chassisValues[item.chassisID][entry[1]]}`)
+                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 253, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW ${value}: ${testToConsoleValue}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)
                   }
                 }
               }
@@ -280,9 +284,9 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
       // Calculate the media and server configuration based on changed workloads and chassis configuration. 
 
       let actualChassisID = 0
-      console.log(`applyAllChanges() 242: working on config ${actualChassisID}`)
-      console.log(`applyAllChanges() 243:  the array is ${configsArrayLocal}`)
-      console.log(`applyAllChanges() 244:  ... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`)
+      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 278, `working on config ${actualChassisID}`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 288, `the array is ${configsArrayLocal}`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 289, ` ... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`,0,0,0)
       /// HERE: change to use  configsArray
       ///// TESTING:
       /**
@@ -369,7 +373,7 @@ for (let resultingConfig = 0; resultingConfig < generalValues.numberOfConfigsPos
   
   // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
 
-  console.log(`applyAllChanges() 331: This is length of chassisNew array: ${Object.keys(resultNew).length}`)
+  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 376, `This is length of chassisNew array: ${Object.keys(resultNew).length}`,0,0,0)
   resultNew.chassisID = `${resultingConfig}`
   
   resultsOverviewArray.push(resultNew)
@@ -388,7 +392,7 @@ for (let config = 0; config < generalValues.numberOfConfigsPossible; config++) {
     
     // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
   
-    console.log(`applyAllChanges() 350: This is length of chassisNew array: ${Object.keys(dcResultsNew).length}`)
+    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 395, `This is length of chassisNew array: ${Object.keys(dcResultsNew).length}`,0,0,0)
     dcResultsNew.chassisID = `${dcConfig}`
     
     resultsArray.push(dcResultsNew)
