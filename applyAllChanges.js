@@ -228,7 +228,8 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                   case "use-nvme-8": 
                   case "use-optane-1": {
                     chassisValues[item.chassisID][entry[1]]=documentMain.getElementById(idStringToFind).checked
-                    console.log(`applyAllChanges() 190: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`)                    
+                    console.log(`applyAllChanges() 189: [chassisID=${item}] For ${item.chassisID} setting entry[1]=${entry[1]} for idStringToFind=${idStringToFind} which is checked=${documentMain.getElementById(idStringToFind).checked}`)
+                    console.log(`applyAllChanges() 190: [chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`)
                     break
                   }
                   default:  {

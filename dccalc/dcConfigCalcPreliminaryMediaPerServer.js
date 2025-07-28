@@ -100,8 +100,8 @@ const dcConfigCalcPreliminaryMediaPerServer = function (dcConfigArrayLocal, dcIt
   }
   if (chassisArrayLocal[actualChassisID].sizeNVMe7 > 0) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe7Needed / numberOfServersNeeded)
-    if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL+dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL)/chassisArrayLocal[dcItem].nvmeToNVMe7) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed){
-      dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL+dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL)/chassisArrayLocal[dcItem].nvmeToNVMe7)
+    if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL+dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL)/chassisArrayLocal[dcItem].nvmeToNVMe7) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed){
+      dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL+dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL)/chassisArrayLocal[dcItem].nvmeToNVMe7)
       console.log(`dcConfigCalcPreliminaryMediaPerServer() 98: corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} because ratio of NVMe1 with NVMe7/NVMe7 not preserved in calculation`)
     }
   }
@@ -110,8 +110,8 @@ const dcConfigCalcPreliminaryMediaPerServer = function (dcConfigArrayLocal, dcIt
   }
   if (chassisArrayLocal[actualChassisID].sizeNVMe8 > 0) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe8Needed / numberOfServersNeeded)
-    if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL+dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL)/chassisArrayLocal[dcItem].nvmeToNVMe8) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed){
-      dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL+dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL)/chassisArrayLocal[dcItem].nvmeToNVMe8)
+    if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL+dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL)/chassisArrayLocal[dcItem].nvmeToNVMe8) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed){
+      dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL+dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL)/chassisArrayLocal[dcItem].nvmeToNVMe8)
       console.log(`dcConfigCalcPreliminaryMediaPerServer() 108: corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} because ratio of NVMe1/NVMe8 not preserved in calculation`)
     }
   }

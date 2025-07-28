@@ -181,7 +181,7 @@ class SizingConstraints {
         this.defaultCoresPerNVMe5 = 0  // is accounted for in SSD cores
         this.defaultCoresPerNVMe6 = 4
         this.defaultCoresPerNVMe7 = 0  // is accounted for in ordinary NVMe cores (for block device)
-        this.defaultCoresPerNVMe8 = 4  // is accounted for in ordinary NVMe cores (for block device)
+        this.defaultCoresPerNVMe8 = 4  // is not accounted for in ordinary NVMe cores (for block device) (WAL)
         this.defaultCoresPerNVMeForObjectIndexOnNVMe6 = 4
         this.defaultCoresPerAdditionalRole = 4
         this.defaultCoresPerNodeBase = 8
@@ -205,9 +205,9 @@ class SizingConstraints {
         this.defaultMemInGBPerNVMe2 = 8
         this.defaultMemInGBPerNVMe3 = 8
         this.defaultMemInGBPerNVMe4 = 8
-        this.defaultMemInGBPerNVMe5 = 8
+        this.defaultMemInGBPerNVMe5 = 0
         this.defaultMemInGBPerNVMe6 = 8
-        this.defaultMemInGBPerNVMe7 = 8
+        this.defaultMemInGBPerNVMe7 = 0
         this.defaultMemInGBPerNVMe8 = 8
         this.defaultMemInGBPerNVMeForObjectIndexOnNVMe6 = 15
         this.defaultMemPerNodeBase = 16

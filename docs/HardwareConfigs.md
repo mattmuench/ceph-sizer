@@ -60,11 +60,15 @@ The performance is essential for fronting already high performing SSD with < 4KB
 
 <B>SSD: #SSD per NVMe type 3 for WAL (#SSD covered by one NVMe)</B>Number of SSD of given type that can be fronted for WAL using this NVMe as dedicated device for WAL. Note that WAL takes only a small capacity and placing too many WAL of different OSDs because of available capacity could create a bottleneck if not observing the WAL workload and NVMe IOPS capacity. <br>This would add some CPU resources to provide enough performance headroom to accomodate the writes.
 
-<B>NMVe: NVMe type 1 (for data) size in TB</B>The size of NVMe used RocksDB/WAL for fronting NVMe for main data.
+<B>NMVe: NVMe type 7 (for RocksDB) size in TB</B>The size of NVMe used RocksDB/WAL for fronting NVMe1 for main data.
 
-<B>NMVe: NVMe7 (as WAL for NVMe1) size in TB</B>The size of NVMe used of dedicated WAL device fronting NVMe for main data.
+<B>NVMe: NVMe type 7 (for dedicated RocksDB+WAL) size in TB </B>The size of the NVMe device fronting NVMe1. The device is usually shared between some NVMe1. It's feasible to use a dedicated NVMe to front NVMe1 in cases when latency sensitive workloads exist or the NVMe1 is rather slow but would be sufficient to back the base workloads well enough.
 
-<B>NMVe: #NVMe1 per NVMe type 7 for WAL (#NVMe covered by one NVMe7)</B>Number of NVMe form main data that can be fronted by NVMe type 7 for WAL. Note that WAL takes only a small capacity and placing too many WAL of different OSDs because of available capacity could create a bottleneck if not observing the WAL workload and NVMe IOPS capacity. <br>This would add some CPU resources to provide enough performance headroom to accomodate the writes.
+<B>NVMe: NVMe1 fronted by NVMe type 7 for RocksDB/WAL (#NVMe1 covered by NVMe)</B>Number of NVMe1 a NVMe of type 7 fronting NVMe1 with RocksDB and WAL could be covered with. Default is 5 NVMe1 per NVMe type 7. Note that this is not a fixed number but depends on workloads peaks structure and the demand for RocksDB access and small IOs hitting the WAL. Higher performing NVMe of type 7 can front more NVMe1, however, only useful when the NVMe1 is not performant anyways already so that collocating RocksDB/WAL from some NVMe1 would rather create a bottleneck.
+
+<B>NMVe: NVMe8 (as WAL for NVMe1) size in TB</B>The size of NVMe used of dedicated WAL device fronting NVMe for main data.
+
+<B>NMVe: #NVMe1 per NVMe type 8 for RocksDB (#NVMe covered by one NVMe8)</B>Number of NVMe for main data that can be fronted by NVMe type 8 for WAL. Note that WAL takes only a small capacity and placing too many WAL of different OSDs because of available capacity could create a bottleneck if not observing the WAL workload and NVMe IOPS capacity. <br>This would add some CPU resources to provide enough performance headroom to accomodate the writes.
 
 <B>RGW index: NVMe type 6 (for RGW dedicated index pools) size in TB</B>Size of NVMe used to provide extra media for holding the object index. Dedicating media to hold the index of various buckets provides independence for growing number of objects whereas placing the index on the flash media used for RocksDB/WAL for object storage use cases might create a hard block if utilization of capacity is growing towards its maximum. By providing a dedicated pool with dedicated media, only this pool needs to be expanded when the number of objects exhaust the actual capacity. The size used in these NVMe used for object index is depending on the life cycle settings and expected number of versions. Although the need of capacity might be smaller than actually provided, a full NVMe per server is calculated minimum additional deployment.
 

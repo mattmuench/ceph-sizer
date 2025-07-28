@@ -33,8 +33,8 @@ class DCConfig {
         numberOfNVMe4Needed, // => RocksDB+WAL HDD on NVMe
         numberOfNVMe5Needed, // => RocksDB SSD
         numberOfNVMe6Needed, // => RGW index data
-        numberOfNVMe7Needed, // => WAL on NVMe for NVMe1
-        numberOfNVMe8Needed, // => RocksDB on NVMe for NVMe1
+        numberOfNVMe7Needed, // => RocksDB on NVMe for NVMe1
+        numberOfNVMe8Needed, // => WAL on NVMe for NVMe1
         
         numberOfCoresNeeded, // V41
         memNeededPerServer, // W41
@@ -113,8 +113,8 @@ class DCConfig {
         this.numberOfNVMe4Needed = 0 //  => RocksDB+WAL HDD on NVMe
         this.numberOfNVMe5Needed = 0 // => RocksDB SSD
         this.numberOfNVMe6Needed = 0 // => RGW index data
-        this.numberOfNVMe7Needed = 0 // => WAL on NVMe for NVMe1
-        this.numberOfNVMe8Needed = 0 // => RocksDB on NVMe for NVMe1
+        this.numberOfNVMe7Needed = 0 // => RocksDB on NVMe for NVMe1
+        this.numberOfNVMe8Needed = 0 // => WAL on NVMe for NVMe1
         
         this.numberOfCoresNeeded = 4 // V41
         this.memNeededPerServer = 0 // W41

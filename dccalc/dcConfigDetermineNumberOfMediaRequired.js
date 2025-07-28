@@ -19,9 +19,13 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
     
       let localDCDedicatedObjectIndexCapacity = 0 // raw capacity needed for dedicated index pool in TB
       let localDCNumberOfRGWCacheMedia = 0
+      let localDCRequiredIndexCapacityOnSSD1 = 0 // index data location when SSD1 when neither RoackDB nor WAL separated
+      let localDCRequiredIndexCapacityOnNVMe3 = 0  // index data location when SSD1 is fronted only by NVMe3
       let localDCRequiredIndexCapacityOnNVMe4 = 0  // RocksDB location for HDD
-      let localDCRequiredIndexCapacityOnNVMe5 = 0  // RocksDB location for SSD if on separate NVMe
-      let localDCRequiredIndexCapacityOnNVMe8 = 0 // RocksDB location for NVMe1 if on sperate NVMe
+      let localDCRequiredIndexCapacityOnNVMe5 = 0  // index data is on dedicated RocksDB location for SSD 
+      let localDCRequiredIndexCapacityOnNVMe1 = 0 // index data location on block device when no RocksDB nor WAL dedicated 
+      let localDCRequiredIndexCapacityOnNVMe7 = 0 // index data on RocksDB location for NVMe1 if on sperate NVMe
+      let localDCRequiredIndexCapacityOnNVMe8 = 0 // index data location on WAL device when WAL dedicated but no separate RocksDB device
       let localDCCorrectionForUnalignedObjectsHDD = 0  // additional capacity to be taken into account for unaligned object payload data allocation on media
       
       
@@ -40,14 +44,13 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
       let localSSDCapacityWithDedicatedRocksDBIncludingWAL = 0
       let localSSDCapacityWithoutDedicatedRocksDBDedicatedWAL = 0 // Any flash (portion of the) workload could be configured using the same media or using dedicated RocksDB media - would need different number of media 
       let localSSDCapacityWithoutDedicatedRocksDBNorWAL = 0
-      let localSSDAddCapacityWithOutDedicatedRocksDB = 0 // Any flash (portion of the) workload could be configured using the same media or using dedicated RocksDB media - would need this capacity on separate media
+      
       //  The following is (might be now) used since the NVMe can have a dedicated NVMe type 7 as location for WAL and the NVMe might not always use the same media for placing the RocksDB
       let localNVMe1CapacityWithDedicatedRocksDBDedicatedWAL = 0 // Any flash (portion of the) workload could be configured using the same media or using dedicated RocksDB media - would need different number of media 
       let localNVMe1CapacityWithDedicatedRocksDBIncludingWAL = 0 
       let localNVMe1CapacityWithoutDedicatedRocksDBDedicatedWAL = 0 // Any flash (portion of the) workload could be configured using the same media or using dedicated RocksDB media - would need different number of media 
       let localNVMe1CapacityWithoutDedicatedRocksDBNorWAL = 0 
       let localNVMe1AddCapacityWithDedicatedRocksDB = 0 // Any flash (portion of the) workload could be configured using the same media or using dedicated RocksDB media - would need this capacity on separate media
-      let localNVMe1AddCapacityWithOutDedicatedRocksDB = 0 // Any flash (portion of the) workload could be configured using the same media or using dedicated RocksDB media - would need this capacity on separate media
 
       let localDCRocksDBSizeHDD = 0
       let localDCRocksDBSizeSSDWithDedicatedNVMeDedicatedWAL = 0
@@ -61,14 +64,10 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
       let localDCRocksDBSizeNVMe1WithoutDedicatedNVMeNorWAL = 0
       
       // all the following don't use a dedicated device for WAL
-      let localNumberOfSSDNeededDedicatedRocksDBIncludingWAL = 0
+
       let localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL = 0
       let localNumberOfSSDNeededNonDedicatedRocksDBNorWAL = 0
       let localNumberOfSSDNeededNonDedicatedRocksDBDedicatedWAL = 0
-
-      let localNumberOfNVMe1NeededDedicatedRocksDBDedicatedWAL = 0
-      let localNumberOfNVMe1NeededDedicatedRocksDBIncludingWAL = 0
-      let localNumberOfNVMe1NeededNonDedicatedRocksDBDedicatedWAL = 0
       let localNumberOfNVMe1NeededNonDedicatedRocksDBNorWAL = 0
       
 //      let localNumberOfNVMe1NeededNonDedicatedRocksDB = 0
@@ -167,15 +166,26 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
               // and flash: reserve additional space on dedicated NVMe for RocksDB (types 5 or 8)  
               if (workloadsArrayLocal[workloadItem].selectorNVMe === true) {
                 // NVMe1
+                // localDCRequiredIndexCapacityOnNVMe7 - index would not land always on NVMe7 (RocksDB) 
+                // If a dedicated WAL is configured but no dedicated RocksDB, omap would land on WAL device.
+                // If a dedicated WAL is configured but also a dedicated RocksDB device, omap would land on RocksDB device.
+                // If neither dedicated WAL nor dedicated RocksDB devices are configured, omap data would use the data device.
                 if (workloadsArrayLocal[workloadItem].selectorNVMe1DedicatedNVMe === true) {
-                  // RocksDB is on NVMe8
-                    localDCRequiredIndexCapacityOnNVMe8 += localDCObjectIndexCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent / 100
-                    console.log(`dcConfigDetermineNumberOfMediaRequired() 172: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] rgw workload in DC#${dcItem} needs index capacity on dedicated NVMe for NVMe(NVMe8):${localDCRequiredIndexCapacityOnNVMe8}`)  
+                  // RocksDB is on NVMe7
+                    localDCRequiredIndexCapacityOnNVMe7 += localDCObjectIndexCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent / 100
+                    console.log(`dcConfigDetermineNumberOfMediaRequired() 172: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] rgw workload in DC#${dcItem} needs index capacity on dedicated RocksDB NVMe for NVMe1(NVMe7):${localDCRequiredIndexCapacityOnNVMe7}`)  
                 }
                 else {
-                  // RocksDB is on NVMe1
-                    localNVMe1AddCapacityWithOutDedicatedRocksDB += localDCObjectIndexCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent / 100
-                    console.log(`dcConfigDetermineNumberOfMediaRequired() 177: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] rgw workload in DC#${dcItem} - no dedicated NVMe for RocksDB - needs index capacity on NVMe1:${localNVMe1AddCapacityWithOutDedicatedRocksDB}`)  
+                  if(workloadsArrayLocal[workloadItem].selectorNVMe1DedicatedNVMeForWAL === true){
+                    localDCRequiredIndexCapacityOnNVMe8 += localDCObjectIndexCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent / 100
+                    console.log(`dcConfigDetermineNumberOfMediaRequired() 173: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] rgw workload in DC#${dcItem} needs index capacity on dedicated WAL NVMe for NVMe1(NVMe8):${localDCRequiredIndexCapacityOnNVMe8}`)  
+                  }
+                  else {
+                    // RocksDB is on NVMe1
+                    localDCRequiredIndexCapacityOnNVMe1 += localDCObjectIndexCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent / 100
+                    console.log(`dcConfigDetermineNumberOfMediaRequired() 174: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] rgw workload in DC#${dcItem} - no dedicated NVMe for RocksDB - needs index capacity on NVMe1:${localDCRequiredIndexCapacityOnNVMe1}`)  
+                  }
+                  
                 }
               }
               else {
@@ -183,12 +193,19 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
                 if (workloadsArrayLocal[workloadItem].selectorSSDDedicatedNVMe === true) {
                     // RocksDB is on NVMe5
                   localDCRequiredIndexCapacityOnNVMe5 += localDCObjectIndexCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent / 100
-                  console.log(`dcConfigDetermineNumberOfMediaRequired() 185: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] rgw workload in DC#${dcItem} needs index pool on dedicated NVMe for SSD(NVMe5):${localDCRequiredIndexCapacityOnNVMe5}`)
+                  console.log(`dcConfigDetermineNumberOfMediaRequired() 185: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] rgw workload in DC#${dcItem} needs index pool on dedicated RocksDB NVMe for SSD(NVMe5):${localDCRequiredIndexCapacityOnNVMe5}`)
                 }
                 else {
-                  // RocksDB is on SSD1
-                  localSSDAddCapacityWithOutDedicatedRocksDB += localDCObjectIndexCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent / 100
-                  console.log(`dcConfigDetermineNumberOfMediaRequired() 190: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] rgw workload in DC#${dcItem} - no dedicated NVMe for RocksDB - needs index capacity on SSD1:${localSSDAddCapacityWithOutDedicatedRocksDB}`)
+                  if(workloadsArrayLocal[workloadItem].selectorSSDDedicatedNVMeForWAL === true) {
+                    localDCRequiredIndexCapacityOnNVMe3 += localDCObjectIndexCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent / 100
+                    console.log(`dcConfigDetermineNumberOfMediaRequired() 185: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] rgw workload in DC#${dcItem} needs index pool on dedicated WAL NVMe for SSD(NVMe3):${localDCRequiredIndexCapacityOnNVMe3}`)
+                  }
+                  else {
+                    // RocksDB is on SSD1
+                    localDCRequiredIndexCapacityOnSSD1 += localDCObjectIndexCapacity * workloadsArrayLocal[workloadItem].reqFlashPercent / 100
+                    console.log(`dcConfigDetermineNumberOfMediaRequired() 190: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] rgw workload in DC#${dcItem} - no dedicated NVMe for RocksDB nor for WAL - needs index capacity on SSD1:${localDCRequiredIndexCapacityOnSSD1}`)
+
+                  }
                 }
               }
             }
@@ -327,6 +344,7 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
             // for flash: distinguish between normal and dedicated RocksDB media - also assign here the required SSD capacity to one of the two groups
             // of dedicated vs non-dedicated media for RocksDB
             if (workloadsArrayLocal[workloadItem].selectorNVMe === true ) {
+              console.log(`dcConfigDetermineNumberOfMediaRequired() 326: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] - NVMe1 instead of SSD1 selected`)
               if (workloadsArrayLocal[workloadItem].selectorNVMe1DedicatedNVMe === true) {
                 if (workloadsArrayLocal[workloadItem].selectorNVMe1DedicatedNVMeForWAL === true) {
                   localWorkloadRocksDBSizeNVMe1WithDedicatedNVMeDedicatedWAL = workloadsArrayLocal[workloadItem].reqCapacityGrossNVMe / workloadsArrayLocal[workloadItem].sumNumberDC * workloadsArrayLocal[workloadItem].rocksDBSpaceInPercent / 100 + localWorkloadCorrectionForUnalignedObjectsNVMe1
@@ -345,19 +363,20 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
                 if (workloadsArrayLocal[workloadItem].selectorNVMe1DedicatedNVMeForWAL === true) {
                   localWorkloadRocksDBSizeNVMe1WithoutDedicatedNVMeDedicatedWAL = workloadsArrayLocal[workloadItem].reqCapacityGrossNVMe / workloadsArrayLocal[workloadItem].sumNumberDC * workloadsArrayLocal[workloadItem].rocksDBSpaceInPercent / 100 + localWorkloadCorrectionForUnalignedObjectsNVMe1
                   console.log(`dcConfigDetermineNumberOfMediaRequired() 338: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] CHECK RocksDB nonDedicated NVMe: ${workloadsArrayLocal[workloadItem].reqCapacityGrossNVMe } / ${workloadsArrayLocal[workloadItem].sumNumberDC} * ${workloadsArrayLocal[workloadItem].rocksDBSpaceInPercent} / 100 + ${localWorkloadCorrectionForUnalignedObjectsNVMe1}`)
-                  localDCRocksDBSizeNVMe1WithoutDedicatedNVMeDedicatedWAL += localWorkloadRocksDBSizeNVMe1WithoutDedicatedNVMeDedicatedWAL + localNVMe1AddCapacityWithOutDedicatedRocksDB
+                  localDCRocksDBSizeNVMe1WithoutDedicatedNVMeDedicatedWAL += localWorkloadRocksDBSizeNVMe1WithoutDedicatedNVMeDedicatedWAL + localDCRequiredIndexCapacityOnNVMe1
                   localNVMe1CapacityWithoutDedicatedRocksDBDedicatedWAL += workloadsArrayLocal[workloadItem].reqCapacityGrossNVMe / workloadsArrayLocal[workloadItem].sumNumberDC  
                 }
                 else {
                   localWorkloadRocksDBSizeNVMe1WithoutDedicatedNVMeNorWAL = workloadsArrayLocal[workloadItem].reqCapacityGrossNVMe / workloadsArrayLocal[workloadItem].sumNumberDC * workloadsArrayLocal[workloadItem].rocksDBSpaceInPercent / 100 + localWorkloadCorrectionForUnalignedObjectsNVMe1
                   console.log(`dcConfigDetermineNumberOfMediaRequired() 344: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] CHECK RocksDB nonDedicated NVMe: ${workloadsArrayLocal[workloadItem].reqCapacityGrossNVMe } / ${workloadsArrayLocal[workloadItem].sumNumberDC} * ${workloadsArrayLocal[workloadItem].rocksDBSpaceInPercent} / 100 + ${localWorkloadCorrectionForUnalignedObjectsNVMe1}`)
-                  localDCRocksDBSizeNVMe1WithoutDedicatedNVMeNorWAL += localWorkloadRocksDBSizeNVMe1WithoutDedicatedNVMeNorWAL + localNVMe1AddCapacityWithOutDedicatedRocksDB
+                  localDCRocksDBSizeNVMe1WithoutDedicatedNVMeNorWAL += localWorkloadRocksDBSizeNVMe1WithoutDedicatedNVMeNorWAL + localDCRequiredIndexCapacityOnNVMe1
                   localNVMe1CapacityWithoutDedicatedRocksDBNorWAL += workloadsArrayLocal[workloadItem].reqCapacityGrossNVMe / workloadsArrayLocal[workloadItem].sumNumberDC
                 
                 }
               }
             }
             else {
+              console.log(`dcConfigDetermineNumberOfMediaRequired() 358: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] - NVMe1 instead of SSD1 Not selected`)
               if (workloadsArrayLocal[workloadItem].selectorSSDDedicatedNVMe === true) {
                 if (workloadsArrayLocal[workloadItem].selectorSSDDedicatedNVMeForWAL === true) {
                   localWorkloadRocksDBSizeSSDWithDedicatedNVMeDedicatedWAL = workloadsArrayLocal[workloadItem].reqCapacityGrossSSD / workloadsArrayLocal[workloadItem].sumNumberDC * workloadsArrayLocal[workloadItem].rocksDBSpaceInPercent / 100 + localWorkloadCorrectionForUnalignedObjectsSSD
@@ -377,13 +396,13 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
 
                   localWorkloadRocksDBSizeSSDWithoutDedicatedNVMeDedicatedWAL = workloadsArrayLocal[workloadItem].reqCapacityGrossSSD / workloadsArrayLocal[workloadItem].sumNumberDC * workloadsArrayLocal[workloadItem].rocksDBSpaceInPercent / 100 + localWorkloadCorrectionForUnalignedObjectsSSD
                   console.log(`dcConfigDetermineNumberOfMediaRequired() 370: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] CHECK nonDED NVMe: ${workloadsArrayLocal[workloadItem].reqCapacityGrossSSD } / ${workloadsArrayLocal[workloadItem].sumNumberDC} * ${workloadsArrayLocal[workloadItem].rocksDBSpaceInPercent} / 100 + ${localWorkloadCorrectionForUnalignedObjectsSSD}`)
-                  localDCRocksDBSizeSSDWithoutDedicatedNVMeDedicatedWAL += localWorkloadRocksDBSizeSSDWithoutDedicatedNVMeDedicatedWAL + localSSDAddCapacityWithOutDedicatedRocksDB
+                  localDCRocksDBSizeSSDWithoutDedicatedNVMeDedicatedWAL += localWorkloadRocksDBSizeSSDWithoutDedicatedNVMeDedicatedWAL + localDCRequiredIndexCapacityOnNVMe3
                   localSSDCapacityWithoutDedicatedRocksDBDedicatedWAL += workloadsArrayLocal[workloadItem].reqCapacityGrossSSD / workloadsArrayLocal[workloadItem].sumNumberDC
                 }
                 else{
                   localWorkloadRocksDBSizeSSDWithoutDedicatedNVMeNorWAL = workloadsArrayLocal[workloadItem].reqCapacityGrossSSD / workloadsArrayLocal[workloadItem].sumNumberDC * workloadsArrayLocal[workloadItem].rocksDBSpaceInPercent / 100 + localWorkloadCorrectionForUnalignedObjectsSSD
                   console.log(`dcConfigDetermineNumberOfMediaRequired() 376: [chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] CHECK nonDED NVMe: ${workloadsArrayLocal[workloadItem].reqCapacityGrossSSD } / ${workloadsArrayLocal[workloadItem].sumNumberDC} * ${workloadsArrayLocal[workloadItem].rocksDBSpaceInPercent} / 100 + ${localWorkloadCorrectionForUnalignedObjectsSSD}`)
-                  localDCRocksDBSizeSSDWithoutDedicatedNVMeNorWAL += localWorkloadRocksDBSizeSSDWithoutDedicatedNVMeNorWAL + localSSDAddCapacityWithOutDedicatedRocksDB
+                  localDCRocksDBSizeSSDWithoutDedicatedNVMeNorWAL += localWorkloadRocksDBSizeSSDWithoutDedicatedNVMeNorWAL + localDCRequiredIndexCapacityOnNVMe3
                   localSSDCapacityWithoutDedicatedRocksDBNorWAL += workloadsArrayLocal[workloadItem].reqCapacityGrossSSD / workloadsArrayLocal[workloadItem].sumNumberDC  
                 }
               }
@@ -407,7 +426,7 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
       }
       // End of processing the workloads and calculating the capacity needed for each config case
     
-
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 395: [chassisID=${actualChassisID},DC=${dcItem}] #NVMe1(sum)) needed=${dcConfigArrayLocal[dcItem].numberOfNVMe1Needed}`)
       /// The specific size of media should come from a specific chassisConfig.
       // Media for dedicated index pool in DC
       console.log(`dcConfigDetermineNumberOfMediaRequired() 399: [chassisID=${actualChassisID},DC=${dcItem}] actualChassisID=${actualChassisID}, chassisArrayLocal[actualChassisID].chassisID=${chassisArrayLocal[actualChassisID].chassisID}, maxHDDSlots=${chassisArrayLocal[actualChassisID].maxHDDSlots}`)
@@ -449,17 +468,22 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
     
       // NVMe1:
       console.log(`dcConfigDetermineNumberOfMediaRequired() 436: [chassisID=${actualChassisID},DC=${dcItem}] localDCRocksDBSizeNVMe1WithDedicatedNVMeIncludingWAL=${localDCRocksDBSizeNVMe1WithDedicatedNVMeIncludingWAL}`)
-      console.log(`dcConfigDetermineNumberOfMediaRequired() 437: [chassisID=${actualChassisID},DC=${dcItem}] localDCRequiredIndexCapacityOnNVMe8=${localDCRequiredIndexCapacityOnNVMe8}`)
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 437: [chassisID=${actualChassisID},DC=${dcItem}] localDCRequiredIndexCapacityOnNVMe7=${localDCRequiredIndexCapacityOnNVMe7}`)
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 437a: [chassisID=${actualChassisID},DC=${dcItem}] localDCRequiredIndexCapacityOnNVMe8=${localDCRequiredIndexCapacityOnNVMe8}`)
       console.log(`dcConfigDetermineNumberOfMediaRequired() 438: [chassisID=${actualChassisID},DC=${dcItem}] localDCRocksDBSizeNVMe1WithDedicatedNVMeDedicatedWAL=${localDCRocksDBSizeNVMe1WithDedicatedNVMeDedicatedWAL}`)
       console.log(`dcConfigDetermineNumberOfMediaRequired() 439: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL}`)
       console.log(`dcConfigDetermineNumberOfMediaRequired() 440: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL}`)
-      
-      dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = Math.ceil((localDCRocksDBSizeNVMe1WithDedicatedNVMeIncludingWAL +  localDCRequiredIndexCapacityOnNVMe8) / chassisArrayLocal[actualChassisID].sizeNVMe8) + Math.ceil(localDCRocksDBSizeNVMe1WithDedicatedNVMeDedicatedWAL / chassisArrayLocal[actualChassisID].sizeNVMe8)
-      if (dcConfigArrayLocal[dcItem].numberOfNVMe8Needed < (dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe8) + (dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].sizeNVMe8) ){
-        // The number of media required based on capacity is not sufficient - would need to add more NVMe for the actual required number of SSD to front.
-        dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe8) + (dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].sizeNVMe8))
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 440a: [chassisID=${actualChassisID},DC=${dcItem}] #NVMe1(sum)) needed=${dcConfigArrayLocal[dcItem].numberOfNVMe1Needed}`)
+      // below: localDCRequiredIndexCapacityOnNVMe7 is only added to the NVMe7 with WAL local to it - but index would land not always on NVMe7 (RocksDB) 
+      // If a dedicated WAL is configured but no dedicated RocksDB, omap would land on WAL device. => localDCRequiredIndexCapacityOnNVMe8
+      // If a dedicated WAL is configured but also a dedicated RocksDB device, omap would land on RocksDB device. => localDCRequiredIndexCapacityOnNVMe7
+      // If neither dedicated WAL nor dedicated RocksDB devices are configured, omap data would use the data device. => localDCRequiredIndexCapacityOnNVMe1
+      dcConfigArrayLocal[dcItem].numberOfNVMe7Needed = Math.ceil((localDCRocksDBSizeNVMe1WithDedicatedNVMeIncludingWAL +  localDCRequiredIndexCapacityOnNVMe7) / chassisArrayLocal[actualChassisID].sizeNVMe7) + Math.ceil(localDCRocksDBSizeNVMe1WithDedicatedNVMeDedicatedWAL / chassisArrayLocal[actualChassisID].sizeNVMe7)
+      if (dcConfigArrayLocal[dcItem].numberOfNVMe7Needed < (dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe7) + (dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].sizeNVMe7) ){
+        // The number of media required based on capacity is not sufficient - would need to add more NVMe7 for the actual required number of NVMe1 to front.
+        dcConfigArrayLocal[dcItem].numberOfNVMe7Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe7) + (dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].sizeNVMe7))
       }
-      console.log(`dcConfigDetermineNumberOfMediaRequired() 441: [chassisID=${actualChassisID},DC=${dcItem}] #NVMe8 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe8Needed}`)
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 441: [chassisID=${actualChassisID},DC=${dcItem}] #NVMe7 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed}`)
 
       // RGW cache media are dedicated and counted as they are
       dcConfigArrayLocal[dcItem].numberOfNVMe2Needed = localDCNumberOfRGWCacheMedia
@@ -474,8 +498,8 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
       console.log(`dcConfigDetermineNumberOfMediaRequired() 453: [chassisID=${actualChassisID},DC=${dcItem}] #HDD needed=${dcConfigArrayLocal[dcItem].numberOfHDDNeeded}`)
       ////  In addition, the additional capacity for placing the RocksDB on any media used for block must be added to the number of media required - for kinds of flash.         
       
-      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL =  localNumberOfSSDNeededDedicatedRocksDBIncludingWAL = Math.ceil((localSSDCapacityWithDedicatedRocksDBIncludingWAL + localDCCorrectionForUnalignedObjectsSSD1WithDedicatedRocksDBIncludingWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
-      console.log(`dcConfigDetermineNumberOfMediaRequired() 456: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL} =  localNumberOfSSDNeededDedicatedRocksDBIncludingWAL=${localNumberOfSSDNeededDedicatedRocksDBIncludingWAL} = Math.ceil((localSSDCapacityWithDedicatedRocksDBIncludingWAL=${localSSDCapacityWithDedicatedRocksDBIncludingWAL} + localDCCorrectionForUnalignedObjectsSSD1WithDedicatedRocksDBIncludingWAL=${localDCCorrectionForUnalignedObjectsSSD1WithDedicatedRocksDBIncludingWAL}) / chassisArrayLocal[actualChassisID].sizeSSD1=${chassisArrayLocal[actualChassisID].sizeSSD1})`)
+      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL = Math.ceil((localSSDCapacityWithDedicatedRocksDBIncludingWAL + localDCCorrectionForUnalignedObjectsSSD1WithDedicatedRocksDBIncludingWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 456: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL} = Math.ceil((localSSDCapacityWithDedicatedRocksDBIncludingWAL=${localSSDCapacityWithDedicatedRocksDBIncludingWAL} + localDCCorrectionForUnalignedObjectsSSD1WithDedicatedRocksDBIncludingWAL=${localDCCorrectionForUnalignedObjectsSSD1WithDedicatedRocksDBIncludingWAL}) / chassisArrayLocal[actualChassisID].sizeSSD1=${chassisArrayLocal[actualChassisID].sizeSSD1})`)
       dcConfigArrayLocal[dcItem].numberOfSSDNeeded = dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL
       console.log(`dcConfigDetermineNumberOfMediaRequired() 464a: [chassisID=${actualChassisID},DC=${dcItem}]#SSD(sum) needed=${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}`)
       
@@ -488,7 +512,7 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
       dcConfigArrayLocal[dcItem].numberOfSSDNeeded += dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL
       console.log(`dcConfigDetermineNumberOfMediaRequired() 464c: [chassisID=${actualChassisID},DC=${dcItem}]#SSD(sum) needed=${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}`)
 
-      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL = localNumberOfSSDNeededNonDedicatedRocksDBNorWAL = Math.ceil((localSSDCapacityWithoutDedicatedRocksDBNorWAL + localDCRocksDBSizeSSDWithoutDedicatedNVMeNorWAL + localDCCorrectionForUnalignedObjectsSSD1WithoutDedicatedRocksDBNorWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
+      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL = localNumberOfSSDNeededNonDedicatedRocksDBNorWAL = Math.ceil((localSSDCapacityWithoutDedicatedRocksDBNorWAL + localDCRocksDBSizeSSDWithoutDedicatedNVMeNorWAL + localDCRequiredIndexCapacityOnSSD1 + localDCCorrectionForUnalignedObjectsSSD1WithoutDedicatedRocksDBNorWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
       dcConfigArrayLocal[dcItem].numberOfSSDNeeded += dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL
       console.log(`dcConfigDetermineNumberOfMediaRequired() 464d: [chassisID=${actualChassisID},DC=${dcItem}]#SSD(sum) needed=${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}`)
 
@@ -498,19 +522,23 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
       console.log(`dcConfigDetermineNumberOfMediaRequired() 472: [chassisID=${actualChassisID},DC=${dcItem}] #SSD w/ NVMe dedicated w/ separate WAL needed=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL}`)
       console.log(`dcConfigDetermineNumberOfMediaRequired() 473: [chassisID=${actualChassisID},DC=${dcItem}] #SSD(sum)) needed=${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}`)
 
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 476: [chassisID=${actualChassisID},DC=${dcItem}] actual value of #NVMe1(sum)) before calc of actual new media - needed=${dcConfigArrayLocal[dcItem].numberOfNVMe1Needed}`)
       // NVMe1
-      dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL =  localNumberOfNVMe1NeededDedicatedRocksDBIncludingWAL = Math.ceil((localNVMe1CapacityWithDedicatedRocksDBIncludingWAL + localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBIncludingWAL) / chassisArrayLocal[actualChassisID].sizeNVMe1)
-      console.log(`dcConfigDetermineNumberOfMediaRequired() 477: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfNMVe1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL} =  localNumberOfNVMe1NeededDedicatedRocksDBIncludingWAL=${localNumberOfNVMe1NeededDedicatedRocksDBIncludingWAL} = Math.ceil((localNVMe1CapacityWithDedicatedRocksDBIncludingWAL=${localNVMe1CapacityWithDedicatedRocksDBIncludingWAL} + localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBIncludingWAL=${localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBIncludingWAL}) / chassisArrayLocal[actualChassisID].sizeNVMe7=${chassisArrayLocal[actualChassisID].sizeNVMe1})`)
+      dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL = Math.ceil((localNVMe1CapacityWithDedicatedRocksDBIncludingWAL + localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBIncludingWAL) / chassisArrayLocal[actualChassisID].sizeNVMe1)
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 477: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfNMVe1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL} = Math.ceil((localNVMe1CapacityWithDedicatedRocksDBIncludingWAL=${localNVMe1CapacityWithDedicatedRocksDBIncludingWAL} + localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBIncludingWAL=${localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBIncludingWAL}) / chassisArrayLocal[actualChassisID].sizeNVMe7=${chassisArrayLocal[actualChassisID].sizeNVMe1})`)
       dcConfigArrayLocal[dcItem].numberOfNVMe1Needed = dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 478: [chassisID=${actualChassisID},DC=${dcItem}] #NVMe1(sum)) needed=${dcConfigArrayLocal[dcItem].numberOfNVMe1Needed}`)
 
-      dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL =  localNumberOfNVMe1NeededDedicatedRocksDBDedicatedWAL = Math.ceil((localNVMe1CapacityWithDedicatedRocksDBDedicatedWAL + localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBDedicatedWAL) / chassisArrayLocal[actualChassisID].sizeNVMe1)
-      console.log(`dcConfigDetermineNumberOfMediaRequired() 481: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL} =  localNumberOfNVMe1NeededDedicatedRocksDBDedicatedWAL=${localNumberOfNVMe1NeededDedicatedRocksDBDedicatedWAL} = Math.ceil((localNVMe1CapacityWithDedicatedRocksDBDedicatedWAL=${localNVMe1CapacityWithDedicatedRocksDBDedicatedWAL} + localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBIncludingWAL=${localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBIncludingWAL}) / chassisArrayLocal[actualChassisID].sizeSSD1=${chassisArrayLocal[actualChassisID].sizeNVMe1})`)
+      dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL = Math.ceil((localNVMe1CapacityWithDedicatedRocksDBDedicatedWAL + localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBDedicatedWAL) / chassisArrayLocal[actualChassisID].sizeNVMe1)
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 481: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL} = Math.ceil((localNVMe1CapacityWithDedicatedRocksDBDedicatedWAL=${localNVMe1CapacityWithDedicatedRocksDBDedicatedWAL} + localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBIncludingWAL=${localDCCorrectionForUnalignedObjectsNVMe1WithDedicatedRocksDBIncludingWAL}) / chassisArrayLocal[actualChassisID].sizeSSD1=${chassisArrayLocal[actualChassisID].sizeNVMe1})`)
       dcConfigArrayLocal[dcItem].numberOfNVMe1Needed += dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 482: [chassisID=${actualChassisID},DC=${dcItem}] #NVMe1(sum)) needed=${dcConfigArrayLocal[dcItem].numberOfNVMe1Needed}`)
       
-      dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL = localNumberOfNVMe1NeededNonDedicatedRocksDBDedicatedWAL = Math.ceil((localNVMe1CapacityWithoutDedicatedRocksDBDedicatedWAL + localDCRocksDBSizeNVMe1WithoutDedicatedNVMeDedicatedWAL + localDCCorrectionForUnalignedObjectsNVMe1WithoutDedicatedRocksDBDedicatedWAL) / chassisArrayLocal[actualChassisID].sizeNVMe1)
+      dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL = Math.ceil((localNVMe1CapacityWithoutDedicatedRocksDBDedicatedWAL + localDCRocksDBSizeNVMe1WithoutDedicatedNVMeDedicatedWAL + localDCCorrectionForUnalignedObjectsNVMe1WithoutDedicatedRocksDBDedicatedWAL) / chassisArrayLocal[actualChassisID].sizeNVMe1)
       dcConfigArrayLocal[dcItem].numberOfNVMe1Needed += dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBNorWAL
+      console.log(`dcConfigDetermineNumberOfMediaRequired() 484: [chassisID=${actualChassisID},DC=${dcItem}] #NVMe1(sum)) needed=${dcConfigArrayLocal[dcItem].numberOfNVMe1Needed}`)
 
-      dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBNorWAL = localNumberOfNVMe1NeededNonDedicatedRocksDBNorWAL = Math.ceil((localNVMe1CapacityWithoutDedicatedRocksDBNorWAL + localDCRocksDBSizeNVMe1WithoutDedicatedNVMeNorWAL + localDCCorrectionForUnalignedObjectsNVMe1WithoutDedicatedRocksDBNorWAL) / chassisArrayLocal[actualChassisID].sizeNVMe1)
+      dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBNorWAL = localNumberOfNVMe1NeededNonDedicatedRocksDBNorWAL = Math.ceil((localNVMe1CapacityWithoutDedicatedRocksDBNorWAL + localDCRocksDBSizeNVMe1WithoutDedicatedNVMeNorWAL + localDCRequiredIndexCapacityOnNVMe1 + localDCCorrectionForUnalignedObjectsNVMe1WithoutDedicatedRocksDBNorWAL) / chassisArrayLocal[actualChassisID].sizeNVMe1)
       dcConfigArrayLocal[dcItem].numberOfNVMe1Needed += dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBNorWAL
 
       console.log(`dcConfigDetermineNumberOfMediaRequired() 490: [chassisID=${actualChassisID},DC=${dcItem}] #NVMe1 w/o NVMe nor dedicated WAL needed=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBNorWAL}`)
@@ -531,7 +559,7 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
         interrimOptaneNumberPerRatioDedicated = Math.ceil(localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].ssdToOptane)
         interrimOptaneNumberPerCapacityDedicated = Math.ceil(localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL * sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeOptane1)
         interrimOptaneNumberPerRatioNonDedicatedRocksDB = Math.ceil(localNumberOfSSDNeededNonDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].ssdToOptane)
-        interrimOptaneNumberPerCapacityNonDedicatedRocksDB = Math.ceil(localNumberOfSSDNeededNonDedicatedRocksDBDedicatedWAL * sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeOptane1)
+        interrimOptaneNumberPerCapacityNonDedicatedRocksDB = Math.ceil((localNumberOfSSDNeededNonDedicatedRocksDBDedicatedWAL + localDCRequiredIndexCapacityOnNVMe3)* sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeOptane1)
         // The higher number of devices as per either the matching number of devices per fronted flash device
         // or per capacity provided per device - first for flash devices with dedicated RocksDB
         if (interrimOptaneNumberPerRatioDedicated >= interrimOptaneNumberPerCapacityDedicated) {
@@ -550,35 +578,42 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
         console.log(`dcConfigDetermineNumberOfMediaRequired() 524: [chassisID=${actualChassisID},DC=${dcItem}] Optane aka NVMe3 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe3Needed}`)
       }
 
-      // determine the number of dedicated WAL devices for NVMe (NVMe type 7)
-      if (chassisArrayLocal[actualChassisID].useNVMe7 === true) {
-        console.log(`dcConfigDetermineNumberOfMediaRequired() 529: [chassisID=${actualChassisID},DC=${dcItem}] Optane aka useNVMe7 needed`)
+      // determine the number of dedicated WAL devices for NVMe (NVMe type 8)
+      if (chassisArrayLocal[actualChassisID].useNVMe8 === true) {
+        console.log(`dcConfigDetermineNumberOfMediaRequired() 529: [chassisID=${actualChassisID},DC=${dcItem}] Optane aka useNVMe8 needed`)
         let interrimOptaneNumberPerRatioDedicated = 0
         let interrimOptaneNumberPerCapacityDedicated = 0
         let interrimOptaneNumberPerRatioNonDedicatedRocksDB = 0
         let interrimOptaneNumberPerCapacityNonDedicatedRocksDB = 0
-        // WAL device could be shared also between SSD with and without separate RocksDB (for economical reasons not be split further) - this might become selectable in the future but 
+        // WAL device could be shared also between NVMe1 with and without separate RocksDB (for economical reasons not be split further) - this might become selectable in the future but 
         // actually it's split
-        interrimOptaneNumberPerRatioDedicated = Math.ceil(localNumberOfNVMe1NeededDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe7)
-        interrimOptaneNumberPerCapacityDedicated = Math.ceil(localNumberOfNVMe1NeededDedicatedRocksDBDedicatedWAL * sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeNVMe7)
-        interrimOptaneNumberPerRatioNonDedicatedRocksDB = Math.ceil(localNumberOfNVMe1NeededNonDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe7)
-        interrimOptaneNumberPerCapacityNonDedicatedRocksDB = Math.ceil(localNumberOfNVMe1NeededNonDedicatedRocksDBDedicatedWAL * sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeNVMe7)
+        interrimOptaneNumberPerRatioDedicated = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe8)
+        interrimOptaneNumberPerCapacityDedicated = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL * sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeNVMe8)
+        interrimOptaneNumberPerRatioNonDedicatedRocksDB = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe8)
+        interrimOptaneNumberPerCapacityNonDedicatedRocksDB = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL + localDCRequiredIndexCapacityOnNVMe8) * sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeNVMe8)
+        console.log(`dcConfigDetermineNumberOfMediaRequired() 564: [chassisID=${actualChassisID},DC=${dcItem}] - 
+        interrimOptaneNumberPerRatioDedicated=${interrimOptaneNumberPerRatioDedicated},
+        interrimOptaneNumberPerCapacityDedicated=${interrimOptaneNumberPerCapacityDedicated},
+        interrimOptaneNumberPerRatioNonDedicatedRocksDB=${interrimOptaneNumberPerRatioNonDedicatedRocksDB},
+        interrimOptaneNumberPerCapacityNonDedicatedRocksDB=${interrimOptaneNumberPerCapacityNonDedicatedRocksDB}
+        }
+        `)
         // The higher number of devices as per either the matching number of devices per fronted flash device
         // or per capacity provided per device - first for flash devices with dedicated RocksDB
         if (interrimOptaneNumberPerRatioDedicated >= interrimOptaneNumberPerCapacityDedicated) {
-          dcConfigArrayLocal[dcItem].numberOfNVMe7Needed = interrimOptaneNumberPerRatioDedicated
+          dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = interrimOptaneNumberPerRatioDedicated
         }
         else {
-          dcConfigArrayLocal[dcItem].numberOfNVMe7Needed = interrimOptaneNumberPerCapacityDedicated
+          dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = interrimOptaneNumberPerCapacityDedicated
         }
         // ... and then add the number needed for flash devices without dedicated RocksDB
         if (interrimOptaneNumberPerRatioNonDedicatedRocksDB >= interrimOptaneNumberPerCapacityNonDedicatedRocksDB) {
-          dcConfigArrayLocal[dcItem].numberOfNVMe7Needed += interrimOptaneNumberPerRatioNonDedicatedRocksDB
+          dcConfigArrayLocal[dcItem].numberOfNVMe8Needed += interrimOptaneNumberPerRatioNonDedicatedRocksDB
         }
         else {
-          dcConfigArrayLocal[dcItem].numberOfNVMe7Needed += interrimOptaneNumberPerCapacityNonDedicatedRocksDB
+          dcConfigArrayLocal[dcItem].numberOfNVMe8Needed += interrimOptaneNumberPerCapacityNonDedicatedRocksDB
         }
-        console.log(`dcConfigDetermineNumberOfMediaRequired() 555: [chassisID=${actualChassisID},DC=${dcItem}] Optane aka NVMe3 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed}`)
+        console.log(`dcConfigDetermineNumberOfMediaRequired() 586: [chassisID=${actualChassisID},DC=${dcItem}] NVMe8 for RocksDB for NVMe1 needed =${dcConfigArrayLocal[dcItem].numberOfNVMe8Needed}`)
       }
       
       // We'll use actuallty somewhere numberOfSSDNeeded - so collect all SSD
@@ -586,8 +621,8 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
 
       // This should now have all media covered for this DC.
       if (generalValuesLocal.globalDebug == true || localDebug == true) {
-        console.log(`dcConfigDetermineNumberOfMediaRequired() 561: [chassisID=${actualChassisID},DC=${dcItem}] DC=${dcItem} => #media HDD=${dcConfigArrayLocal[dcItem].numberOfHDDNeeded}, SSDw/dedicated=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL}, SSDw/oDedicated=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL}, #SSD for data =${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}, #SSD4=${dcConfigArrayLocal[dcItem].numberOfSSD4Needed}`)
-        console.log(`dcConfigDetermineNumberOfMediaRequired() 562: [chassisID=${actualChassisID},DC=${dcItem}] DC=${dcItem} => #media NVMe1=${dcConfigArrayLocal[dcItem].numberOfNVMe1Needed}, NVMe2=${dcConfigArrayLocal[dcItem].numberOfNVMe2Needed}, NVMe3=${dcConfigArrayLocal[dcItem].numberOfNVMe3Needed}, NVMe4=${dcConfigArrayLocal[dcItem].numberOfNVMe4Needed}, NVMe5=${dcConfigArrayLocal[dcItem].numberOfNVMe5Needed}, NVMe6=${dcConfigArrayLocal[dcItem].numberOfNVMe6Needed}, NVMe7=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed}, NVMe8=${dcConfigArrayLocal[dcItem].numberOfNVMe8Needed}`)
+        console.log(`dcConfigDetermineNumberOfMediaRequired() 594: [chassisID=${actualChassisID},DC=${dcItem}] DC=${dcItem} => #media HDD=${dcConfigArrayLocal[dcItem].numberOfHDDNeeded}, SSDw/dedicated=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL}, SSDw/oDedicated=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL}, #SSD for data =${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}, #SSD4=${dcConfigArrayLocal[dcItem].numberOfSSD4Needed}`)
+        console.log(`dcConfigDetermineNumberOfMediaRequired() 595: [chassisID=${actualChassisID},DC=${dcItem}] DC=${dcItem} => #media NVMe1=${dcConfigArrayLocal[dcItem].numberOfNVMe1Needed}, NVMe2=${dcConfigArrayLocal[dcItem].numberOfNVMe2Needed}, NVMe3=${dcConfigArrayLocal[dcItem].numberOfNVMe3Needed}, NVMe4=${dcConfigArrayLocal[dcItem].numberOfNVMe4Needed}, NVMe5=${dcConfigArrayLocal[dcItem].numberOfNVMe5Needed}, NVMe6=${dcConfigArrayLocal[dcItem].numberOfNVMe6Needed}, NVMe7=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed}, NVMe8=${dcConfigArrayLocal[dcItem].numberOfNVMe8Needed}`)
       }
     }
   }

@@ -38,6 +38,7 @@ const calcDCConfig = function (generalValuesLocal, workloadsArrayLocal, sizingCo
         console.log(`calcDCConfig() 38: the array is ${configsArrayLocal}`)
         console.log(`calcDCConfig() 39: ... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`)
         const dcConfigArrayLocal = configsArrayLocal[actualChassisID]
+        console.log(`calcDCConfig() 40: check of dc0, chassis 0 -> dcConfigArrayLocal[0].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL=${dcConfigArrayLocal[0].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL}`)
         dcConfigDetermineCapacityRaw(generalValuesLocal, workloadsArrayLocal, dcConfigArrayLocal)
         console.log(`calcDCConfig() 42: checking content of DC0 for capacityNeededForSSD=${dcConfigArrayLocal[0].capacityNeededForSSD}`)
         dcConfigDetermineNumberOfRoleInstances(generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal)

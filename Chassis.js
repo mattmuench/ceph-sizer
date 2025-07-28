@@ -77,9 +77,9 @@ class Chassis {
             ["use-rgw-caching","useRGWCaching"],
             ["use-optane-1","useOptane1"],
             ["nvme-to-nvme7","nvmeToNVMe7"],
-            ["use-nvme-7","useNVMe7"], // use NVMe7 for dedicated WAL for NVMe1
-            ["nvme-to-nvme8","nvmeToNVMe8"], // for NVMe1 dedicated RocksDB
-            ["use-nvme-8","useNVMe8"] // use NVMe8 for dedicated RocksDB for NVMe1
+            ["use-nvme-7","useNVMe7"], // use NVMe7 for dedicated RocksDBn device for NVMe1
+            ["nvme-to-nvme8","nvmeToNVMe8"], // for NVMe1 dedicated WAL
+            ["use-nvme-8","useNVMe8"] // use NVMe8 for dedicated WAL for NVMe1
             
         ]
         
