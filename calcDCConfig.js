@@ -57,7 +57,7 @@ const calcDCConfig = function (generalValuesLocal, workloadsArrayLocal, sizingCo
             dcConfigMemNeededInitial(sizingConstraints, dcConfigArrayLocal, dcItem)
             dcConfigCheckResourceConstraints(dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem)
             dcConfigMinNumberOfServersNeededWithReducedNumberOfRolesPerServer(generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, dcItem)
-            dcConfigAdjustNumberOfServers(sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem)
+            dcConfigAdjustNumberOfServers(generalValuesLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem)
             // recalculate the depending number of media as per corrected number of servers
             dcConfigCalcPreliminaryMediaPerServer(dcConfigArrayLocal, dcItem, chassisArrayLocal, actualChassisID, dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis)
             dcConfigFinalNumberOfCoresPerServer(sizingConstraints, dcConfigArrayLocal, actualChassisID,dcItem)

@@ -16,7 +16,9 @@ import documentAddOutputConfigsTable from "./documentAddOutputConfigsTable.js"
 import documentAddWorkloadsTable from "./documentAddWorkloadsTable.js"
 import {installEventHandlerLoadChassisConfig} from "./fileInput/installEventHandlerLoadChassisConfig.js"
 import {installEventHandlerLoadWorkloadConfig} from "./fileInput/installEventHandlerLoadWorkloadConfig.js"
+import {debugMsg} from "./common/debug.js";
 
+let localDebugOn = true
 
 const calculateDCDistribution = function (generalValues,workloadsArrayLocal,chassisArrayLocal) {
   // From Google Sheet - idea is to c heck the selection made, give some warnings perhaps but also
@@ -41,7 +43,7 @@ const sizingConstraints = new SizingConstraints
 const loadedConfigs = new LoadedConfigs
 
 // check:
-console.log(`main script() 57: Checking on sizingConstraints: ${sizingConstraints.addCapacityPerPoolUse[0]}`)
+debugMsg(generalSettings,localDebugOn, 2, "main script", 57, `Checking on sizingConstraints: ${sizingConstraints.addCapacityPerPoolUse[0]}`,0,0,0)
 
 // create tableHeaderChassis object - populating the table header for chassis configurations
 const tableHeaderChassisArray = new TableHeaderChassis
@@ -57,7 +59,7 @@ const tableHeaderChassisArray = new TableHeaderChassis
 
 // Program flow (M1)
 let successConvertTib = userCalcConvertTiB(document,generalSettings)
-console.log(`main script() 73: call to convertTib resulted in: ${successConvertTib}`)
+debugMsg(generalSettings,localDebugOn, 10, "main script", 73, `call to convertTib resulted in: ${successConvertTib}`,0,0,0)
 
 
   /// CALL TO FUNCTIONS to create tables ///
@@ -169,9 +171,9 @@ for (let workloadConfig = 0; workloadConfig < generalSettings.numberOfWorkloadsP
       //console.log(`workloadsArrayINIT: "workloads = item", entry is = ${entry}`)
       if (entry[0] == "selector-dc" ) {
         if (generalSettings.globalDebug) {
-          console.log(`main script() 169: workloadsArrayINIT: ODD Working on entry for workloadsDict: ${entry[1]}`)
-          console.log(`main script() 170: workloadsArrayINIT: #DC entries for workloadsDict: ${entry[2].length}`)
-          console.log(`main script() 171: workloadsArrayINIT: actual DC entry for workloadsDict: ${entry[2][z]}`)
+          debugMsg(generalSettings,localDebugOn, 4, "main script", 173, `workloadsArrayINIT: Working on entry for workloadsDict: ${entry[1]}`,0,0,0)
+          debugMsg(generalSettings,localDebugOn, 4, "main script", 174, `workloadsArrayINIT: #DC entries for workloadsDict: ${entry[2].length}`,0,0,0)
+          debugMsg(generalSettings,localDebugOn, 4, "main script", 175, `workloadsArrayINIT: actual DC entry for workloadsDict: ${entry[2][z]}`,0,0,0)
         }
       }
     })
@@ -184,14 +186,14 @@ for (let workloadConfig = 0; workloadConfig < generalSettings.numberOfWorkloadsP
   
   // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
 
-  console.log(`main script() 184: his is length of workloadNew array: ${Object.keys(workloadNew).length}`)
+  debugMsg(generalSettings,localDebugOn, 10, "main script", 188, `his is length of workloadNew array: ${Object.keys(workloadNew).length}`,0,0,0)
   workloadNew.workloadID = `${workloadConfig}`
   
   workloadsArray.push(workloadNew)
 }
 // check content of the array of workloads (just another array)
-console.log(`main script() 190: workloadsArray for workloads has content a first for config#: ${workloadsArray[0].workloadID}`)
-console.log(`main script() 191: workloadsArray for workloads has content a last for config#: ${workloadsArray[generalSettings.numberOfWorkloadsPossible-1].workloadID}`)
+debugMsg(generalSettings,localDebugOn, 10, "main script", 194, `workloadsArray for workloads has content, a first for config#: ${workloadsArray[0].workloadID}`,0,0,0)
+debugMsg(generalSettings,localDebugOn, 10, "main script", 195, `workloadsArray for workloads has content, a last for config#: ${workloadsArray[generalSettings.numberOfWorkloadsPossible-1].workloadID}`,0,0,0)
 
     // CHECK the external values - perhaps, need to work with an external object or do we return the newObject ?
     for (let workloads = 0; workloads < workloadsArray.length; workloads++) {
@@ -203,7 +205,7 @@ console.log(`main script() 191: workloadsArray for workloads has content a last 
           // console.log(`applyAllChanges(): Working on entry for workloadsDict: ${workloadsValues[workloads].workloadItemsDict[entry]}`)
           // console.log(`EXTERNAL-PRE precheck: entry = ${entry}`)
           if (entry[1] == `${value}`) {
-            console.log(`main script() 203: EXTERNAL-PRE CHECK workloads: ${workloads} found value ${value}: ${workloadsArray[workloads][entry[1]]}`)
+            debugMsg(generalSettings,localDebugOn, 10, "main script", 207, `EXTERNAL-PRE CHECK workloads: ${workloads} found value ${value}: ${workloadsArray[workloads][entry[1]]}`,0,0,0)
             //console.log(`EXTERNAL-PRE CHECK-A workloads: ${workloads} found value ${value}: ${workloadsArray[workloads].useCase}`)
           }
         })
@@ -249,14 +251,14 @@ for (let chassisConfig = 0; chassisConfig < generalSettings.numberOfConfigsPossi
   
   // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
 
-  console.log(`main script() 249: This is length of chassisNew array: ${Object.keys(chassisNew).length}`)
+  debugMsg(generalSettings,localDebugOn, 9, "main script", 252, `This is length of chassisNew array: ${Object.keys(chassisNew).length}`,0,0,0)
   chassisNew.chassisID = `${chassisConfig}`
   
   chassisArray.push(chassisNew)
 }
 // check content of the array of workloads (just another array)
-console.log(`main script() 255: chassisArray for chassis has content a first for config#: ${chassisArray[0].chassisID}`)
-console.log(`main script() 256: chassisArray for chassis has content a last for config#: ${chassisArray[generalSettings.numberOfConfigsPossible-1].chassisID}`)
+debugMsg(generalSettings,localDebugOn, 4, "main script", 258, `chassisArray for chassis has content a first for config#: ${chassisArray[0].chassisID}`,0,0,0)
+debugMsg(generalSettings,localDebugOn, 4, "main script", 259, `chassisArray for chassis has content a last for config#: ${chassisArray[generalSettings.numberOfConfigsPossible-1].chassisID}`,0,0,0)
 
     // CHECK the external values - perhaps, need to work with an external object or do we return the newObject ?
     for (let chassisConfig = 0; chassisConfig < chassisArray.length; chassisConfig++) {
@@ -268,7 +270,7 @@ console.log(`main script() 256: chassisArray for chassis has content a last for 
           // console.log(`applyAllChanges(): Working on entry for ChassisItemsDict: ${chassisArray[workloads].ChassisItemsDict[entry]}`)
           // console.log(`EXTERNAL-PRE precheck: entry = ${entry}`)
           if (entry[1] == `${value}`) {
-            console.log(`main script() 268: EXTERNAL-PRE CHECK chassis: ${chassisConfig} found value ${value}: ${chassisArray[chassisConfig][entry[1]]}`)
+            debugMsg(generalSettings,localDebugOn, 10, "main script", 271, `EXTERNAL-PRE CHECK chassis: ${chassisConfig} found value ${value}: ${chassisArray[chassisConfig][entry[1]]}`,0,0,0)
             //console.log(`EXTERNAL-PRE CHECK-A chassis: ${chassisConfig} found value ${value}: ${chassisArray[chassisConfig].chassisID}`)
           }
         })
@@ -292,7 +294,7 @@ for (let config = 0; config < generalSettings.numberOfConfigsPossible; config++)
     
     // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
   
-    console.log(`main script() 292: This is length of chassisNew array: ${Object.keys(dcConfigNew).length}`)
+    debugMsg(generalSettings,localDebugOn, 4, "main script", 289, `This is length of chassisNew array: ${Object.keys(dcConfigNew).length}`,0,0,0)
     dcConfigNew.DCID = `${dcConfig}`
     
     dcConfigArray.push(dcConfigNew)
@@ -301,9 +303,9 @@ for (let config = 0; config < generalSettings.numberOfConfigsPossible; config++)
 }
 /// check:
 let actualChassisID = 0
-console.log(`main script() 301: working on config ${actualChassisID}`)
-console.log(`main script() 302:  the array is ${configsArray}`)
-console.log(`main script() 303:  ... and the actual sub-array is the array ${configsArray[actualChassisID]}`)
+debugMsg(generalSettings,localDebugOn, 4, "main script", 299, `working on config ${actualChassisID}`,0,0,0)
+debugMsg(generalSettings,localDebugOn, 4, "main script", 300, `  the array is ${configsArray}`,0,0,0)
+debugMsg(generalSettings,localDebugOn, 4, "main script", 301, ` ... and the actual sub-array is the array ${configsArray[actualChassisID]}`,0,0,0)
 
 
 
@@ -320,7 +322,7 @@ for (let resultingConfig = 0; resultingConfig < generalSettings.numberOfConfigsP
   
   // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
 
-  console.log(`main script() 320: This is length of chassisNew array: ${Object.keys(resultNew).length}`)
+  debugMsg(generalSettings,localDebugOn, 5, "main script", 320, `This is length of chassisNew array: ${Object.keys(resultNew).length}`,0,0,0)
   resultNew.chassisID = `${resultingConfig}`
   
   resultsOverviewArray.push(resultNew)
@@ -343,7 +345,7 @@ let resultInstallEventHandler2 = installEventHandlerLoadWorkloadConfig (document
           // console.log(`applyAllChanges(): Working on entry for workloadsDict: ${workloadsValues[workloads].workloadItemsDict[entry]}`)
           // console.log(`EXTERNAL precheck: entry = ${entry}`)
           if (entry[1] == `${value}`) {
-            console.log(`main script() 340: EXTERNAL-POST CHECK workloads: ${workloads} found value ${value}: ${workloadsArray[workloads][entry[1]]}`)
+            debugMsg(generalSettings,localDebugOn, 5, "main script", 354, `EXTERNAL-POST CHECK workloads: ${workloads} found value ${value}: ${workloadsArray[workloads][entry[1]]}`,0,0,0)
           }
         })
       })

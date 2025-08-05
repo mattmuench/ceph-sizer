@@ -1,4 +1,8 @@
+import {debugMsg} from "./common/debug.js";
+
 const documentAddWorkloadsTable = function (documentMain, generalValues, rowBaseLabel, idLabel, dataRows, columnsDictArray) {
+
+  let localDebugOn = true
     
   const documentTable = documentMain.createElement("table")
   documentTable.setAttribute("id",`table-${idLabel}`)
@@ -19,9 +23,6 @@ const documentAddWorkloadsTable = function (documentMain, generalValues, rowBase
           // the end of the table row
           const cell = documentMain.createElement("th");
           const actualCell = columnsDictArray.header[j][0]
-          //console.log(`check row ${j}: ${columnsDictArray.header[j][0]}`)
-          //console.log(`check row ${j}: ${columnsDictArray.header[j][1]}`)
-          
           cell.setAttribute("id",columnsDictArray.header[j][0])
           const cellText = documentMain.createTextNode(columnsDictArray.header[j][0]);
 
@@ -48,7 +49,7 @@ const documentAddWorkloadsTable = function (documentMain, generalValues, rowBase
         }
         else {
           let elementType = columnsDictArray.header[j][2]
-          console.log(`switch on element: ${elementType}`)
+          debugMsg(generalValues, localDebugOn, 5, "documentAddWorkloadsTable", 51, `running switch on element: ${elementType}`,0,0,0)
           switch (elementType) {
               case "input": {
                       const cellElement = documentMain.createElement("input")
@@ -72,7 +73,7 @@ const documentAddWorkloadsTable = function (documentMain, generalValues, rowBase
                       // set the first entry to default selection
                        
                         // console
-                          console.log(radioSelector)
+                        debugMsg(generalValues, localDebugOn, 5, "documentAddWorkloadsTable", 76, `radioSelector=${radioSelector}`,0,0,0)
                             
                           const cellElement = documentMain.createElement("input")
                           cellElement.setAttribute("type","radio")
@@ -92,11 +93,10 @@ const documentAddWorkloadsTable = function (documentMain, generalValues, rowBase
                           cell.appendChild(cellLabel);
                       })
                       //let selectLabel = document.getElementById(`${idLabel}-${i-1}-${columnsDictArray.header[j][1]}`)                            
-                        
                   }
                   break;
               case "checkbox": {                                              
-                  console.log(`Working on checkbox: ${idLabel}-${i-1}-${columnsDictArray.header[j][1]}`)    
+                  debugMsg(generalValues, localDebugOn, 5, "documentAddWorkloadsTable", 100, `Working on checkbox: ${idLabel}-${i-1}-${columnsDictArray.header[j][1]}`,0,0,0)
                     
                   const cellElement = documentMain.createElement("input")
                       cellElement.setAttribute("type","checkbox")
@@ -108,7 +108,7 @@ const documentAddWorkloadsTable = function (documentMain, generalValues, rowBase
                   }
                   break;
               default:
-                  console.log(`no valid statement found for ${elementType}`)
+                  displayMsg(document, "documentAddWorkloadsTable", 112, "error", `no valid statement found for ${elementType}`,0,0,0)
           }
 
           // for debugging, show id of cell
