@@ -2,7 +2,10 @@ import displayMsg from "../common/displayMsg.js"
 import {debugMsg} from "../common/debug.js";
 
 // Trying to implement Y41  
-const dcConfigAdjustNumberOfServers   = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+
+  let localDebugOn = false
+  
   /**
    * Case 1:
    *       The number of cores available per server matches the required number of cores. Memory also matches the maximum configuration possible.
