@@ -550,23 +550,23 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
       // determine the number of dedicated WAL devices for SSD (aka previously known as Optanes)
       if (chassisArrayLocal[actualChassisID].useOptane1 === true) {
         console.log(`dcConfigDetermineNumberOfMediaRequired() 498: [chassisID=${actualChassisID},DC=${dcItem}] Optane aka NVMe3 needed`)
-        let interrimOptaneNumberPerRatioDedicated = 0
-        let interrimOptaneNumberPerCapacityDedicated = 0
+        let interrimOptaneNumberPerRatioDedicatedRocksDB = 0
+        let interrimOptaneNumberPerCapacityDedicatedRocksDB = 0
         let interrimOptaneNumberPerRatioNonDedicatedRocksDB = 0
         let interrimOptaneNumberPerCapacityNonDedicatedRocksDB = 0
         // WAL device could be shared also between SSD with and without separate RocksDB (for economical reasons not be split further) - this might become selectable in the future but 
         // actually it's split
-        interrimOptaneNumberPerRatioDedicated = Math.ceil(localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].ssdToOptane)
-        interrimOptaneNumberPerCapacityDedicated = Math.ceil(localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL * sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeOptane1)
+        interrimOptaneNumberPerRatioDedicatedRocksDB = Math.ceil(localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].ssdToOptane)
+        interrimOptaneNumberPerCapacityDedicatedRocksDB = Math.ceil(localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL * sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeOptane1)
         interrimOptaneNumberPerRatioNonDedicatedRocksDB = Math.ceil(localNumberOfSSDNeededNonDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].ssdToOptane)
         interrimOptaneNumberPerCapacityNonDedicatedRocksDB = Math.ceil((localNumberOfSSDNeededNonDedicatedRocksDBDedicatedWAL + localDCRequiredIndexCapacityOnNVMe3)* sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeOptane1)
         // The higher number of devices as per either the matching number of devices per fronted flash device
         // or per capacity provided per device - first for flash devices with dedicated RocksDB
-        if (interrimOptaneNumberPerRatioDedicated >= interrimOptaneNumberPerCapacityDedicated) {
-          dcConfigArrayLocal[dcItem].numberOfNVMe3Needed = interrimOptaneNumberPerRatioDedicated
+        if (interrimOptaneNumberPerRatioDedicatedRocksDB >= interrimOptaneNumberPerCapacityDedicatedRocksDB) {
+          dcConfigArrayLocal[dcItem].numberOfNVMe3Needed = interrimOptaneNumberPerRatioDedicatedRocksDB
         }
         else {
-          dcConfigArrayLocal[dcItem].numberOfNVMe3Needed = interrimOptaneNumberPerCapacityDedicated
+          dcConfigArrayLocal[dcItem].numberOfNVMe3Needed = interrimOptaneNumberPerCapacityDedicatedRocksDB
         }
         // ... and then add the number needed for flash devices without dedicated RocksDB
         if (interrimOptaneNumberPerRatioNonDedicatedRocksDB >= interrimOptaneNumberPerCapacityNonDedicatedRocksDB) {
@@ -581,30 +581,30 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValuesLocal, wor
       // determine the number of dedicated WAL devices for NVMe (NVMe type 8)
       if (chassisArrayLocal[actualChassisID].useNVMe8 === true) {
         console.log(`dcConfigDetermineNumberOfMediaRequired() 529: [chassisID=${actualChassisID},DC=${dcItem}] Optane aka useNVMe8 needed`)
-        let interrimOptaneNumberPerRatioDedicated = 0
-        let interrimOptaneNumberPerCapacityDedicated = 0
+        let interrimOptaneNumberPerRatioDedicatedRocksDB = 0
+        let interrimOptaneNumberPerCapacityDedicatedRocksDB = 0
         let interrimOptaneNumberPerRatioNonDedicatedRocksDB = 0
         let interrimOptaneNumberPerCapacityNonDedicatedRocksDB = 0
         // WAL device could be shared also between NVMe1 with and without separate RocksDB (for economical reasons not be split further) - this might become selectable in the future but 
         // actually it's split
-        interrimOptaneNumberPerRatioDedicated = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe8)
-        interrimOptaneNumberPerCapacityDedicated = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL * sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeNVMe8)
+        interrimOptaneNumberPerRatioDedicatedRocksDB = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe8)
+        interrimOptaneNumberPerCapacityDedicatedRocksDB = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL * sizingConstraints.sizeOfWALOnNVMeInGB / (chassisArrayLocal[actualChassisID].sizeNVMe8 * 1000))
         interrimOptaneNumberPerRatioNonDedicatedRocksDB = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL / chassisArrayLocal[actualChassisID].nvmeToNVMe8)
-        interrimOptaneNumberPerCapacityNonDedicatedRocksDB = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL + localDCRequiredIndexCapacityOnNVMe8) * sizingConstraints.sizeOfWALOnNVMeInGB / chassisArrayLocal[actualChassisID].sizeNVMe8)
+        interrimOptaneNumberPerCapacityNonDedicatedRocksDB = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL + localDCRequiredIndexCapacityOnNVMe8) * sizingConstraints.sizeOfWALOnNVMeInGB / (chassisArrayLocal[actualChassisID].sizeNVMe8 * 1000))
         console.log(`dcConfigDetermineNumberOfMediaRequired() 564: [chassisID=${actualChassisID},DC=${dcItem}] - 
-        interrimOptaneNumberPerRatioDedicated=${interrimOptaneNumberPerRatioDedicated},
-        interrimOptaneNumberPerCapacityDedicated=${interrimOptaneNumberPerCapacityDedicated},
+        interrimOptaneNumberPerRatioDedicatedRocksDB=${interrimOptaneNumberPerRatioDedicatedRocksDB},
+        interrimOptaneNumberPerCapacityDedicatedRocksDB=${interrimOptaneNumberPerCapacityDedicatedRocksDB},
         interrimOptaneNumberPerRatioNonDedicatedRocksDB=${interrimOptaneNumberPerRatioNonDedicatedRocksDB},
         interrimOptaneNumberPerCapacityNonDedicatedRocksDB=${interrimOptaneNumberPerCapacityNonDedicatedRocksDB}
         }
         `)
         // The higher number of devices as per either the matching number of devices per fronted flash device
         // or per capacity provided per device - first for flash devices with dedicated RocksDB
-        if (interrimOptaneNumberPerRatioDedicated >= interrimOptaneNumberPerCapacityDedicated) {
-          dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = interrimOptaneNumberPerRatioDedicated
+        if (interrimOptaneNumberPerRatioDedicatedRocksDB >= interrimOptaneNumberPerCapacityDedicatedRocksDB) {
+          dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = interrimOptaneNumberPerRatioDedicatedRocksDB
         }
         else {
-          dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = interrimOptaneNumberPerCapacityDedicated
+          dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = interrimOptaneNumberPerCapacityDedicatedRocksDB
         }
         // ... and then add the number needed for flash devices without dedicated RocksDB
         if (interrimOptaneNumberPerRatioNonDedicatedRocksDB >= interrimOptaneNumberPerCapacityNonDedicatedRocksDB) {
