@@ -1,3 +1,4 @@
+import checkInputs from "./dccalc/checkInputs.js"
 import calcDCConfig from "./calcDCConfig.js"
 import calcResultsOverview from "./calcResultsOverview.js"
 import calcResultsPerDC from "./calcResultsPerDC.js"
@@ -357,6 +358,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
       chassisValues[1].nvmeToNVMe7 = 4
        */
 
+      checkInputs(generalValues, workloadsValues, chassisValues)
       calcDCConfig(generalValues, workloadsValues, sizingConstraints, configsArrayLocal, chassisValues)
       // 
       // Update the output for the overview and individual Chassis configs.

@@ -4,7 +4,7 @@ import {debugMsg} from "../common/debug.js";
 
 const installEventHandlerLoadWorkloadConfig = function (documentMain, workloadsArrayLocal, generalValues, loadedConfigsLocal) {
 
-  let localDebugOn = false
+  let localDebugOn = true
 
   // recognize button for loading presaved workload config definition file
   const clickedLoadWorkloadConfig = documentMain.getElementById("input-filename-workload-config")
@@ -27,10 +27,16 @@ const installEventHandlerLoadWorkloadConfig = function (documentMain, workloadsA
           readWorkloadConfig(generalValues, localDebugOn, documentMain, loadedConfigsLocal, workloadsArrayLocal)          
         }
       );
+
+      event.target.value = '';
+      
     })
 }
 
 async function logIngredientsWorkload(generalValues, localDebugOn, selectedFile,loadedConfigsLocal) {
+
+  localDebugOn = true
+
   const res = await new Response(selectedFile).text();
   debugMsg(generalValues, localDebugOn, 5, "logIngredientsWorkload", 35, `res=${res}`,0,0,0)
   loadedConfigsLocal.workloadConfigFile=res;
@@ -38,6 +44,9 @@ async function logIngredientsWorkload(generalValues, localDebugOn, selectedFile,
 }
 
 const readWorkloadConfig = function (generalValues, localDebugOn, documentMain, loadedConfigsLocal, workloadsArrayLocal){
+
+  localDebugOn = true
+
   debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 41, `loadedConfigsLocal.workloadConfigFile=${loadedConfigsLocal.workloadConfigFile}`,0,0,0)
   var loadedJsonChassisObject;
   try {

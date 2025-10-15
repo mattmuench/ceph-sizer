@@ -15,14 +15,14 @@ class Chassis {
         maxPciSlots,
         sizeHDD1,
         speedNicPublic,
-        sizeNVMe1,
+        sizeNVMe1,  // corresponds to workload setting 'selectorNVMe'
         sizeNVMe2,
         sizeNVMe4,
-        sizeNVMe5,
+        sizeNVMe5, // corresponds to workload setting 'selectorSSDDedicatedNVMe'
         sizeNVMe6,
         sizeSSD1,
         ssdToOptane,
-        sizeOptane1,
+        sizeOptane1,    // ==> corresponds to workload setting 'selectorSSDDedicatedNVMeForWAL'
         useSSD4overNVMe4,
         hddToSSD4,
         sizeSSD4,
@@ -30,10 +30,10 @@ class Chassis {
         ssdToNVMe5,
         speedNicCluster,
         useRGWCaching,
-        useOptane1,
+        useOptane1, // ==> corresponds to workload setting 'selectorSSDDedicatedNVMeForWAL'
         sizeNVMe7,
         nvmeToNVMe7,
-        useNVMe7,
+        useNVMe7,   // ==> corresponds to workload setting 'selectorNVMe1DedicatedNVMe'
         sizeNVMe8,
         nvmeToNVMe8,
         useNVMe8
@@ -68,8 +68,8 @@ class Chassis {
             ["size-nvme-8","sizeNVMe8"], // for NVMe1 dedicated RocksDB
             ["size-ssd-1","sizeSSD1"],
             ["ssd-to-optane","ssdToOptane"],
-            ["size-optane-1","sizeOptane1"], // NVMe type 3
-            ["use-SSD4-over-NVMe4","useSSD4overNVMe4"], // select SSD fronting instead of NVMe fronting for HDD
+            ["size-optane-1","sizeOptane1"], // NVMe type 3 ==> corresponds to selectorSSDDedicatedNVMeForWAL
+            ["use-SSD4-over-NVMe4","useSSD4overNVMe4"], // select SSD fronting instead of NVMe fronting for HDD ==> corresponds to selectorSSDDedicatedNVMe
             ["hdd-to-ssd4","hddToSSD4"],
             ["size-ssd4","sizeSSD4"], // SSD type 4
             ["ssd-to-nvme5","ssdToNVMe5"], // #SSD covered for RocksDB/WAL by NVMe type 5 (incl. and excl. WAL)

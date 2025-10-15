@@ -7,7 +7,7 @@ class Workload {
         useCase,
         reqNumReplica,
         reqNumberFd,
-        selectorNVMe, // Indicates the use of NVMe for flash
+        selectorNVMe, // Indicates the use of NVMe for flash instead of SSD
         selectorHighdense,
         sizeAvgObj,
         sizeAvgFile,

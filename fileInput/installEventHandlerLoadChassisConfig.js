@@ -4,7 +4,7 @@ import {debugMsg} from "../common/debug.js";
 
 const installEventHandlerLoadChassisConfig = function (documentMain, chassisArrayLocal, generalValues, loadedConfigsLocal) {
 
-  let localDebugOn = false
+  let localDebugOn = true
 
   // recognize button for loading presaved chassis config definition file
   const clickedLoadChassisConfig = documentMain.getElementById("input-filename-chassis-config")
@@ -26,6 +26,8 @@ const installEventHandlerLoadChassisConfig = function (documentMain, chassisArra
         readChassisConfig(generalValues, localDebugOn, documentMain, loadedConfigsLocal, chassisArrayLocal)          
       }
     );
+
+    event.target.value = '';
   })
 }
 
@@ -37,6 +39,9 @@ async function logIngredients(generalValues, localDebugOn, selectedFile, loadedC
 }
 
 const readChassisConfig = function (generalValues, localDebugOn, documentMain, loadedConfigsLocal, chassisArrayLocal){
+
+  localDebugOn = true
+
   debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 40, `loadedConfigsLocal.chassisConfigFile=${loadedConfigsLocal.chassisConfigFile}`,0,0,0)
   var loadedJsonChassisObject;
   try {

@@ -16,22 +16,36 @@ const debugMsg = function (generalValues, localDebugOverride, debugLevel, functi
    * Example: debugMsg(generalValues, localDebugOn, 5, "main", 354, "Hello from outside ?",0,0,0)
   */
   // generalDebugOn could be set upon start of program - this is handy if any debug is still enabled but for any reason should be silenced for now
-  if ( generalValues.globalDebug === true ) {}
-  if( localDebugOverride === true) {
-    //let documentLocation = 0
-    //let msgType = errorLevel
-    //let cellID = 0
-    let constructedMessage = `${functionName}() ${lineNumber}: ${errorMessage}`
-    
-     
-    if (generalValues.enabledDebugLevel >= debugLevel) { 
-      //documentMain.getElementById(cellID).style.color = msgColor;
-      //const cellLabel = documentMain.createElement("text")
-      //cellLabel.innerHTML = `<p>${msgType}: ${constructedMessage}`
-      //documentMain.getElementById(cellID).appendChild(cellLabel);
-      
-      console.log(constructedMessage)  
+  if ( generalValues.enableDebugOn === true ) {
+    /**
+    console.log(`debug() 20: debug enabled on global level`)
+     */
+    if( localDebugOverride === true) {
+      //let documentLocation = 0
+      //let msgType = errorLevel
+      //let cellID = 0
+      let constructedMessage = `${functionName}() ${lineNumber}: ${errorMessage}`
+
+
+      if (generalValues.enabledDebugLevel >= debugLevel) { 
+        //documentMain.getElementById(cellID).style.color = msgColor;
+        //const cellLabel = documentMain.createElement("text")
+        //cellLabel.innerHTML = `<p>${msgType}: ${constructedMessage}`
+        //documentMain.getElementById(cellID).appendChild(cellLabel);
+
+        console.log(constructedMessage)  
+      }
+      /**
+       else {
+        console.log(`debug() 37: debug level ${debugLevel} is too low - current enabled is ${generalValues.enabledDebugLevel}`)
+      }
+      */
     }
+  }
+  else {
+    /**
+    console.log(`debug() 42: debug disabled on global level`)
+     */
   }
 }
 
