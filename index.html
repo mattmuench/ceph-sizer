@@ -17,7 +17,7 @@
 
   <body>
     <h1>A Ceph sizer for capacity, configuration, and subscriptions</h1>
-    <table> 
+    <table class="hover">
         <thead>
             <tr>
                 <th scope="col"> </th>
@@ -33,10 +33,10 @@
                 <tr>
                     <td><B>Converter from TiB into TB:</B><br> (value not applied - calulation only; only TB used in calc)</td>
                     <td><button id="button-capacity-tib" type="submit" data-target="tib">Convert</button></td>
-                    <td width="250" align="center">
+                    <td width="250">
                         <input type="text" id="global-capacity-tib-input">
                     </td>
-                    <td width="250" align="center">
+                    <td width="250">
                         <p class="converted-capacity" id="tib"><span class="value">0</span></p>
                     </td>
                     
@@ -45,11 +45,11 @@
                 <tr>
                     <th scope="row">All servers have the same NIC, cores & mem in config ?</th>
                     
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-similar-config" name="global-similar-config" value="1" checked>
                         <label for="similar-config">Same config</label>
                     </td>
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-dissimilar-config" name="global-similar-config" value="0">
                         <label for="similar-config">Different config</label>
                     </td>
@@ -57,11 +57,11 @@
                 <tr>
                     <th scope="row">All servers have the same number and types of media for capacity in config ?</th>
                     
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-similar-media-config" name="global-similar-media-config" value="1" checked>
                         <label for="similar-media-config">Same config</label>
                     </td>
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-dissimilar-media-config" name="global-similar-media-config" value="0">
                         <label for="similar-media-config">Similar config</label>
                     </td>
@@ -69,11 +69,11 @@
                 <tr>
                     <th scope="row">All servers have the exactly the same number and types of media in config ?</th>
                     
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-same-media-config" name="global-same-media-config" value="1" checked>
                         <label for="same-media-config">Exactly same config</label>
                     </td>
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-different-media-config" name="global-same-media-config" value="0">
                         <label for="same-media-config">Media config apply to slots available</label>
                     </td>
@@ -82,11 +82,11 @@
                 <tr>
                     <th scope="row">HDDs use separate servers ?</th>
                     
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-separate-hdd-config" name="global-separate-hdd-config" value="1" checked>
                         <label for="separate-hdd-config">Separate servers for HDD</label>
                     </td>
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-nonseparate-media-config" name="global-separate-hdd-config" value="0">
                         <label for="separate-hdd-config">Mix HDD and flash on servers</label>
                     </td>
@@ -94,11 +94,11 @@
                 <tr>
                     <th scope="row">SSD with dedicated but combined RocksDB/WAL use separate servers ?</th>
                     
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-separate-nvmetype5-config" name="global-separate-nvmetype5-config" value="1" checked>
                         <label for="separate-nvmetype5-config">Use separate servers</label>
                     </td>
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-nonseparate-nvmetype5-config" name="global-separate-nvmetype5-config" value="0">
                         <label for="separate-nvmetype5-config">Use same servers</label>
                     </td>
@@ -106,11 +106,11 @@
                 <tr>
                     <th scope="row">SSD with dedicated RocksDB/WAL and dedicated WAL or NVMe with dedicated WAL use separate servers ?</th>
                     
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-separate-nvmetype3-config" name="global-separate-nvmetype3-config" value="1" checked>
                         <label for="separate-nvmetype3-config">Use separate servers</label>
                     </td>
-                    <td align="center">
+                    <td>
                         <input type="radio" id="radiobutton-nonseparate-nvmetype3-config" name="global-separate-nvmetype3-config" value="0">
                         <label for="separate-nvmetype3-config">Use same servers</label>
                     </td>
