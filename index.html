@@ -17,19 +17,19 @@
 
   <body>
     <h1>A Ceph sizer for capacity, configuration, and subscriptions</h1>
-    <table> 
-        <thead>
-            <tr>
-                <th scope="col"> </th>
-                <td></td>
-            
-                <td scope="col"><center>(ignored in calculation - input only)<br><br><B>TiB</B></center></td>
-            
-                <td scope="col"><center>(used for calculation)<br><br><B>TB</B></center></td>
-            </tr>
-        </thead>
-        <tbody>
-            <form id="general-values"> 
+    <form id="general-values">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col"> </th>
+                    <td></td>
+
+                    <td scope="col"><center>(ignored in calculation - input only)<br><br><B>TiB</B></center></td>
+
+                    <td scope="col"><center>(used for calculation)<br><br><B>TB</B></center></td>
+                </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <td><B>Converter from TiB into TB:</B><br> (value not applied - calulation only; only TB used in calc)</td>
                     <td><button id="button-capacity-tib" type="submit" data-target="tib">Convert</button></td>
@@ -41,7 +41,6 @@
                     </td>
                     
                 </tr>
-                
                 <tr>
                     <th scope="row">All servers have the same NIC, cores & mem in config ?</th>
                     
@@ -78,10 +77,9 @@
                         <label for="same-media-config">Media config apply to slots available</label>
                     </td>
                 </tr>
-
                 <tr>
                     <th scope="row">HDDs use separate servers ?</th>
-                    
+                  
                     <td align="center">
                         <input type="radio" id="radiobutton-separate-hdd-config" name="global-separate-hdd-config" value="1" checked>
                         <label for="separate-hdd-config">Separate servers for HDD</label>
@@ -93,7 +91,7 @@
                 </tr>
                 <tr>
                     <th scope="row">SSD with dedicated but combined RocksDB/WAL use separate servers ?</th>
-                    
+                  
                     <td align="center">
                         <input type="radio" id="radiobutton-separate-nvmetype5-config" name="global-separate-nvmetype5-config" value="1" checked>
                         <label for="separate-nvmetype5-config">Use separate servers</label>
@@ -115,10 +113,9 @@
                         <label for="separate-nvmetype3-config">Use same servers</label>
                     </td>
                 </tr>
-
-            </form>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </form>
     <p><hl>------------------------------------</hl></p>
 
     <table>
