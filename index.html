@@ -21,10 +21,8 @@
         <thead>
             <tr>
                 <th scope="col"> </th>
-                <td></td>
-            
                 <td scope="col"><center>(ignored in calculation - input only)<br><br><B>TiB</B></center></td>
-            
+                <td></td>
                 <td scope="col"><center>(used for calculation)<br><br><B>TB</B></center></td>
             </tr>
         </thead>
@@ -32,10 +30,10 @@
             <form id="general-values"> 
                 <tr>
                     <td><B>Converter from TiB into TB:</B><br> (value not applied - calulation only; only TB used in calc)</td>
-                    <td><button id="button-capacity-tib" type="submit" data-target="tib">Convert</button></td>
                     <td width="250">
                         <input type="text" id="global-capacity-tib-input">
                     </td>
+                    <td><button class="button" id="button-capacity-tib" type="submit" data-target="tib">Convert TiB to TB</button></td>
                     <td width="250">
                         <p class="converted-capacity" id="tib"><span class="value">0</span></p>
                     </td>
