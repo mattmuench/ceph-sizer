@@ -2,7 +2,7 @@ import displayMsg from "../common/displayMsg.js"
 import {debugMsg} from "../common/debug.js";
 
 // Trying to implement Y41  
-const dcConfigAdjustNumberOfServers   = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
   let localDebugOn = true
   /**
    * Case 1:
