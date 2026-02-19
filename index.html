@@ -17,19 +17,19 @@
 
   <body>
     <h1>A Ceph sizer for capacity, configuration, and subscriptions</h1>
-    <table> 
-        <thead>
-            <tr>
-                <th scope="col"> </th>
-                <td></td>
-            
-                <td scope="col"><center>(ignored in calculation - input only)<br><br><B>TiB</B></center></td>
-            
-                <td scope="col"><center>(used for calculation)<br><br><B>TB</B></center></td>
-            </tr>
-        </thead>
-        <tbody>
-            <form id="general-values"> 
+    <form id="general-values">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col"> </th>
+                    <td></td>
+
+                    <td scope="col"><center>(ignored in calculation - input only)<br><br><B>TiB</B></center></td>
+
+                    <td scope="col"><center>(used for calculation)<br><br><B>TB</B></center></td>
+                </tr>
+            </thead>
+            <tbody>
                 <tr>
                     <td><B>Converter from TiB into TB:</B><br> (value not applied - calulation only; only TB used in calc)</td>
                     <td><button id="button-capacity-tib" type="submit" data-target="tib">Convert</button></td>
@@ -41,7 +41,6 @@
                     </td>
                     
                 </tr>
-                
                 <tr>
                     <th scope="row">All servers have the same NIC, cores & mem in config?</th>
                     
@@ -78,7 +77,6 @@
                         <label for="same-media-config">Media config apply to slots available</label>
                     </td>
                 </tr>
-
                 <tr>
                     <th scope="row">HDDs use separate servers?</th>
                     
@@ -115,10 +113,9 @@
                         <label for="separate-nvmetype3-config">Use same servers</label>
                     </td>
                 </tr>
-
-            </form>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </form>
     <p><hl>------------------------------------</hl></p>
 
     <table>
@@ -140,20 +137,20 @@
         <tbody>
             <tr>
                 <td style="min-width: 50px">
-                    <td><b>Error messages:</b></td>
-                    <td style="min-width: 100px; border: 1px solid black">
-                        <p id="error-message">
-                    </td>
+                    <table><tr>
+                        <td><b>Error messages:</b></td>
+                        <td style="min-width: 100px; border: 1px solid black">
+                            <p id="error-message">
+                        </td>
+                    </tr></table>
                 </td>
                 <td style="min-width: 50px; text-align: left">
-                    <td><b>Information & Warnings:</b></td>
-                    <td style="min-width: 100px; border: 1px solid black">
-                    <p id="misc-message"></p>   
-                <td>
+                    <table><tr>
+                        <td><b>Information & Warnings:</b></td>
+                        <td style="min-width: 100px; border: 1px solid black">
+                        <p id="misc-message"></p>
+                    </tr></table>
                 </td>
-                
-                
-                
             </tr>
         </tbody>
     </table>
