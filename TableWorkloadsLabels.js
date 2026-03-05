@@ -38,7 +38,7 @@ class TableHeaderWorkloads {
             ["Use dedicated flash pool for rgw index ?","selector-rgw-index-flash","checkbox"],
             ["SSD: Use dedicated flash media for RocksDB (OSD metadata) (default for HDD, selection for SSD only)?","selector-SSDdedicatedNVMe","checkbox"],
             ["SSD: Use dedicated flash media for separating WAL (w/ or w/o separate RocksDB) ?","selector-SSDdedicatedNVMeForWAL","checkbox"],
-            ["NVMe1: Use dedicated flash media for RocksDB (OSD metadata) (default for HDD, selection for SSD only)?","selector-NVMe1dedicatedNVMe","checkbox"],
+            ["NVMe1: Use dedicated flash media for RocksDB (OSD metadata) (selection for NVMe only)?","selector-NVMe1dedicatedNVMe","checkbox"],
             ["NVMe1: Use dedicated flash media for separating WAL (w/ or w/o separate RocksDB) ?","selector-NVMe1dedicatedNVMeForWAL","checkbox"]
         ]
     }
