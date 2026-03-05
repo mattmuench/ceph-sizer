@@ -124,11 +124,19 @@ const dcConfigCalcPreliminaryMediaPerServer = function (dcConfigArrayLocal, dcIt
     }
     else{
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed = 0
+      // if the chassis provides no support for NVMe8 (even the size is configured) we need to check whether we need still NVMe8 because a workload selected it - and perhaps throw an error
+      if (dcConfigArrayLocal[dcItem].numberOfNVMe8Needed > 0) {
+        displayMsg(document, "dcConfigCalcPreliminaryMediaPerServer", 129, "error", `NVMe8 is selected in a workload but not supported by chassis config: DC=${dcItem},actualChassisID=${actualChassisID}`,0,0,0)
+      }      
     }
 
   }
   else {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed = 0
+    // if the chassis provides no support for NVMe8 (even the size is configured) we need to check whether we need still NVMe8 because a workload selected it - and perhaps throw an error
+    if (dcConfigArrayLocal[dcItem].numberOfNVMe8Needed > 0) {
+      displayMsg(document, "dcConfigCalcPreliminaryMediaPerServer", 138, "error", `NVMe8 is selected in a workload but no size given by chassis config: DC=${dcItem},actualChassisID=${actualChassisID}`,0,0,0)
+    }
   }
         
 }
