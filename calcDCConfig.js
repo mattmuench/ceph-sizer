@@ -18,6 +18,7 @@ import dcConfigFinalClusterNetwork from "./dccalc/dcConfigFinalClusterNetwork.js
 import dcConfigCorrectNumberOfServersForiSCSI from "./dccalc/dcConfigCorrectNumberOfServersForiSCSI.js"
 import dcConfigCalcPreliminaryMediaPerServer from "./dccalc/dcConfigCalcPreliminaryMediaPerServer.js"
 import {workloadsDetermineRocksDBSpace, dcConfigDetermineNumberOfDCsInUse, dcConfigDetermineNumberOfDCsForWorkload, workloadDetermineCapacityRaw} from "./evalWorkloadsSettings.js"
+import dcConfigCleanPreviousResults from "./dccalc/dcConfigCleanPreviousResults.js"
 
 /** This function effectively combines all the (re-)calculation for the configuration influences and constraints for the individual DCs.
  *  It's called every time and update is done (update * button pressed by the user).
@@ -30,7 +31,7 @@ const calcDCConfig = function (generalValuesLocal, workloadsArrayLocal, sizingCo
   dcConfigDetermineNumberOfDCsForWorkload(generalValuesLocal, workloadsArrayLocal)
   workloadDetermineCapacityRaw(generalValuesLocal, workloadsArrayLocal, sizingConstraints)
 
-
+  dcConfigCleanPreviousResults(generalValuesLocal, configsArrayLocal, chassisArrayLocal)
 
   for (let actualChassisID = 0; actualChassisID < generalValuesLocal.numberOfConfigsPossible; actualChassisID++) {
       if(chassisArrayLocal[actualChassisID].maxAllMediaSum > 0) {
