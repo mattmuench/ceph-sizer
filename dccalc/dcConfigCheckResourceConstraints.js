@@ -1,5 +1,5 @@
 // Trying to implement X41
-const dcConfigCheckResourceConstraints = function (dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+const dcConfigCheckResourceConstraints = function (generalValuesLocal, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
 
   // check if the provided resources by selected chassis would match the required resources for all media and roles
   console.log(`dcConfigCheckResourceConstraints() 5: [chassisID=${actualChassisID},dcItem=${dcItem}] dcConfigArrayLocal[dcItem].prelimPerServerNumberOfCoresNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfCoresNeeded}; dcConfigArrayLocal[dcItem].maxCpuSockets*chassisArrayLocal[actualChassisID].maxCpuCores=${chassisArrayLocal[actualChassisID].maxCpuSockets}*${chassisArrayLocal[actualChassisID].maxCpuCores};`)

@@ -1,5 +1,5 @@
 // Trying to implement AG42 - cluster network
-const dcConfigFinalClusterNetwork   = function (sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+const dcConfigFinalClusterNetwork   = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
   // = if($Y41>0
   //     ,
   //        if ( Isnumber(Cover!$N$8)

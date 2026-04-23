@@ -1,6 +1,6 @@
 // Trying to implement V41 including all other NVMe as well
 // =if ( $T41 >0,roundup($J41/$T41,0)*$G$5+roundup($J42/$T41,0)*$J$5+if(Cover!$U$8="x",$G$3,0)+roundup($N41/$T41,0)*$AH$5+$AR$5+if(C41>0,if(roundup(($T41-$S41-$E41)/C41,0)<1,$AR$4,0),0),0)
-const dcConfigNumberOfCoresNeededInitial = function (sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+const dcConfigNumberOfCoresNeededInitial = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
   // 
   console.log(`dcConfigNumberOfCoresNeededInitial() 5: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[actualChassisID].numberOfServersNeededAllInstances=${dcConfigArrayLocal[actualChassisID].numberOfServersNeededAllInstances}, dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances}, dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances=${dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances}, dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances=${dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances} `)
   if (dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances > 0) {

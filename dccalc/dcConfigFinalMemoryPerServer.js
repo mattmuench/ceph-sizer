@@ -1,5 +1,5 @@
 // trying to implement AA41
-const dcConfigFinalMemoryPerServer   = function (sizingConstraints, dcConfigArrayLocal, actualChassisID, dcItem) {
+const dcConfigFinalMemoryPerServer   = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, actualChassisID, dcItem) {
   // =if($Y41>0
   //    ,
   //      roundup($J41/$Y41,0) * $G$6

@@ -1,5 +1,5 @@
 // Trying to implement AG41 -- public network
-const dcConfigFinalPublicNetwork   = function (sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+const dcConfigFinalPublicNetwork   = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
   // = if($Y41>0
   //     ,if ( Isnumber(Cover!$N$8)
   //         , if ( 

@@ -1,5 +1,5 @@
 // Trying to implement W41
-const dcConfigMemNeededInitial = function (sizingConstraints, dcConfigArrayLocal, dcItem) {
+const dcConfigMemNeededInitial = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, dcItem) {
   // =if($T41>0,roundup($J41/$T41,0)*$G$6+roundup($J42/$T41,0)*$J$6+roundup($N41/T41,0)*$AH$6+$AR$6+if(C41>0,if(roundup(($T41-$S41-$E41)/C41,0)<1,$AR$7,0),0),0)
   if (dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances > 0) {
     let localMemPerAdditionalRole = 0
