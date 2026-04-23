@@ -1,7 +1,7 @@
 
 
 // trying to implement AB41, AE41, AF41, etc.
-const dcConfigFinalNVMePerServer   = function (dcConfigArrayLocal, actualChassisID, dcItem, chassisArrayLocal) {
+const dcConfigFinalNVMePerServer   = function (generalValuesLocal, dcConfigArrayLocal, actualChassisID, dcItem, chassisArrayLocal) {
   if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
     dcConfigArrayLocal[dcItem].resultingNumberOfNVMe1 = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL
     dcConfigArrayLocal[dcItem].resultingNumberOfNVMe2 = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed

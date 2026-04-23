@@ -4,7 +4,7 @@
  * Note that SSD4 generally doesn't need additional resources since this is already accounted for with the resources for the HDD coreing it. Expecting no change for futher code changes.
  */
 
-const dcConfigFinalSSDPerServer   = function (dcConfigArrayLocal, actualChassisID, dcItem) {
+const dcConfigFinalSSDPerServer   = function (generalValuesLocal, dcConfigArrayLocal, actualChassisID, dcItem) {
 console.log(`dcConfigFinalSSDPerServer() 4: dcConfigArrayLocal[dcItem=${dcItem}].resultingNumberOfServersAsPerChassis=${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis} > 0 ?`)
 // RGW caching uses NVMe2 now
 

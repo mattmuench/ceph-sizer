@@ -1,5 +1,5 @@
 // trying to implement AD41
-const dcConfigFinalHDDPerServer   = function (dcConfigArrayLocal, actualChassisID, dcItem) {
+const dcConfigFinalHDDPerServer   = function (generalValuesLocal, dcConfigArrayLocal, actualChassisID, dcItem) {
   if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
     dcConfigArrayLocal[dcItem].resultingNumberOfHDD = Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDDNeeded / dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis)
   }

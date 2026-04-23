@@ -1,5 +1,5 @@
 import displayMsg from "../common/displayMsg.js"
-const dcConfigCalcPreliminaryMediaPerServer = function (dcConfigArrayLocal, dcItem, chassisArrayLocal, actualChassisID, numberOfServersNeeded) {
+const dcConfigCalcPreliminaryMediaPerServer = function (generalValuesLocal, dcConfigArrayLocal, dcItem, chassisArrayLocal, actualChassisID, numberOfServersNeeded) {
   // Calculate preliminary number of media per server to avoid constantly calculating something that might be not that obvious at the time of use
   
   if (chassisArrayLocal[actualChassisID].sizeHDD1 > 0) {
