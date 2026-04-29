@@ -7,7 +7,7 @@ const dcConfigNumberOfCoresNeededInitial = function (generalValues, sizingConstr
   debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 7, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[actualChassisID].numberOfServersNeededAllInstances=${dcConfigArrayLocal[actualChassisID].numberOfServersNeededAllInstances}, dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances}, dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances=${dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances}, dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances=${dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances}`,0,0,0)
   if (dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances > 0) {
     // If servers needed in this DC at all
-    debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 9, `[chassisID=${actualChassisID},DC=${dcItem}] servers needed in this DC: ${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 10, `[chassisID=${actualChassisID},DC=${dcItem}] servers needed in this DC: ${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`,0,0,0)
     
     let localCoresForRGWCaching = 0
     if(chassisArrayLocal[actualChassisID].useRGWCaching === true ) {

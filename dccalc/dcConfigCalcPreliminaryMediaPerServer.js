@@ -54,7 +54,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSD4Needed / numberOfServersNeeded)
     if (Math.ceil(dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded/chassisArrayLocal[dcItem].hddToSSD4) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * numberOfServersNeeded){
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed = Math.ceil(Math.ceil(dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded/chassisArrayLocal[dcItem].hddToSSD4) / numberOfServersNeeded)
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 55, `corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} because ratio of HDD/SSD4 not preserved in calculation`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 57, `corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} because ratio of HDD/SSD4 not preserved in calculation`,0,0,0)
     }
   }
   else {
@@ -70,7 +70,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe3Needed / numberOfServersNeeded)
     if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL + dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL) / chassisArrayLocal[dcItem].ssdToOptane) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed * numberOfServersNeeded){
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed = Math.ceil(Math.ceil((dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL+dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL)/chassisArrayLocal[dcItem].ssdToOptane) / numberOfServersNeeded)
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 71, `corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} because ratio of SSD1 with NVMe3/NVMe3 not preserved in calculation`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 73, `corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} because ratio of SSD1 with NVMe3/NVMe3 not preserved in calculation`,0,0,0)
     }
   }
   else {

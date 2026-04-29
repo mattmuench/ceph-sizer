@@ -5,32 +5,6 @@ const dcConfigFinalNumberOfCoresPerServer   = function (generalValues, sizingCon
   let localDebugOn = false
 
   // Determine the final number of cores per server needed for configuration:
-  // =if($Y41>0,roundup($J41/$Y41,0)*$G$5 + roundup($J42/$Y41,0)*$J$5 + if(Cover!$U$8="x",$G$3,0) + roundup($N41/$Y41,0)*$AH$5 + $AR$5 + if(C41>0,if(roundup(($Y41-$S41-$E41)/C41,0)<1,$AR$4,0),0),0)
-  // =if($Y41>0
-  //    ,
-  //      roundup($J41/$Y41,0)*$G$5 + roundup($J42/$Y41,0)*$J$5 
-  //      + if(Cover!$U$8="x"
-  //          ,
-  //             $G$3
-  //          ,
-  //             0
-  //          ) 
-  //      + roundup($N41/$Y41,0)*$AH$5 
-  //      + $AR$5 
-  //      + if(C41>0
-  //          ,
-  //            if( roundup(($Y41-$S41-$E41)/C41,0) < 1 
-  //              ,
-  //                $AR$4
-  //              ,
-  //                0
-  //              )
-  //          ,
-  //            0
-  //          )
-  //   ,
-  //      0
-  //   )
   if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
 
     let localAdditionRoleCores = 0
@@ -68,7 +42,7 @@ const dcConfigFinalNumberOfCoresPerServer   = function (generalValues, sizingCon
   else {
     dcConfigArrayLocal[dcItem].resultingNumberOfCores = 0
   }
-  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalNumberOfCoresPerServer", 71, `[chassisID=${actualChassisID}] [DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfCores=${dcConfigArrayLocal[dcItem].resultingNumberOfCores}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalNumberOfCoresPerServer", 45, `[chassisID=${actualChassisID}] [DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfCores=${dcConfigArrayLocal[dcItem].resultingNumberOfCores}`,0,0,0)
 }
 
 
