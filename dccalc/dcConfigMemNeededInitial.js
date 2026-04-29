@@ -1,5 +1,9 @@
-// Trying to implement W41
-const dcConfigMemNeededInitial = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, dcItem) {
+import displayMsg from "../common/displayMsg.js"
+import {debugMsg} from "../common/debug.js";
+
+const dcConfigMemNeededInitial = function (generalValues, sizingConstraints, dcConfigArrayLocal, dcItem) {
+  let localDebugOn = false
+
   // =if($T41>0,roundup($J41/$T41,0)*$G$6+roundup($J42/$T41,0)*$J$6+roundup($N41/T41,0)*$AH$6+$AR$6+if(C41>0,if(roundup(($T41-$S41-$E41)/C41,0)<1,$AR$7,0),0),0)
   if (dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances > 0) {
     let localMemPerAdditionalRole = 0
@@ -23,10 +27,10 @@ const dcConfigMemNeededInitial = function (generalValuesLocal, sizingConstraints
                                                   + sizingConstraints.memPerNodeBase 
                                                   + localMemPerAdditionalRole
   }
-  console.log(`dcConfigMemNeededInitial() 26: [DC=${dcItem} dcConfigArrayLocal[dcItem].memNeededPerServer=${dcConfigArrayLocal[dcItem].memNeededPerServer}`)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigMemNeededInitial", 30, `[DC=${dcItem} dcConfigArrayLocal[dcItem].memNeededPerServer=${dcConfigArrayLocal[dcItem].memNeededPerServer}`,0,0,0)
   dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer = dcConfigArrayLocal[dcItem].memNeededPerServer
 
-  console.log(`dcConfigMemNeededInitial() 29: [DC=${dcItem} dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer=${dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer}`)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigMemNeededInitial", 33, `[DC=${dcItem} dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer=${dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer}`,0,0,0)
   
 }
 

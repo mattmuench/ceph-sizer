@@ -1,20 +1,22 @@
-// Trying to implement V41 including all other NVMe as well
-// =if ( $T41 >0,roundup($J41/$T41,0)*$G$5+roundup($J42/$T41,0)*$J$5+if(Cover!$U$8="x",$G$3,0)+roundup($N41/$T41,0)*$AH$5+$AR$5+if(C41>0,if(roundup(($T41-$S41-$E41)/C41,0)<1,$AR$4,0),0),0)
-const dcConfigNumberOfCoresNeededInitial = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
-  // 
-  console.log(`dcConfigNumberOfCoresNeededInitial() 5: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[actualChassisID].numberOfServersNeededAllInstances=${dcConfigArrayLocal[actualChassisID].numberOfServersNeededAllInstances}, dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances}, dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances=${dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances}, dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances=${dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances} `)
+import displayMsg from "../common/displayMsg.js"
+import {debugMsg} from "../common/debug.js";
+
+const dcConfigNumberOfCoresNeededInitial = function (generalValues, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+  let localDebugOn = false
+
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 7, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[actualChassisID].numberOfServersNeededAllInstances=${dcConfigArrayLocal[actualChassisID].numberOfServersNeededAllInstances}, dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances}, dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances=${dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances}, dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances=${dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances}`,0,0,0)
   if (dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances > 0) {
     // If servers needed in this DC at all
-    console.log(`dcConfigNumberOfCoresNeededInitial() 8: [chassisID=${actualChassisID},DC=${dcItem}] servers needed in this DC: ${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 9, `[chassisID=${actualChassisID},DC=${dcItem}] servers needed in this DC: ${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`,0,0,0)
     
     let localCoresForRGWCaching = 0
     if(chassisArrayLocal[actualChassisID].useRGWCaching === true ) {
       localCoresForRGWCaching = sizingConstraints.coresPerRGWCacheDevice
-      console.log(`dcConfigNumberOfCoresNeededInitial() 13: [chassisID=${actualChassisID},DC=${dcItem}] workloads uses RGW caching (selected)`)
+      debugMsg(generalValues, localDebugOn, 5, "madcConfigNumberOfCoresNeededInitialin", 15, `[chassisID=${actualChassisID},DC=${dcItem}] workloads uses RGW caching (selected)`,0,0,0)
     }
     let localCoresForScaleOutInstances = 0
     if(dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances > 0){
-      console.log(`dcConfigNumberOfCoresNeededInitial() 17: [chassisID=${actualChassisID},DC=${dcItem}] number of scale-out instances=${dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances}`)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 19, `[chassisID=${actualChassisID},DC=${dcItem}] number of scale-out instances=${dcConfigArrayLocal[actualChassisID].numberOfLocalScaleoutInstances}`,0,0,0)
       // If we've got enough servers for all instances already, still add cores for the additional instance
       if(Math.ceil((dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances - dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances)/dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances)<1 ) {
         localCoresForScaleOutInstances = sizingConstraints.coresPerAdditionalRole
@@ -22,14 +24,14 @@ const dcConfigNumberOfCoresNeededInitial = function (generalValuesLocal, sizingC
       else {
         // For more than 2 resulting scale-out + MON instances per server after special roles.
         if(Math.ceil((dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances - dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances)*2 < dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances) ) {
-          console.log(`dcConfigNumberOfCoresNeededInitial() 25: [chassisID=${actualChassisID},DC=${dcItem}] ERROR - more than 2 scale-out instances per server needed which is not supported - need ${dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances} but only ${Math.ceil((dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances - dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances)*2)} servers available for scale-out role instances`)
+          displayMsg(document, "dcConfigNumberOfCoresNeededInitial", 27, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR - more than 2 scale-out instances per server needed which is not supported - need ${dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances} but only ${Math.ceil((dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances - dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances)*2)} servers available for scale-out role instances`,0,0,0)
         }
         else {
           localCoresForScaleOutInstances = sizingConstraints.coresPerAdditionalRole * Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances/dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances )
         }
       }
     } 
-    console.log(`dcConfigNumberOfCoresNeededInitial() 32: [chassisID=${actualChassisID},DC=${dcItem}] cores for scale-out instances=${localCoresForScaleOutInstances}`)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 34, `[chassisID=${actualChassisID},DC=${dcItem}] cores for scale-out instances=${localCoresForScaleOutInstances}`,0,0,0)
     // Needs to be changed to use SSD new and SSD old later on based on selection of SSD speed - currently using SSDold only
     // Note: numberOfSSD4Needed omitted since the HDD account for the use of dedicated devices for RocksDB and WAL already.
     // TODO: Add cores needed per additional role - not only as a coresPerAdditionalRole but more based on individual scale-out and dedicated roles needs
@@ -49,7 +51,8 @@ const dcConfigNumberOfCoresNeededInitial = function (generalValuesLocal, sizingC
                                                    + sizingConstraints.coresPerNodeBase 
                                                    + localCoresForScaleOutInstances
                                                    + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances / dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances)
-    console.log(`dcConfigNumberOfCoresNeededInitial() 52: [chassisID=${actualChassisID},DC=${dcItem}]  
+    
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 55, `[chassisID=${actualChassisID},DC=${dcItem}]  
       dcConfigArrayLocal[dcItem].numberOfCoresNeeded=${dcConfigArrayLocal[dcItem].numberOfCoresNeeded} 
       = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded})*sizingConstraints.coresPerHDD=${sizingConstraints.coresPerHDD} 
       + (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} 
@@ -66,9 +69,9 @@ const dcConfigNumberOfCoresNeededInitial = function (generalValuesLocal, sizingC
       + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.coresPerNVMe8=${sizingConstraints.coresPerNVMe8}
       + sizingConstraints.coresPerNodeBase=${sizingConstraints.coresPerNodeBase} 
       + localCoresForScaleOutInstances=${localCoresForScaleOutInstances} 
-      + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances=${dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances}/dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances=${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`) 
+      + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances=${dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances}/dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances=${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`,0,0,0)
   }
-  console.log(`dcConfigNumberOfCoresNeededInitial() 72: [chassisID=${actualChassisID},DC=${dcItem}] number of cores initial = ${dcConfigArrayLocal[dcItem].numberOfCoresNeeded}`)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 74, `[chassisID=${actualChassisID},DC=${dcItem}] number of cores initial = ${dcConfigArrayLocal[dcItem].numberOfCoresNeeded}`,0,0,0)
   dcConfigArrayLocal[dcItem].prelimPerServerNumberOfCoresNeeded = dcConfigArrayLocal[dcItem].numberOfCoresNeeded
 }
 

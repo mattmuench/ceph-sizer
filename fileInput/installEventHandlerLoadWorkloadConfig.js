@@ -1,26 +1,28 @@
-import Chassis from "../Workload.js";
-import displayMsg from "../common/displayMsg.js";
+import displayMsg from "../common/displayMsg.js"
+import {debugMsg} from "../common/debug.js";
+import generalValues from "../GeneralValues.js";
 
 const installEventHandlerLoadWorkloadConfig = function (documentMain, workloadsArrayLocal, generalValues, loadedConfigsLocal) {
+  let localDebugOn = false
 
   // recognize button for loading presaved workload config definition file
   const clickedLoadWorkloadConfig = documentMain.getElementById("input-filename-workload-config")
   clickedLoadWorkloadConfig.addEventListener("change", (event) => {
       event.preventDefault()
       
-      console.log("installEventHandlerLoadWorkloadConfig 10: Recalculation after loading new workload config should start now")
+      debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadWorkloadConfig", 12, `Recalculation after loading new workload config should start now`,0,0,0)
       const selectedFile = clickedLoadWorkloadConfig.files[0];
-      console.log(`installEventHandlerLoadWorkloadConfig() 12 for input-filename-workload-config: changed filename to selectedFile=${selectedFile.name}`)
+      debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadWorkloadConfig", 14, `changed filename to selectedFile=${selectedFile.name}`,0,0,0)
       
       const textFile = new Response(selectedFile).text()
-      console.log(`installEventHandlerLoadWorkloadConfig() 15: textFile=${textFile}`)
+      debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadWorkloadConfig", 17, `textFile=${textFile}`,0,0,0)
       
       // LAST known good approach - all others didn't work to get the reading of the file content done and the following processing then in sync *after* the file contents is read
       const myret = logIngredientsWorkload(selectedFile,loadedConfigsLocal)
 
       const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
       wait(1000).then(() => {
-          console.log(`installEventHandlerLoadWorkloadConfig() 22: entry of loadedConfigsLocal.workloadConfigFile=${loadedConfigsLocal.workloadConfigFile}`)
+          debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadWorkloadConfig", 24, `entry of loadedConfigsLocal.workloadConfigFile=${loadedConfigsLocal.workloadConfigFile}`,0,0,0)
           readWorkloadConfig(documentMain, generalValues, loadedConfigsLocal, workloadsArrayLocal)          
         }
       );
@@ -28,35 +30,39 @@ const installEventHandlerLoadWorkloadConfig = function (documentMain, workloadsA
 }
 
 async function logIngredientsWorkload(selectedFile,loadedConfigsLocal) {
+  let localDebugOn = false
+
   const res = await new Response(selectedFile).text();
-  console.log(`logIngredientsWorkload() 58: res=${res}`);
+  debugMsg(generalValues, localDebugOn, 5, "logIngredientsWorkload", 33, `res=${res}`,0,0,0);
   loadedConfigsLocal.workloadConfigFile=res;
-  console.log(`logIngredientsWorkload() 60: loadedConfigsLocal.workloadConfigFile=${loadedConfigsLocal.workloadConfigFile}`);
+  debugMsg(generalValues, localDebugOn, 5, "logIngredientsWorkload", 35, `loadedConfigsLocal.workloadConfigFile=${loadedConfigsLocal.workloadConfigFile}`,0,0,0);
 }
 
 const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsLocal, workloadsArrayLocal){
-  console.log(`readWorkloadConfig() 39: loadedConfigsLocal.workloadConfigFile=${loadedConfigsLocal.workloadConfigFile}`)
+  let localDebugOn = false
+
+  debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 39, `loadedConfigsLocal.workloadConfigFile=${loadedConfigsLocal.workloadConfigFile}`,0,0,0)
   var loadedJsonChassisObject;
   try {
     loadedJsonChassisObject = JSON.parse(loadedConfigsLocal.workloadConfigFile); 
   } catch (e) {
-    console.log("Error:", e.message)
-    displayMsg(documentMain, "readWorkloadConfig", 43, "error", e.message,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 44, `${e.message}`,0,0,0)
+    displayMsg(documentMain, "readWorkloadConfig", 45, "error", e.message,0,0,0)
   }
   loadedJsonChassisObject.workloadConfig.forEach(element => {
     if (element.workloadID >= generalValues.numberOfConfigsPossible) {
-      console.log(`readWorkloadConfig() 46: ERROR - max number of configs possible is generalValues.numberOfConfigsPossible - check input file for workloadID`)
-      displayMsg(documentMain, "readWorkloadConfig", 48, "error", "max number of configs possible is generalValues.numberOfConfigsPossible - check input file for workloadID",0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 49, `ERROR - max number of configs possible is generalValues.numberOfConfigsPossible - check input file for workloadID`,0,0,0)
+      displayMsg(documentMain, "readWorkloadConfig", 50, "error", "max number of configs possible is generalValues.numberOfConfigsPossible - check input file for workloadID",0,0,0)
     }
     else {
       const workloadsColumns = workloadsArrayLocal[element.workloadID].workloadItemsDict.length;
-      console.log(`readWorkloadConfig() 50: dataColumns = ${workloadsColumns}`)
+      debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 54, `dataColumns = ${workloadsColumns}`,0,0,0)
       
       for (let j = 0; j < workloadsColumns; j++) {
         const item = workloadsArrayLocal[element.workloadID].workloadItemsDict[j][1]
-        console.log(`readWorkloadConfig() 54: working on item=${item}`)
+        debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 58, `working on item=${item}`,0,0,0)
         if (item == "workloadID") {
-          console.log(`readWorkloadConfig() 55: ignoring since got it for processing already`)
+          debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 60, `ignoring since got it for processing already`,0,0,0)
         }
         else {
           switch (item){
@@ -64,12 +70,12 @@ const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsL
               // this is a list of entries for each DC that will create a selector change
               for (let dc = 0; dc < generalValues.numberOfDCsPossible; dc++) {
                 let valTemp = eval('element'+'.'+'members'+'.'+item+'['+dc+']')
-                console.log(`readWorkloadConfig() 62: item=${item}, dc=${dc} = item value=${valTemp}`)
+                debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 68, `item=${item}, dc=${dc} = item value=${valTemp}`,0,0,0)
 
                 // constructing the id string for the cell to read from
                 let idStringToFind =  `workload-${element.workloadID}-${workloadsArrayLocal[element.workloadID].workloadItemsDict[j][0]}${dc}`
 
-                console.log(`readWorkloadConfig() 68: [workload detail=${item}] looking up the DOM element id ${idStringToFind}`)
+                debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 73, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
                 const inputElement = documentMain.getElementById(idStringToFind)
                 inputElement.checked=valTemp
               }
@@ -85,11 +91,11 @@ const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsL
             case "RGWLifecycleNumVersions":
             {
               let valTemp = eval('element'+'.'+'members'+'.'+item)
-              console.log(`readWorkloadConfig() 84: item=${item} = item value=${valTemp}`)
+              debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 89, `item=${item} = item value=${valTemp}`,0,0,0)
               // constructing the id string for the cell to read from
               let idStringToFind =  `workload-${element.workloadID}-${workloadsArrayLocal[element.workloadID].workloadItemsDict[j][0]}`
 
-              console.log(`readWorkloadConfig() 90: [workload detail=${item}] looking up the DOM element id ${idStringToFind}`)
+              debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 93, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
               const inputElement = documentMain.getElementById(idStringToFind)
               inputElement.value = valTemp
             }
@@ -97,14 +103,14 @@ const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsL
             
             case "useCase":
             {
-              console.log(`readWorkloadConfig() 98: item=${item} = item - not yet implemented`)
+              debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 101, `item=${item} = item - not yet implemented`,0,0,0)
               let valTemp = eval('element'+'.'+'members'+'.'+item)
 
-                console.log(`readWorkloadConfig() 116: item=${item} = item value=${valTemp}`)
+                debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 104, `item=${item} = item value=${valTemp}`,0,0,0)
                 // constructing the id string for the cell to read from
                 let idStringToFind =  `workload-${element.workloadID}-${workloadsArrayLocal[element.workloadID].workloadItemsDict[j][0]}-${valTemp}`
 
-                console.log(`readWorkloadConfig() 118: [workload detail=${item}] looking up the DOM element id ${idStringToFind}`)
+                debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 108, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
                 const inputElement = documentMain.getElementById(idStringToFind)
                 inputElement.checked=true
             }
@@ -120,12 +126,12 @@ const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsL
             case "selectorNVMe1DedicatedNVMeForWAL":
               {
                 let valTemp = eval('element'+'.'+'members'+'.'+item)
-                console.log(`readWorkloadConfig() 112: item=${item} = item value=${valTemp}`)
+                debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 124, `item=${item} = item value=${valTemp}`,0,0,0)
 
                 // constructing the id string for the cell to read from
                 let idStringToFind =  `workload-${element.workloadID}-${workloadsArrayLocal[element.workloadID].workloadItemsDict[j][0]}`
 
-                console.log(`readWorkloadConfig() 118: [workload detail=${item}] looking up the DOM element id ${idStringToFind}`)
+                debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 129, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
                 const inputElement = documentMain.getElementById(idStringToFind)
                 inputElement.checked = valTemp
               }
@@ -141,19 +147,19 @@ const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsL
             break;
 
             default: {
-              console.log(`no valid statement found for ${item}`)
-              displayMsg(documentMain, "readWorkloadConfig", 144, "error", `no valid statement found for ${item}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 145, `no valid statement found for ${item}`,0,0,0)
+              displayMsg(documentMain, "readWorkloadConfig", 146, "error", `no valid statement found for ${item}`,0,0,0)
             }
                   
           }
         }
-        console.log(`readWorkloadConfig() 60: actual workloadID=${element.workloadID} item=${item} set to:${workloadsArrayLocal[element.workloadID].item}`)  
+        debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 151, `actual workloadID=${element.workloadID} item=${item} set to:${workloadsArrayLocal[element.workloadID].item}`,0,0,0)
       }
     }
         
   });
 
-  console.log(`readWorkloadConfig() 63: loading workload config file finished`)
+  debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 157, `loading workload config file finished`,0,0,0)
 }
 
 export {installEventHandlerLoadWorkloadConfig,readWorkloadConfig}

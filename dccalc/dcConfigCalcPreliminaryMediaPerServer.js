@@ -1,5 +1,9 @@
 import displayMsg from "../common/displayMsg.js"
-const dcConfigCalcPreliminaryMediaPerServer = function (generalValuesLocal, dcConfigArrayLocal, dcItem, chassisArrayLocal, actualChassisID, numberOfServersNeeded) {
+import {debugMsg} from "../common/debug.js";
+
+const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigArrayLocal, dcItem, chassisArrayLocal, actualChassisID, numberOfServersNeeded) {
+  let localDebugOn = false
+
   // Calculate preliminary number of media per server to avoid constantly calculating something that might be not that obvious at the time of use
   
   if (chassisArrayLocal[actualChassisID].sizeHDD1 > 0) {
@@ -50,7 +54,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValuesLocal, dcCo
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSD4Needed / numberOfServersNeeded)
     if (Math.ceil(dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded/chassisArrayLocal[dcItem].hddToSSD4) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * numberOfServersNeeded){
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed = Math.ceil(Math.ceil(dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded/chassisArrayLocal[dcItem].hddToSSD4) / numberOfServersNeeded)
-      console.log(`dcConfigCalcPreliminaryMediaPerServer() 46: corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} because ratio of HDD/SSD4 not preserved in calculation`)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 55, `corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} because ratio of HDD/SSD4 not preserved in calculation`,0,0,0)
     }
   }
   else {
@@ -66,7 +70,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValuesLocal, dcCo
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe3Needed / numberOfServersNeeded)
     if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL + dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL) / chassisArrayLocal[dcItem].ssdToOptane) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed * numberOfServersNeeded){
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed = Math.ceil(Math.ceil((dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL+dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL)/chassisArrayLocal[dcItem].ssdToOptane) / numberOfServersNeeded)
-      console.log(`dcConfigCalcPreliminaryMediaPerServer() 62: corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} because ratio of SSD1 with NVMe3/NVMe3 not preserved in calculation`)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 71, `corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} because ratio of SSD1 with NVMe3/NVMe3 not preserved in calculation`,0,0,0)
     }
   }
   else {
@@ -76,7 +80,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValuesLocal, dcCo
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe4Needed / numberOfServersNeeded)
     if (Math.ceil(dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded/chassisArrayLocal[dcItem].hddToNVMe4) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed * numberOfServersNeeded){
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed = Math.ceil(Math.ceil(dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded/chassisArrayLocal[dcItem].hddToNVMe4) / numberOfServersNeeded)
-      console.log(`dcConfigCalcPreliminaryMediaPerServer() 72: corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} because ratio of HDD/NVMe4 not preserved in calculation`)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 83, `corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} because ratio of HDD/NVMe4 not preserved in calculation`,0,0,0)
     }
   }
   else {
@@ -86,7 +90,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValuesLocal, dcCo
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe5Needed / numberOfServersNeeded)
     if (Math.ceil(( dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL + dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL) / chassisArrayLocal[dcItem].ssdToNVMe5 ) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * numberOfServersNeeded){
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed = Math.ceil(Math.ceil((dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL + dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL) / chassisArrayLocal[dcItem].ssdToNVMe5) / numberOfServersNeeded)
-      console.log(`dcConfigCalcPreliminaryMediaPerServer() 82: corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} because ratio of SSD1/NVMe5 not preserved in calculation`)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 93, `corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} because ratio of SSD1/NVMe5 not preserved in calculation`,0,0,0)
     }
   }
   else {
@@ -100,15 +104,13 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValuesLocal, dcCo
   }
   if (chassisArrayLocal[actualChassisID].sizeNVMe7 > 0) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe7Needed / numberOfServersNeeded)
-    console.log(`dcConfigCalcPreliminaryMediaPerServer() 96: initial dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed} / numberOfServersNeeded=${numberOfServersNeeded})`)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 107, `initial dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed} / numberOfServersNeeded=${numberOfServersNeeded})`,0,0,0)
 
     if (Math.ceil( ( dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL + dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL) / chassisArrayLocal[dcItem].nvmeToNVMe7 ) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * numberOfServersNeeded ){
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed = Math.ceil(Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL + dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL) / chassisArrayLocal[dcItem].nvmeToNVMe7 ) / numberOfServersNeeded)
-      
-      
-      console.log(`dcConfigCalcPreliminaryMediaPerServer() 97: if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL} + dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL})/chassisArrayLocal[dcItem].nvmeToNVMe7=${chassisArrayLocal[dcItem].nvmeToNVMe7}) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * numberOfServersNeeded=${numberOfServersNeeded}){
-        dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL} + dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL}) / chassisArrayLocal[dcItem].nvmeToNVMe7=${chassisArrayLocal[dcItem].nvmeToNVMe7}) / numberOfServersNeeded=${numberOfServersNeeded}`)
-      console.log(`dcConfigCalcPreliminaryMediaPerServer() 98: corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} because ratio of NVMe1 with NVMe7/NVMe7 not preserved in calculation`)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 111, `if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL} + dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL})/chassisArrayLocal[dcItem].nvmeToNVMe7=${chassisArrayLocal[dcItem].nvmeToNVMe7}) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * numberOfServersNeeded=${numberOfServersNeeded}){
+        dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL} + dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL}) / chassisArrayLocal[dcItem].nvmeToNVMe7=${chassisArrayLocal[dcItem].nvmeToNVMe7}) / numberOfServersNeeded=${numberOfServersNeeded}`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 113, `corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} because ratio of NVMe1 with NVMe7/NVMe7 not preserved in calculation`,0,0,0)
     }
   }
   else {
@@ -119,14 +121,14 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValuesLocal, dcCo
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe8Needed / numberOfServersNeeded)
       if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL + dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL) / chassisArrayLocal[dcItem].nvmeToNVMe8 ) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * numberOfServersNeeded){
         dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed = Math.ceil(Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL + dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL) / chassisArrayLocal[dcItem].nvmeToNVMe8) / numberOfServersNeeded)
-        console.log(`dcConfigCalcPreliminaryMediaPerServer() 108: corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} because ratio of NVMe1/NVMe8 not preserved in calculation`)
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 124, `corrected dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} because ratio of NVMe1/NVMe8 not preserved in calculation`,0,0,0)
       }
     }
     else{
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed = 0
       // if the chassis provides no support for NVMe8 (even the size is configured) we need to check whether we need still NVMe8 because a workload selected it - and perhaps throw an error
       if (dcConfigArrayLocal[dcItem].numberOfNVMe8Needed > 0) {
-        displayMsg(document, "dcConfigCalcPreliminaryMediaPerServer", 129, "error", `NVMe8 is selected in a workload but not supported by chassis config: DC=${dcItem},actualChassisID=${actualChassisID}`,0,0,0)
+        displayMsg(document, "dcConfigCalcPreliminaryMediaPerServer", 131, "error", `NVMe8 is selected in a workload but not supported by chassis config: DC=${dcItem},actualChassisID=${actualChassisID}`,0,0,0)
       }      
     }
 
@@ -135,7 +137,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValuesLocal, dcCo
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed = 0
     // if the chassis provides no support for NVMe8 (even the size is configured) we need to check whether we need still NVMe8 because a workload selected it - and perhaps throw an error
     if (dcConfigArrayLocal[dcItem].numberOfNVMe8Needed > 0) {
-      displayMsg(document, "dcConfigCalcPreliminaryMediaPerServer", 138, "error", `NVMe8 is selected in a workload but no size given by chassis config: DC=${dcItem},actualChassisID=${actualChassisID}`,0,0,0)
+      displayMsg(document, "dcConfigCalcPreliminaryMediaPerServer", 140, "error", `NVMe8 is selected in a workload but no size given by chassis config: DC=${dcItem},actualChassisID=${actualChassisID}`,0,0,0)
     }
   }
         

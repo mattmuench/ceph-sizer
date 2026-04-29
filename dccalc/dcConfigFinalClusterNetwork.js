@@ -1,5 +1,9 @@
-// Trying to implement AG42 - cluster network
-const dcConfigFinalClusterNetwork   = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+import displayMsg from "../common/displayMsg.js"
+import {debugMsg} from "../common/debug.js";
+
+const dcConfigFinalClusterNetwork   = function (generalValues, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+  let localDebugOn = false
+
   // = if($Y41>0
   //     ,
   //        if ( Isnumber(Cover!$N$8)
@@ -25,7 +29,7 @@ const dcConfigFinalClusterNetwork   = function (generalValuesLocal, sizingConstr
       //    0
       // )
   if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
-    console.log(`dcConfigFinalClusterNetwork() 28: [chassisID=${actualChassisID},DC=${dcItem}] chassisArrayLocal[actualChassisID].speedNicCluster=${chassisArrayLocal[actualChassisID].speedNicCluster}`)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalClusterNetwork", 32, `[chassisID=${actualChassisID},DC=${dcItem}] chassisArrayLocal[actualChassisID].speedNicCluster=${chassisArrayLocal[actualChassisID].speedNicCluster}`,0,0,0)
   // ONLY as temporary working local workaround - strings
     //  if (typeof chassisArrayLocal[actualChassisID].speedNicCluster === 'number') {
       switch (chassisArrayLocal[actualChassisID].speedNicCluster) {
@@ -43,10 +47,10 @@ const dcConfigFinalClusterNetwork   = function (generalValuesLocal, sizingConstr
                                                                                   + dcConfigArrayLocal[dcItem].resultingNumberOfNVMe1 * sizingConstraints.networkBandwidthPerNVMeinMBsec
                                                                                  ) / 100 / chassisArrayLocal[actualChassisID].speedNicCluster / 2
                                                                                 )
-          console.log(`dcConfigFinalClusterNetwork() 46: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs}`)
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalClusterNetwork", 50, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs}`,0,0,0)
           break
         default:
-          console.log(`dcConfigFinalClusterNetwork() 49: [chassisID=${actualChassisID},DC=${dcItem}] ERROR: no valid NIC speed specified for ports`)
+          displayMsg(document, "dcConfigFinalClusterNetwork", 53, "info", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: no valid NIC speed specified for ports`,0,0,0)
       }
     //}
     //else {
@@ -57,7 +61,7 @@ const dcConfigFinalClusterNetwork   = function (generalValuesLocal, sizingConstr
     dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs = 0
   }
 
-  console.log(`dcConfigFinalClusterNetwork() 60: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs}`)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalClusterNetwork", 64, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs}`,0,0,0)
 }
 
 export default dcConfigFinalClusterNetwork

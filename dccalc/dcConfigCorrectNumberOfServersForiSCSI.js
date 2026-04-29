@@ -1,23 +1,27 @@
-/// Trying to implement T41
-const dcConfigCorrectNumberOfServersForiSCSI = function (generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, dcItem) {
-  console.log(`dcConfigCorrectNumberOfServersForiSCSI() 3: [DC=${dcItem}] starting #servers for DC=${dcItem} =${dcConfigArrayLocal[dcItem].numberOfServersNeededBasedOnChassisConfig}`)
+import displayMsg from "../common/displayMsg.js"
+import {debugMsg} from "../common/debug.js";
+
+const dcConfigCorrectNumberOfServersForiSCSI = function (generalValues, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, dcItem) {
+  let localDebugOn = false
+
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigCorrectNumberOfServersForiSCSI", 7, `[DC=${dcItem}] starting #servers for DC=${dcItem} =${dcConfigArrayLocal[dcItem].numberOfServersNeededBasedOnChassisConfig}`,0,0,0)
   // Looking for workloads that require dedicated instances, like iscsi workload (iSCSI gateway cannot be collocated with other scale-out roles)
   let localiSCSIworkload = 0
-  for (let workloadItem = 0; workloadItem < generalValuesLocal.numberOfWorkloadsPossible; workloadItem++) {
+  for (let workloadItem = 0; workloadItem < generalValues.numberOfWorkloadsPossible; workloadItem++) {
     // check if this actual workload is "iscsi" and is using this DC
     if (workloadsArrayLocal[workloadItem].selectorArrayDC[dcItem] === true && workloadsArrayLocal[workloadItem].reqCapacityNet > 0 && workloadsArrayLocal[workloadItem].useCase == "iscsi") {
       localiSCSIworkload += 1
     }
   }
-  console.log(`dcConfigCorrectNumberOfServersForiSCSI() 12: [DC=${dcItem}] # workloads using iSCSI  in this DC = ${localiSCSIworkload}`)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigCorrectNumberOfServersForiSCSI", 16, `[DC=${dcItem}] # workloads using iSCSI  in this DC = ${localiSCSIworkload}`,0,0,0)
   let localDCsInUse = 0
-  for (let dcCheck = 0; dcCheck < generalValuesLocal.numberOfDCsPossible; dcCheck++) {
+  for (let dcCheck = 0; dcCheck < generalValues.numberOfDCsPossible; dcCheck++) {
     // Check whether this DC is used at all and add it to the DCs in use
     if (dcConfigArrayLocal[dcCheck].numberOfWorkloadsInDC > 0) {
       localDCsInUse += 1
     }
   }
-  console.log(`dcConfigCorrectNumberOfServersForiSCSI() 20: [DC=${dcItem}] #DCs in use = ${localDCsInUse}`)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigCorrectNumberOfServersForiSCSI", 24, `[DC=${dcItem}] #DCs in use = ${localDCsInUse}`,0,0,0)
   /// if any of the workloads have iscsi-block, and if the workload is in this DC only
   if (localiSCSIworkload > 0){
     /// ..... then, if (round(scale-roles_without_mons / DCs used for all workloads) - #Mons_in_this_DC) > 0
@@ -70,12 +74,12 @@ const dcConfigCorrectNumberOfServersForiSCSI = function (generalValuesLocal, wor
       }
     }
   }
-  console.log(`dcConfigCorrectNumberOfServersForiSCSI() 73: [DC=${dcItem}] #servers as per all roles = ${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigCorrectNumberOfServersForiSCSI", 77, `[DC=${dcItem}] #servers as per all roles = ${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`,0,0,0)
   // If we need more servers already because of the media configuration, use this higher value.
   if (dcConfigArrayLocal[dcItem].numberOfServersNeededBasedOnChassisConfig > dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances){
     dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances = dcConfigArrayLocal[dcItem].numberOfServersNeededBasedOnChassisConfig
   }
-  console.log(`dcConfigCorrectNumberOfServersForiSCSI() 78: [DC=${dcItem}] corrected #servers per all roles and media = ${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigCorrectNumberOfServersForiSCSI", 82, `[DC=${dcItem}] corrected #servers per all roles and media = ${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`,0,0,0)
 }
 
 export default dcConfigCorrectNumberOfServersForiSCSI

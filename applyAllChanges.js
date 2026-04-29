@@ -11,7 +11,7 @@ import Results from "./Results.js"
 
 const applyAllChanges = function (documentMain, generalValues, workloadsValues, chassisValues, sizingConstraints, configsArrayLocal, tableHeaderResultingConfigsArray, resultsOverviewArrayLocal) {
 
-  let localDebugOn = true
+  let localDebugOn = false
   
   // clear any previous messages
   documentMain.getElementById("misc-message").innerText = ``
@@ -54,7 +54,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
   let workloadValid = 0
 
   workloadsValues.forEach((item) => {
-    console.log(`applyAllChanges -- workloads() 45: workloadID = ${item}`)
+    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 57, `workloadID = ${item}`,0,0,0)
     Object.keys(item).forEach((value) => {
       item.workloadItemsDict.forEach((entry) => {
         if (generalValues.globalDebug) {
@@ -190,221 +190,118 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
         }  
       })
     })
-    })
+  })
 
-    /////////
-    ///////// Reading in all value for CHASSIS
-    /////////
+  /////////
+  ///////// Reading in all value for CHASSIS
+  /////////
     
 
-    chassisValues.forEach((item) => {
-      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 201, `[chassisID=${item}]: chassisID = ${item}`,0,0,0)
-      Object.keys(item).forEach((value) => {
-        item.ChassisItemsDict.forEach((entry) => {
-          if (generalValues.globalDebug) {
-            // console.log(`applyAllChanges() 2: Working on entry for ChassisItemsDict - check ChassisItemsDict: ${item.ChassisItemsDict}`)
-            // console.log(`applyAllChanges() 2: "chassis = item", entry is = ${entry}`)
-            debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 207, `[chassisID=${item}] Working on entry for ChassisItemsDict: ${entry[1]}`,0,0,0)
-          }
+  chassisValues.forEach((item) => {
+    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 201, `[chassisID=${item}]: chassisID = ${item}`,0,0,0)
+    Object.keys(item).forEach((value) => {
+      item.ChassisItemsDict.forEach((entry) => {
+        if (generalValues.globalDebug) {
+          // console.log(`applyAllChanges() 2: Working on entry for ChassisItemsDict - check ChassisItemsDict: ${item.ChassisItemsDict}`)
+          // console.log(`applyAllChanges() 2: "chassis = item", entry is = ${entry}`)
+          debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 207, `[chassisID=${item}] Working on entry for ChassisItemsDict: ${entry[1]}`,0,0,0)
+        }
           
-          if (entry[1] == `${value}`) {
-            debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 212, `found value: ${value}`,0,0,0)
-            const testToConsoleValue = `chassisValues[item.chassisID].${entry[1]}`
-            const testForConsoleValue = chassisValues[item.chassisID][entry[1]]
-            debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 214, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is actually ${value}: ${testToConsoleValue}=${testForConsoleValue}`,0,0,0)
-            if (value == "chassisID") {
-              // console.log(`applyAllChanges -- workloads(): entry for chassisID ${item}=> skip it`)
+        if (entry[1] == `${value}`) {
+          debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 212, `found value: ${value}`,0,0,0)
+          const testToConsoleValue = `chassisValues[item.chassisID].${entry[1]}`
+          const testForConsoleValue = chassisValues[item.chassisID][entry[1]]
+          debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 214, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is actually ${value}: ${testToConsoleValue}=${testForConsoleValue}`,0,0,0)
+          if (value == "chassisID") {
+            // console.log(`applyAllChanges -- workloads(): entry for chassisID ${item}=> skip it`)
+          }
+          else {
+            // constructing the id string for the cell to read from
+            let idStringToFind =  `chassis-${item.chassisID}-${entry[0]}`
+            debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 221, `[chassisID=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
+            const inputElement = documentMain.getElementById(idStringToFind)
+            let outputSubString = "output-"
+            if (entry[0].includes(outputSubString)) {
+              debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 225, `[chassisID=${item}] skipping entry[0] for input which is output: ${entry[0]}`,0,0,0)
             }
             else {
-              // constructing the id string for the cell to read from
-              let idStringToFind =  `chassis-${item.chassisID}-${entry[0]}`
-              debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 221, `[chassisID=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
-              const inputElement = documentMain.getElementById(idStringToFind)
-              let outputSubString = "output-"
-              if (entry[0].includes(outputSubString)) {
-                debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 225, `[chassisID=${item}] skipping entry[0] for input which is output: ${entry[0]}`,0,0,0)
-              }
-              else {
-                switch (entry[0]) {
-                  case "use-SSD4-over-NVMe4":
-                  case "use-rgw-caching": 
-                  case "use-nvme-7":
-                  case "use-nvme-8": 
-                  case "use-optane-1": {
-                    chassisValues[item.chassisID][entry[1]]=documentMain.getElementById(idStringToFind).checked
-                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 235, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)                 
-                    break
-                  }
-                  default:  {
-                    // Keep the default or actual value  if nothing is provided
-                    if (inputElement.value !== '') {
-                      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 242, `[chassisID=${item}] CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`,0,0,0)
-                      if (!isNaN(Number(inputElement.value))) {
-                        chassisValues[item.chassisID][entry[1]] = inputElement.value
-                      }
-                      else {
-                        displayMsg(documentMain, "applyAllChanges", 245, "error", `[chassisID=${item}] ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
-                      }
+              switch (entry[0]) {
+                case "use-SSD4-over-NVMe4":
+                case "use-rgw-caching": 
+                case "use-nvme-7":
+                case "use-nvme-8": 
+                case "use-optane-1": {
+                  chassisValues[item.chassisID][entry[1]]=documentMain.getElementById(idStringToFind).checked
+                  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 235, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)                 
+                  break
+                }
+                default:  {
+                  // Keep the default or actual value  if nothing is provided
+                  if (inputElement.value !== '') {
+                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 242, `[chassisID=${item}] CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`,0,0,0)
+                    if (!isNaN(Number(inputElement.value))) {
+                      chassisValues[item.chassisID][entry[1]] = inputElement.value
                     }
                     else {
-                      // Don't change the actual value (default)
-                      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 251, `[chassisID=${item}] DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`,0,0,0)
+                      displayMsg(documentMain, "applyAllChanges", 245, "error", `[chassisID=${item}] ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
                     }
-                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 253, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW ${value}: ${testToConsoleValue}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)
                   }
+                  else {
+                    // Don't change the actual value (default)
+                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 251, `[chassisID=${item}] DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`,0,0,0)
+                  }
+                  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 253, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW ${value}: ${testToConsoleValue}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)
                 }
               }
-              //console.log(`applyAllChanges -- chassis(): myValue = ${myValue} for idStringToFind=${idStringToFind}`)  
-            }                
-          }
-        })
+            }
+            //console.log(`applyAllChanges -- chassis(): myValue = ${myValue} for idStringToFind=${idStringToFind}`)  
+          }                
+        }
       })
-      })
+    })
+    })
 
-      // All entries read from the document input => now apply the changes (calculate the values needed)
-      /** What do we actually need - per DC and in sum for the overview
-       *  - #servers 
-       *  - CPU cores
-       *  - MEM min
-       *  - HDD1 size
-       *  - #HDD1
-       *  - SSD1 size 
-       *  - #SSD1
-       *  - NVMe1 size
-       *  - #NVMe1
-       *  - raw capacity (data)
-       *  - net capacity (data based on config)
-       * 
-       *  - #NIC (public)
-       *  - #NIC (cluster)
-       *  - NVMe{2..7}
-       *  - raw capacity for subscriptions
-       *  - SKU sizing
-      */
-      // Calculate the media and server configuration based on changed workloads and chassis configuration. 
+    // All entries read from the document input => now apply the changes (calculate the values needed)
+    // Calculate the media and server configuration based on changed workloads and chassis configuration. 
 
-      let actualChassisID = 0
-      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 278, `working on config ${actualChassisID}`,0,0,0)
-      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 288, `the array is ${configsArrayLocal}`,0,0,0)
-      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 289, ` ... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`,0,0,0)
-      /// HERE: change to use  configsArray
-      ///// TESTING:
-      /**
-      chassisValues[0].chassisID = 0
-      chassisValues[0].maxHDDSlots = 24
-      chassisValues[0].maxSSDSlots = 24
-      chassisValues[0].maxNVMeSlots = 24
-      chassisValues[0].maxAllSlots = 24
-      chassisValues[0].maxDedicatedNVMeSlots = 2
-      chassisValues[0].maxAllMediaSum = 26
-      chassisValues[0].maxCpuSockets = 2
-      chassisValues[0].maxCpuCores = 24
-      chassisValues[0].maxMemGb = 256
-      chassisValues[0].maxPciSlots = 3
-      chassisValues[0].sizeHDD1 = 6
-      chassisValues[0].speedNicPublic = 25
-      chassisValues[0].sizeNVMe1 = 4
-      chassisValues[0].sizeNVMe2 = 2
-      chassisValues[0].sizeNVMe3 = 2
-      chassisValues[0].sizeNVMe4 = 2
-      chassisValues[0].sizeNVMe5 = 2
-      chassisValues[0].sizeNVMe6 =2
-      chassisValues[0].sizeSSD1 = 4
-      chassisValues[0].ssdToOptane = 5
-      chassisValues[0].sizeOptane1 = 0.375
-      chassisValues[0].useSSD4overNVMe4 = 1
-      chassisValues[0].hddToSSD4 = 5
-      chassisValues[0].sizeSSD4 = 0.8
-      chassisValues[0].hddToNVMe4 = 17
-      chassisValues[0].ssdToNVMe5 = 5
-      chassisValues[0].speedNicCluster = 25
-      chassisValues[0].useRGWCaching = 0
-      chassisValues[0].useOptane1 = 0
-      chassisValues[0].sizeNVMe7 = 0.375
-      chassisValues[0].nvmeToNVMe7 = 4
+    let actualChassisID = 0
+    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 278, `working on config ${actualChassisID}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 288, `the array is ${configsArrayLocal}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 289, ` ... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`,0,0,0)
 
-      chassisValues[1].chassisID = 1
-      chassisValues[1].maxHDDSlots = 12
-      chassisValues[1].maxSSDSlots = 12
-      chassisValues[1].maxNVMeSlots = 12
-      chassisValues[1].maxAllSlots = 12
-      chassisValues[1].maxDedicatedNVMeSlots = 2
-      chassisValues[1].maxAllMediaSum = 14
-      chassisValues[1].maxCpuSockets = 2
-      chassisValues[1].maxCpuCores = 16
-      chassisValues[1].maxMemGb = 192
-      chassisValues[1].maxPciSlots = 3
-      chassisValues[1].sizeHDD1 = 4
-      chassisValues[1].speedNicPublic = 25
-      chassisValues[1].sizeNVMe1 = 4
-      chassisValues[1].sizeNVMe2 = 2
-      chassisValues[1].sizeNVMe3 = 2
-      chassisValues[1].sizeNVMe4 = 2
-      chassisValues[1].sizeNVMe5 = 2
-      chassisValues[1].sizeNVMe6 =2
-      chassisValues[1].sizeSSD1 = 3.2
-      chassisValues[1].ssdToOptane = 5
-      chassisValues[1].sizeOptane1 = 0.375
-      chassisValues[1].useSSD4overNVMe4 = 1
-      chassisValues[1].hddToSSD4 = 5
-      chassisValues[1].sizeSSD4 = 0.8
-      chassisValues[1].hddToNVMe4 = 17
-      chassisValues[1].ssdToNVMe5 = 5
-      chassisValues[1].speedNicCluster = 25
-      chassisValues[1].useRGWCaching = 0
-      chassisValues[1].useOptane1 = 0
-      chassisValues[1].sizeNVMe7 = 0.375
-      chassisValues[1].nvmeToNVMe7 = 4
-       */
+    calcDCConfig(generalValues, workloadsValues, sizingConstraints, configsArrayLocal, chassisValues)
+      
+    // Program flow (M16) 
+    const resultsOverviewArray = []
+    for (let resultingConfig = 0; resultingConfig < generalValues.numberOfConfigsPossible; resultingConfig++) {
+      const resultNew = new Results
+      
+      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 376, `This is length of chassisNew array: ${Object.keys(resultNew).length}`,0,0,0)
+      resultNew.chassisID = `${resultingConfig}`
 
-      calcDCConfig(generalValues, workloadsValues, sizingConstraints, configsArrayLocal, chassisValues)
-      // 
-      // Update the output for the overview and individual Chassis configs.
-      // 4) results: ???????? => initialize also the arrays holding specific information about the DC use - note that the number 
-//    of DCs is variable and defined globally in GeneralValues.numberOfConfigsPossible
-// Program flow (M16) 
-const resultsOverviewArray = []
-for (let resultingConfig = 0; resultingConfig < generalValues.numberOfConfigsPossible; resultingConfig++) {
-  const resultNew = new Results
-  //console.log(`This is content of new workloadNew array: ${workloadNew}`)
-  //console.log(`This is content of 1. object in workloadNew array: ${workloadNew.workloadItemsDict[0][1]}`)
-  //console.log(`This is content of 2. object in workloadNew array: ${workloadNew.workloadItemsDict[1]}`)
-  //console.log(`This is length of workloadNew workload names array: ${workloadNew.workloadItemsDict.length}`)
+      resultsOverviewArray.push(resultNew)
+    }
+
+
+    const resultsPerDCArray = []
+    for (let config = 0; config < generalValues.numberOfConfigsPossible; config++) {
+      const resultsArray = []
+      for (let dcConfig = 0; dcConfig < generalValues.numberOfDCsPossible; dcConfig++) {
+        const dcResultsNew = new Results
   
-  // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
+        debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 395, `This is length of chassisNew array: ${Object.keys(dcResultsNew).length}`,0,0,0)
+        dcResultsNew.chassisID = `${dcConfig}`
 
-  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 376, `This is length of chassisNew array: ${Object.keys(resultNew).length}`,0,0,0)
-  resultNew.chassisID = `${resultingConfig}`
-  
-  resultsOverviewArray.push(resultNew)
-}
+        resultsArray.push(dcResultsNew)
+      }
+      resultsPerDCArray.push(resultsArray)
+    }
+    calcResultsOverview(generalValues,configsArrayLocal,chassisValues, resultsOverviewArray)
+    calcResultsPerDC(generalValues,configsArrayLocal,chassisValues, resultsPerDCArray)
 
-
-const resultsPerDCArray = []
-for (let config = 0; config < generalValues.numberOfConfigsPossible; config++) {
-  const resultsArray = []
-  for (let dcConfig = 0; dcConfig < generalValues.numberOfDCsPossible; dcConfig++) {
-    const dcResultsNew = new Results
-    //console.log(`This is content of new workloadNew array: ${workloadNew}`)
-    //console.log(`This is content of 1. object in workloadNew array: ${workloadNew.workloadItemsDict[0][1]}`)
-    //console.log(`This is content of 2. object in workloadNew array: ${workloadNew.workloadItemsDict[1]}`)
-    //console.log(`This is length of workloadNew workload names array: ${workloadNew.workloadItemsDict.length}`)
-    
-    // console.log(`DC name in cell DC4 from workloadNew array: ${workloadNew.workloadItemsDict["selector-dc"]}`)
-  
-    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 395, `This is length of chassisNew array: ${Object.keys(dcResultsNew).length}`,0,0,0)
-    dcResultsNew.chassisID = `${dcConfig}`
-    
-    resultsArray.push(dcResultsNew)
-  }
-  resultsPerDCArray.push(resultsArray)
-}
-      calcResultsOverview(generalValues,configsArrayLocal,chassisValues, resultsOverviewArray)
-      calcResultsPerDC(generalValues,configsArrayLocal,chassisValues, resultsPerDCArray)
-
-      // Now, update the document display
-      resultsOverviewDisplay(documentMain, generalValues, "resultsoverview", generalValues.numberOfConfigsPossible, tableHeaderResultingConfigsArray, resultsOverviewArray)
-      resultsPerDCDisplay(documentMain, generalValues, "results-configNum", generalValues.numberOfConfigsPossible, tableHeaderResultingConfigsArray, resultsPerDCArray)
+    // Now, update the document display
+    resultsOverviewDisplay(documentMain, generalValues, "resultsoverview", generalValues.numberOfConfigsPossible, tableHeaderResultingConfigsArray, resultsOverviewArray)
+    resultsPerDCDisplay(documentMain, generalValues, "results-configNum", generalValues.numberOfConfigsPossible, tableHeaderResultingConfigsArray, resultsPerDCArray)
 
   }
 

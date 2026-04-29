@@ -3,7 +3,7 @@ import {debugMsg} from "../common/debug.js";
 
 // Trying to implement Y41  
 const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
-  let localDebugOn = true
+  let localDebugOn = false
   /**
    * Case 1:
    *       The number of cores available per server matches the required number of cores. Memory also matches the maximum configuration possible.
@@ -24,12 +24,12 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
   let localNewNumberOfServersByReducingMem = 0
   if (dcConfigArrayLocal[dcItem].constraintsBasedOnNothing === true) {
     // nothing to change
-    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 26, `[chassisID=${actualChassisID},DC=${dcItem}] => not constrained, carrying over dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 27, `[chassisID=${actualChassisID},DC=${dcItem}] => not constrained, carrying over dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers}`,0,0,0)
     dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis = dcConfigArrayLocal[dcItem].prelimNumberOfServers
-    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 28, `[chassisID=${actualChassisID},DC=${dcItem}] => not constrained, carrying over dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis=${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 29, `[chassisID=${actualChassisID},DC=${dcItem}] => not constrained, carrying over dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis=${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis}`,0,0,0)
   }
   else {
-    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 354, `[chassisID=${actualChassisID},DC=${dcItem}] prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} > 0`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 32, `[chassisID=${actualChassisID},DC=${dcItem}] prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} > 0`,0,0,0)
     let localMinServersForRoles = dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances + Math.max(Math.ceil((dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances+dcConfigArrayLocal[dcItem].numberOfNeededMonInstances)/2),dcConfigArrayLocal[dcItem].numberOfNeededMonInstances)
     // We want to use the maximum of either servers needed (at minimum) based on cores or on memory.
     if ( dcConfigArrayLocal[dcItem].prelimPerServerNumberOfCoresNeeded > (chassisArrayLocal[actualChassisID].maxCpuSockets * chassisArrayLocal[actualChassisID].maxCpuCores) ) {
@@ -61,7 +61,7 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
         debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 61, `ok - localMinServersForRoles=${localMinServersForRoles}, dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers}`,0,0,0)
       }
       else {
-        displayMsg(document, "dcConfigAdjustNumberOfServers", 67, "error", "unable to place all roles to preliminary number of servers already - number of servers must be increased",0,0,0)
+        displayMsg(document, "dcConfigAdjustNumberOfServers", 64, "error", "unable to place all roles to preliminary number of servers already - number of servers must be increased",0,0,0)
         /// MUST ADJUST PRELIM #servers
         dcConfigArrayLocal[dcItem].prelimNumberOfServers = localMinServersForRoles
       }
