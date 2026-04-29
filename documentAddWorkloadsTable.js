@@ -2,7 +2,7 @@ import {debugMsg} from "./common/debug.js";
 
 const documentAddWorkloadsTable = function (documentMain, generalValues, rowBaseLabel, idLabel, dataRows, columnsDictArray) {
 
-  let localDebugOn = true
+  let localDebugOn = false
     
   const documentTable = documentMain.createElement("table")
   documentTable.setAttribute("id",`table-${idLabel}`)

@@ -18,7 +18,7 @@ import {installEventHandlerLoadChassisConfig} from "./fileInput/installEventHand
 import {installEventHandlerLoadWorkloadConfig} from "./fileInput/installEventHandlerLoadWorkloadConfig.js"
 import {debugMsg} from "./common/debug.js";
 
-let localDebugOn = true
+let localDebugOn = false
 
 const calculateDCDistribution = function (generalValues,workloadsArrayLocal,chassisArrayLocal) {
   // From Google Sheet - idea is to c heck the selection made, give some warnings perhaps but also
