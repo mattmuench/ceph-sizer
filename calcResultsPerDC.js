@@ -53,14 +53,16 @@ const calcResultsPerDC = function (generalValues, configsArrayLocal, chassisArra
           resultsPerDCArray[actualChassisID][dcItem].numNVMe6 += configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe6
           resultsPerDCArray[actualChassisID][dcItem].numNVMe7 += configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe7
           resultsPerDCArray[actualChassisID][dcItem].numNVMe8 += configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe8
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 56, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe1=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe1}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 57, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe2=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe2}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 58, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe3=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe3}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 59, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe4=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe4}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 60, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe5=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe5}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 61, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe6=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe6}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 62, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe7=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe7}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 63, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe8=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe8}`,0,0,0)
+          if (generalValues.globalDebug == true || localDebugOn == true) {
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 57, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe1=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe1}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 58, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe2=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe2}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 59, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe3=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe3}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 60, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe4=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe4}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 61, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe5=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe5}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 62, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe6=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe6}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 63, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe7=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe7}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 64, `configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe8=${configsArrayLocal[actualChassisID][dcItem].resultingNumberOfNVMe8}`,0,0,0)
+          }
 
           // resultsPerDCArray[actualChassisID][dcItem].numSKUwithTB10000
           // resultsPerDCArray[actualChassisID][dcItem].numSKUwithTB5000
@@ -75,7 +77,7 @@ const calcResultsPerDC = function (generalValues, configsArrayLocal, chassisArra
           // resultsPerDCArray[actualChassisID][dcItem].recNetFullNVMe
 
         
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 78, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numServers=${resultsPerDCArray[actualChassisID][dcItem].numServers}`,0,0,0)
+          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 80, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numServers=${resultsPerDCArray[actualChassisID][dcItem].numServers}`,0,0,0)
           resultsPerDCArray[actualChassisID][dcItem].publicNICs  = localNICPublicHighestNum
           resultsPerDCArray[actualChassisID][dcItem].clusterNICs = localNICClusterHighestNum
           resultsPerDCArray[actualChassisID][dcItem].cpuCores = localCoresHighestNum
@@ -97,27 +99,31 @@ const calcResultsPerDC = function (generalValues, configsArrayLocal, chassisArra
                                                                              + resultsPerDCArray[actualChassisID][dcItem].numNVMe7 * chassisArrayLocal[actualChassisID].sizeNVMe7
                                                                              + resultsPerDCArray[actualChassisID][dcItem].numNVMe8 * chassisArrayLocal[actualChassisID].sizeNVMe8
                                                                              + resultsPerDCArray[actualChassisID][dcItem].numSSD4 * chassisArrayLocal[actualChassisID].sizeSSD4
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 100, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe2=${resultsPerDCArray[actualChassisID][dcItem].numNVMe2} * chassisArrayLocal[actualChassisID].sizeNVMe2=${chassisArrayLocal[actualChassisID].sizeNVMe2}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 101, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe3=${resultsPerDCArray[actualChassisID][dcItem].numNVMe3} * chassisArrayLocal[actualChassisID].sizeNVMe3=${chassisArrayLocal[actualChassisID].sizeOptane1}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 102, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe4=${resultsPerDCArray[actualChassisID][dcItem].numNVMe4} * chassisArrayLocal[actualChassisID].sizeNVMe4=${chassisArrayLocal[actualChassisID].sizeNVMe4}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 103, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe5=${resultsPerDCArray[actualChassisID][dcItem].numNVMe5} * chassisArrayLocal[actualChassisID].sizeNVMe5=${chassisArrayLocal[actualChassisID].sizeNVMe5}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 104, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe6=${resultsPerDCArray[actualChassisID][dcItem].numNVMe6} * chassisArrayLocal[actualChassisID].sizeNVMe6=${chassisArrayLocal[actualChassisID].sizeNVMe6}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 105, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe7=${resultsPerDCArray[actualChassisID][dcItem].numNVMe7} * chassisArrayLocal[actualChassisID].sizeNVMe7=${chassisArrayLocal[actualChassisID].sizeNVMe7}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 106, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe8=${resultsPerDCArray[actualChassisID][dcItem].numNVMe8} * chassisArrayLocal[actualChassisID].sizeNVMe8=${chassisArrayLocal[actualChassisID].sizeNVMe8}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 107, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numSSD4=${resultsPerDCArray[actualChassisID][dcItem].numSSD4} * chassisArrayLocal[actualChassisID].sizeSSD4=${chassisArrayLocal[actualChassisID].sizeSSD4}`,0,0,0)
+          if (generalValues.globalDebug == true || localDebugOn == true) {
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 103, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe2=${resultsPerDCArray[actualChassisID][dcItem].numNVMe2} * chassisArrayLocal[actualChassisID].sizeNVMe2=${chassisArrayLocal[actualChassisID].sizeNVMe2}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 104, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe3=${resultsPerDCArray[actualChassisID][dcItem].numNVMe3} * chassisArrayLocal[actualChassisID].sizeNVMe3=${chassisArrayLocal[actualChassisID].sizeOptane1}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 105, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe4=${resultsPerDCArray[actualChassisID][dcItem].numNVMe4} * chassisArrayLocal[actualChassisID].sizeNVMe4=${chassisArrayLocal[actualChassisID].sizeNVMe4}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 106, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe5=${resultsPerDCArray[actualChassisID][dcItem].numNVMe5} * chassisArrayLocal[actualChassisID].sizeNVMe5=${chassisArrayLocal[actualChassisID].sizeNVMe5}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 107, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe6=${resultsPerDCArray[actualChassisID][dcItem].numNVMe6} * chassisArrayLocal[actualChassisID].sizeNVMe6=${chassisArrayLocal[actualChassisID].sizeNVMe6}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 108, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe7=${resultsPerDCArray[actualChassisID][dcItem].numNVMe7} * chassisArrayLocal[actualChassisID].sizeNVMe7=${chassisArrayLocal[actualChassisID].sizeNVMe7}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 109, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numNVMe8=${resultsPerDCArray[actualChassisID][dcItem].numNVMe8} * chassisArrayLocal[actualChassisID].sizeNVMe8=${chassisArrayLocal[actualChassisID].sizeNVMe8}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 110, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].numSSD4=${resultsPerDCArray[actualChassisID][dcItem].numSSD4} * chassisArrayLocal[actualChassisID].sizeSSD4=${chassisArrayLocal[actualChassisID].sizeSSD4}`,0,0,0)
+          }
 
           // The sums should be rounded up for displaying
           resultsPerDCArray[actualChassisID][dcItem].rawCapacityDataDevices = Math.ceil(resultsPerDCArray[actualChassisID][dcItem].rawCapacityDataDevices)
           resultsPerDCArray[actualChassisID][dcItem].netCapacityDataDevices = Math.ceil(resultsPerDCArray[actualChassisID][dcItem].netCapacityDataDevices)
           resultsPerDCArray[actualChassisID][dcItem].rawCapacityAllDevices = Math.ceil(resultsPerDCArray[actualChassisID][dcItem].rawCapacityAllDevices)
 
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 114, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].rawCapacityDataDevices=${resultsPerDCArray[actualChassisID][dcItem].rawCapacityDataDevices}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 115, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].netCapacityDataDevices=${resultsPerDCArray[actualChassisID][dcItem].netCapacityDataDevices}`,0,0,0)
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 116, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].rawCapacityAllDevices=${resultsPerDCArray[actualChassisID][dcItem].rawCapacityAllDevices}`,0,0,0)
+          if (generalValues.globalDebug == true || localDebugOn == true) {
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 119, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].rawCapacityDataDevices=${resultsPerDCArray[actualChassisID][dcItem].rawCapacityDataDevices}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 120, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].netCapacityDataDevices=${resultsPerDCArray[actualChassisID][dcItem].netCapacityDataDevices}`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 121, `resultsPerDCArray[${actualChassisID}][dcItem=${dcItem}].rawCapacityAllDevices=${resultsPerDCArray[actualChassisID][dcItem].rawCapacityAllDevices}`,0,0,0)
+          }
         }
         else {
           // ignore, no workload is using this DC
-          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 120, `dcItem=${dcItem}, actualChassisID=${actualChassisID}, => no workloads in DC = ignoring DC`,0,0,0)
+          debugMsg(generalValues, localDebugOn, 5, "calcResultsPerDC", 126, `dcItem=${dcItem}, actualChassisID=${actualChassisID}, => no workloads in DC = ignoring DC`,0,0,0)
           // .... but update the resultsPerDCArray for this config and resetting the number of servers in order to prevent displaying old (previous) values with more DCs involved than actually in use
           resultsPerDCArray[actualChassisID][dcItem].numServers = 0
         }

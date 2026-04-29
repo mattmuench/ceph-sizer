@@ -41,12 +41,12 @@ const calcDCConfig = function (generalValuesLocal, workloadsArrayLocal, sizingCo
 
   for (let actualChassisID = 0; actualChassisID < generalValuesLocal.numberOfConfigsPossible; actualChassisID++) {
       if(chassisArrayLocal[actualChassisID].maxAllMediaSum > 0) {
-        debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 41, `working on config ${actualChassisID},chassisArrayLocal[actualChassisID].maxAllMediaSum=${chassisArrayLocal[actualChassisID].maxAllMediaSum}`,0,0,0)
-        debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 42, `the array is ${configsArrayLocal}`,0,0,0)
-        debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 43, `... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`,0,0,0)
+        debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 44, `working on config ${actualChassisID},chassisArrayLocal[actualChassisID].maxAllMediaSum=${chassisArrayLocal[actualChassisID].maxAllMediaSum}`,0,0,0)
+        debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 45, `the array is ${configsArrayLocal}`,0,0,0)
+        debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 46, `... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`,0,0,0)
         const dcConfigArrayLocal = configsArrayLocal[actualChassisID]
         dcConfigDetermineCapacityRaw(generalValuesLocal, workloadsArrayLocal, dcConfigArrayLocal)
-        debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 46, `checking content of DC0 for capacityNeededForSSD=${dcConfigArrayLocal[0].capacityNeededForSSD}`,0,0,0)
+        debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 49, `checking content of DC0 for capacityNeededForSSD=${dcConfigArrayLocal[0].capacityNeededForSSD}`,0,0,0)
         dcConfigDetermineNumberOfRoleInstances(generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal)
         dcConfigDetermineNumberOfMediaRequired(generalValuesLocal, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID)
 
@@ -77,7 +77,7 @@ const calcDCConfig = function (generalValuesLocal, workloadsArrayLocal, sizingCo
         }
       }
     
-      debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 77, `actual value for chassis=0 for DC0 numServers=${configsArrayLocal[0][0].numServers}`,0,0,0)
+      debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 80, `actual value for chassis=0 for DC0 numServers=${configsArrayLocal[0][0].numServers}`,0,0,0)
     }
 }
 

@@ -25,7 +25,7 @@ const displayMsg = function (documentMain, functionName, lineNumber, errorLevel,
     case "error":  { msgType = "ERROR"; cellID=`error-message`; msgColor="red"} break;
     case "warn":  { msgType = "WARNING"; cellID=`error-message`; msgColor="orange"} break;
     case "info":  { msgType = "INFO"; cellID=`misc-message`; msgColor="blue"} break;
-    default: { msgType = "FATAL"; cellID=`error-message`; constructedMessage = `displayMsg() 23: no valid errorLevel found: errorLevel=${errorLevel}`; console.log(`displayMsg() 23: no valid errorLevel found: errorLevel=${errorLevel}`) }
+    default: { msgType = "FATAL"; cellID=`error-message`; constructedMessage = `displayMsg() 28: no valid errorLevel found: errorLevel=${errorLevel}`; console.log(`displayMsg() 28: no valid errorLevel found: errorLevel=${errorLevel}`) }
 
   }
   
