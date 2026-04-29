@@ -2,7 +2,7 @@ class GeneralValues {
     constructor (
         desiredCapacityInTiB,
         desiredCapacityInTB,
-        // Enable cell labels by setting globalDebug to true
+        // Enable all debugging that is enabled in the functions individually plus cell labels by setting globalDebug to true
         globalDebug, 
         
         // enable debugging in general - could be set to false and no debugMsg() function call will output anything
@@ -35,7 +35,7 @@ class GeneralValues {
         this.desiredCapacityInTB = desiredCapacityInTB
         this.globalDebug = false        // false or true
         this.enableDebugOn = true
-        this.enabledDebugLevel = 1
+        this.enabledDebugLevel = 5
         this.numberOfConfigsPossible = 3  // default: 8 (?)
         this.numberOfWorkloadsPossible = 8  // actually must be set to #workloads + 1
         this.numberOfDCsPossible = 7

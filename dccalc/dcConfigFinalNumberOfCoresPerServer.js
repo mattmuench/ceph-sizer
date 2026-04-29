@@ -1,6 +1,9 @@
-// trying to implement Z41
-/// TODO - total rewrite needed for the changed N41 vs NVMe2, and all other NVMe
-const dcConfigFinalNumberOfCoresPerServer   = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, actualChassisID, dcItem) {
+import displayMsg from "../common/displayMsg.js"
+import {debugMsg} from "../common/debug.js";
+
+const dcConfigFinalNumberOfCoresPerServer   = function (generalValues, sizingConstraints, dcConfigArrayLocal, actualChassisID, dcItem) {
+  let localDebugOn = false
+
   // Determine the final number of cores per server needed for configuration:
   // =if($Y41>0,roundup($J41/$Y41,0)*$G$5 + roundup($J42/$Y41,0)*$J$5 + if(Cover!$U$8="x",$G$3,0) + roundup($N41/$Y41,0)*$AH$5 + $AR$5 + if(C41>0,if(roundup(($Y41-$S41-$E41)/C41,0)<1,$AR$4,0),0),0)
   // =if($Y41>0
@@ -65,7 +68,7 @@ const dcConfigFinalNumberOfCoresPerServer   = function (generalValuesLocal, sizi
   else {
     dcConfigArrayLocal[dcItem].resultingNumberOfCores = 0
   }
-  console.log(`dcConfigFinalNumberOfCoresPerServer() 61: [chassisID=${actualChassisID}] [DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfCores=${dcConfigArrayLocal[dcItem].resultingNumberOfCores}`)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalNumberOfCoresPerServer", 71, `[chassisID=${actualChassisID}] [DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfCores=${dcConfigArrayLocal[dcItem].resultingNumberOfCores}`,0,0,0)
 }
 
 

@@ -1,27 +1,31 @@
+import displayMsg from "../common/displayMsg.js"
+import {debugMsg} from "../common/debug.js";
+import generalValues from "../GeneralValues.js"
+
 //import loadChassisConfigs from "./loadChassisConfigs.js";
-import displayMsg from "../common/displayMsg.js";
 import Chassis from "../Chassis.js";
 
 const installEventHandlerLoadChassisConfig = function (documentMain, chassisArrayLocal, generalValues, loadedConfigsLocal) {
+  let localDebugOn = false
 
   // recognize button for loading presaved chassis config definition file
   const clickedLoadChassisConfig = documentMain.getElementById("input-filename-chassis-config")
   clickedLoadChassisConfig.addEventListener("change", (event) => {
       event.preventDefault()
       
-      console.log("installEventHandlerLoadChassisConfig 10: Recalculation after loading new chassis config should start now")
+      debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadChassisConfig", 15, `Recalculation after loading new chassis config should start now`,0,0,0)
       const selectedFile = clickedLoadChassisConfig.files[0];
-      console.log(`installEventHandlerLoadChassisConfig() 12 for input-filename-chassis-config: changed filename to selectedFile=${selectedFile.name}`)
+      debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadChassisConfig", 17, `changed filename to selectedFile=${selectedFile.name}`,0,0,0)
       
       const textFile = new Response(selectedFile).text()
-      console.log(`installEventHandlerLoadChassisConfig() 15: textFile=${textFile}`)
+      debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadChassisConfig", 20, `textFile=${textFile}`,0,0,0)
       
       // LAST known good approach - all others didn't work to get the reading of the file content done and the following processing then in sync *after* the file contents is read
       const myret = logIngredients(selectedFile,loadedConfigsLocal)
 
       const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
       wait(1000).then(() => {
-          console.log(`installEventHandlerLoadChassisConfig() 22: entry of loadedConfigsLocal.chassisConfigFile=${loadedConfigsLocal.chassisConfigFile}`)
+          debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadChassisConfig", 27, `entry of loadedConfigsLocal.chassisConfigFile=${loadedConfigsLocal.chassisConfigFile}`,0,0,0)
           readChassisConfig(documentMain, generalValues, loadedConfigsLocal, chassisArrayLocal)          
         }
       );
@@ -29,42 +33,40 @@ const installEventHandlerLoadChassisConfig = function (documentMain, chassisArra
 }
 
 async function logIngredients(selectedFile,loadedConfigsLocal) {
+  let localDebugOn = false
+
   const res = await new Response(selectedFile).text();
-  console.log(`logIngredients() 58: res=${res}`);
+  debugMsg(generalValues, localDebugOn, 5, "logIngredients", 36, `res=${res}`,0,0,0);
   loadedConfigsLocal.chassisConfigFile=res;
-  console.log(`logIngredients() 60: loadedConfigsLocal.chassisConfigFile=${loadedConfigsLocal.chassisConfigFile}`);
+  debugMsg(generalValues, localDebugOn, 5, "logIngredients", 38, `loadedConfigsLocal.chassisConfigFile=${loadedConfigsLocal.chassisConfigFile}`,0,0,0);
 }
 
 const readChassisConfig = function (documentMain, generalValues, loadedConfigsLocal, chassisArrayLocal){
-  console.log(`readChassisConfig() 39: loadedConfigsLocal.chassisConfigFile=${loadedConfigsLocal.chassisConfigFile}`)
+  let localDebugOn = false
+  
+  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 42, `loadedConfigsLocal.chassisConfigFile=${loadedConfigsLocal.chassisConfigFile}`,0,0,0)
   var loadedJsonChassisObject;
   try {
     loadedJsonChassisObject = JSON.parse(loadedConfigsLocal.chassisConfigFile); 
   } catch (e) {
-    console.log("Error:", e.message)
-    displayMsg(documentMain, "readChassisConfig", 44, "error", e.message,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 47, `${e.message}`,0,0,0)
+    displayMsg(documentMain, "readChassisConfig", 48, "error", e.message,0,0,0)
   }
   loadedJsonChassisObject.chassisConfig.forEach(element => {
     if (element.chassisID >= generalValues.numberOfConfigsPossible) {
-      console.log(`readChassisConfig() 48: ERROR - max number of configs possible is generalValues.numberOfConfigsPossible - check input file for chassisID`)
-      displayMsg(documentMain, "readChassisConfig", 48, "error", "max number of configs possible is generalValues.numberOfConfigsPossible - check input file for chassisID",0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 52, `ERROR - max number of configs possible is generalValues.numberOfConfigsPossible - check input file for chassisID`,0,0,0)
+      displayMsg(documentMain, "readChassisConfig", 53, "error", "max number of configs possible is generalValues.numberOfConfigsPossible - check input file for chassisID",0,0,0)
     }
     else {
       const dataColumns = chassisArrayLocal[element.chassisID].ChassisItemsDict.length;
-      console.log(`readChassisConfig() 48: dataColumns = ${dataColumns}`)
+      debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 57, `dataColumns = ${dataColumns}`,0,0,0)
       
       for (let j = 0; j < dataColumns; j++) {
         const item = chassisArrayLocal[element.chassisID].ChassisItemsDict[j][1]
         if (item == "chassisID") {
-          console.log(`readChassisConfig() 52: ignoring since got it for processing already`)
+          debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 62, `ignoring chassisID since got it for processing already`,0,0,0)
         }
         else {
-          //for (let j = 0; j < dataColumns; j++) {
-            //const item = chassisArrayLocal[element.chassisID].ChassisItemsDict[j][1]
-            //if (item == "chassisID") {
-              //console.log(`readChassisConfig() 52: ignoring since got it for processing already`)
-            //}
-            //else {/** */
               switch (item){
                 case "maxHDDSlots":
                 case "maxSSDSlots":
@@ -98,11 +100,11 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
                 case "nvmeToNVMe8":
                 {
                   let valTemp = eval('element'+'.'+'members'+'.'+item)
-                  console.log(`readChassisConfig() 81: item=${item} = item value=${valTemp}`)
+                  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 98, `item=${item} = item value=${valTemp}`,0,0,0)
                   // constructing the id string for the cell to read from
                   let idStringToFind =  `chassis-${element.chassisID}-${chassisArrayLocal[element.chassisID].ChassisItemsDict[j][0]}`
           
-                  console.log(`readChassisConfig() 95: [workload detail=${item}] looking up the DOM element id ${idStringToFind}`)
+                  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 102, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
                   const inputElement = documentMain.getElementById(idStringToFind)
                   inputElement.value = valTemp
                 }
@@ -115,55 +117,28 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
                 case "useSSD4overNVMe4":
                   {
                     let valTemp = eval('element'+'.'+'members'+'.'+item)
-                    console.log(`readChassisConfig() 111: item=${item} = item value=${valTemp}`)
+                    debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 115, `item=${item} = item value=${valTemp}`,0,0,0)
           
                     // constructing the id string for the cell to read from
                     let idStringToFind =  `chassis-${element.chassisID}-${chassisArrayLocal[element.chassisID].ChassisItemsDict[j][0]}`
           
-                    console.log(`readChassisConfig() 116: [workload detail=${item}] looking up the DOM element id ${idStringToFind}`)
+                    debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 120, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
                     const inputElement = documentMain.getElementById(idStringToFind)
                     inputElement.checked = valTemp
                   }
                 break;
           
                 default: {
-                  console.log(`no valid statement found for ${item}`)
-                  displayMsg(documentMain, "readChassisConfig", 129, "error", `no valid statement found for ${item}`,0,0,0)
+                  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 127, `no valid statement found for ${item}`,0,0,0)
+                  displayMsg(documentMain, "readChassisConfig", 128, "error", `no valid statement found for ${item}`,0,0,0)
                 }
               }
-            //}/** */
-          //}/** */
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          /**
-          let val5 = eval('element'+'.'+'members'+'.'+item)
-          console.log(`readChassisConfig() 56: item=${item} = item value=${val5}`)
-
-          // constructing the id string for the cell to read from
-          let idStringToFind =  `chassis-${element.chassisID}-${chassisArrayLocal[element.chassisID].ChassisItemsDict[j][0]}`
-
-          console.log(`readChassisConfig() 99: [chassis detail=${item}] looking up the DOM element id ${idStringToFind}`)
-          const inputElement = documentMain.getElementById(idStringToFind)
-          inputElement.value=val5
-          
-          console.log(`readChassisConfig() 60: actual chassisID=${element.chassisID} item=${item} set to:${val5}`)  
-           */
         }
-        
       }
     }
-        
   });
 
-  console.log(`readChassisConfig() 63: loading chassis config file finished`)
+  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 136, `loading chassis config file finished`,0,0,0)
 }
 
 export {installEventHandlerLoadChassisConfig,readChassisConfig}

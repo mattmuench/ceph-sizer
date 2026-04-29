@@ -1,10 +1,14 @@
+import displayMsg from "../common/displayMsg.js"
+import {debugMsg} from "../common/debug.js";
+
 const dcConfigCleanPreviousResults = function (generalValuesLocal, configsArrayLocal, chassisArrayLocal) {
+  let localDebugOn = false
 
   for (let actualChassisID = 0; actualChassisID < generalValuesLocal.numberOfConfigsPossible; actualChassisID++) {
     if(chassisArrayLocal[actualChassisID].maxAllMediaSum > 0) {
-      console.log(`calcDCConfig() 37: working on config ${actualChassisID},chassisArrayLocal[actualChassisID].maxAllMediaSum=${chassisArrayLocal[actualChassisID].maxAllMediaSum} `)
-      console.log(`calcDCConfig() 38: the array is ${configsArrayLocal}`)
-      console.log(`calcDCConfig() 39: ... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`)
+      debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 9, `working on config ${actualChassisID},chassisArrayLocal[actualChassisID].maxAllMediaSum=${chassisArrayLocal[actualChassisID].maxAllMediaSum}`,0,0,0)
+      debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 10, `the array is ${configsArrayLocal}`,0,0,0)
+      debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 11, `... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`,0,0,0)
       const dcConfigArrayLocal = configsArrayLocal[actualChassisID]
 
       for (let dcItem = 0; dcItem < generalValuesLocal.numberOfDCsPossible; dcItem++) {
@@ -88,7 +92,7 @@ const dcConfigCleanPreviousResults = function (generalValuesLocal, configsArrayL
         dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs = 0
         dcConfigArrayLocal[dcItem].resultingNumberOfClusterNetNICs = 0
 
-        console.log(`dcConfigCleanPreviousResults() 91: actual values for chassis=${actualChassisID} for dcItem=${dcItem} resetted`)  
+        debugMsg(generalValuesLocal, localDebugOn, 5, "calcDCConfig", 95, `actual values for chassis=${actualChassisID} for dcItem=${dcItem} reset`,0,0,0)
       }      
     }    
   }

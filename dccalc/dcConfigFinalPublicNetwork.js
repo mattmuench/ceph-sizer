@@ -1,5 +1,9 @@
-// Trying to implement AG41 -- public network
-const dcConfigFinalPublicNetwork   = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+import displayMsg from "../common/displayMsg.js"
+import {debugMsg} from "../common/debug.js";
+
+const dcConfigFinalPublicNetwork   = function (generalValues, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID, dcItem) {
+  let localDebugOn = false
+
   // = if($Y41>0
   //     ,if ( Isnumber(Cover!$N$8)
   //         , if ( 
@@ -27,7 +31,7 @@ const dcConfigFinalPublicNetwork   = function (generalValuesLocal, sizingConstra
     // ONLY as temporary working local workaround - use of strings
     if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
       //if (typeof chassisArrayLocal[actualChassisID].speedNicPublic === 'number') {
-        console.log(`dcConfigFinalPublicNetwork() 28: [chassisID=${actualChassisID},DC=${dcItem}] chassisArrayLocal[actualChassisID].speedNicPublic=${chassisArrayLocal[actualChassisID].speedNicPublic}`)
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalPublicNetwork", 34,  `[chassisID=${actualChassisID},DC=${dcItem}] chassisArrayLocal[actualChassisID].speedNicPublic=${chassisArrayLocal[actualChassisID].speedNicPublic}`,0,0,0)
         switch (chassisArrayLocal[actualChassisID].speedNicPublic) {
           case "10":
           case "25":
@@ -45,16 +49,16 @@ const dcConfigFinalPublicNetwork   = function (generalValuesLocal, sizingConstra
                                                                                    (sizingConstraints.minPercentageOfClusterBandwidthForClientTrafficPerNode/100)
                                                                                    / 100/ chassisArrayLocal[actualChassisID].speedNicPublic
                                                                                   )
-console.log(`dcConfigFinalPublicNetwork() 41: [chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs} = Math.ceil((dcConfigArrayLocal[dcItem].resultingNumberOfSSD=${dcConfigArrayLocal[dcItem].resultingNumberOfSSD} * sizingConstraints.networkBandwidthPerSSDoldinMBsec=${sizingConstraints.networkBandwidthPerSSDoldinMBsec}
+debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalPublicNetwork", 52, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs} = Math.ceil((dcConfigArrayLocal[dcItem].resultingNumberOfSSD=${dcConfigArrayLocal[dcItem].resultingNumberOfSSD} * sizingConstraints.networkBandwidthPerSSDoldinMBsec=${sizingConstraints.networkBandwidthPerSSDoldinMBsec}
   + dcConfigArrayLocal[dcItem].resultingNumberOfHDD=${dcConfigArrayLocal[dcItem].resultingNumberOfHDD} * sizingConstraints.networkBandwidthPerHDDinMBsec=${sizingConstraints.networkBandwidthPerHDDinMBsec}
   + dcConfigArrayLocal[dcItem].resultingNumberOfNVMe1=${dcConfigArrayLocal[dcItem].resultingNumberOfNVMe1} * sizingConstraints.networkBandwidthPerNVMeinMBsec=${sizingConstraints.networkBandwidthPerNVMeinMBsec}
  ) * 
  (sizingConstraints.minPercentageOfClusterBandwidthForClientTrafficPerNode=${sizingConstraints.minPercentageOfClusterBandwidthForClientTrafficPerNode}/100)
  / 100/ chassisArrayLocal[actualChassisID].speedNicPublic=${chassisArrayLocal[actualChassisID].speedNicPublic}
-)`)                                                                              
+)`,0,0,0)                                                                     
             break
           default:
-            console.log(`dcConfigFinalPublicNetwork() 50: [chassisID=${actualChassisID},DC=${dcItem}]  ERROR: no valid NIC speed specified for ports`)
+            displayMsg(document, "dcConfigFinalPublicNetwork", 61, "info", `[chassisID=${actualChassisID},DC=${dcItem}]  ERROR: no valid NIC speed specified for ports`,0,0,0)
         }
       //}
       //else {
@@ -65,7 +69,7 @@ console.log(`dcConfigFinalPublicNetwork() 41: [chassisID=${actualChassisID},DC=$
       dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs = 0
     }
 
-    console.log(`dcConfigFinalPublicNetwork() 61: chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs}`)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalPublicNetwork", 72,  `chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs=${dcConfigArrayLocal[dcItem].resultingNumberOfPublicNetNICs}`,0,0,0)
 }
 
 export default dcConfigFinalPublicNetwork

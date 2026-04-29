@@ -1,5 +1,9 @@
-// trying to implement AA41
-const dcConfigFinalMemoryPerServer   = function (generalValuesLocal, sizingConstraints, dcConfigArrayLocal, actualChassisID, dcItem) {
+import displayMsg from "../common/displayMsg.js"
+import {debugMsg} from "../common/debug.js";
+
+const dcConfigFinalMemoryPerServer   = function (generalValues, sizingConstraints, dcConfigArrayLocal, actualChassisID, dcItem) {
+  let localDebugOn = false
+
   // =if($Y41>0
   //    ,
   //      roundup($J41/$Y41,0) * $G$6
@@ -58,7 +62,7 @@ const dcConfigFinalMemoryPerServer   = function (generalValuesLocal, sizingConst
   else {
     dcConfigArrayLocal[dcItem].resultingMem = 0
   }
-  console.log(`dcConfigFinalMemoryPerServer() 48:
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalMemoryPerServer", 354, `
   dcConfigArrayLocal[dcItem].resultingMem=${dcConfigArrayLocal[dcItem].resultingMem} = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.memInGBPerHDD=${sizingConstraints.memInGBPerHDD}
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}
@@ -73,8 +77,8 @@ const dcConfigFinalMemoryPerServer   = function (generalValuesLocal, sizingConst
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.memInGBPerNVMe18=${sizingConstraints.memInGBPerNVMe8}
                                               + sizingConstraints.memPerNodeBase=${sizingConstraints.memPerNodeBase}
                                               + localAdditionalRoleMemor=${localAdditionalRoleMemory}
-  `)
-  console.log(`dcConfigFinalMemoryPerServer() 48: [chassisID=${actualChassisID}] dcConfigArrayLocal[dcItem=${dcItem}].resultingMem=${dcConfigArrayLocal[dcItem].resultingMem}`)
+  `,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalMemoryPerServer", 354, `[chassisID=${actualChassisID}] dcConfigArrayLocal[dcItem=${dcItem}].resultingMem=${dcConfigArrayLocal[dcItem].resultingMem}`,0,0,0)
 }
 
 export default dcConfigFinalMemoryPerServer
