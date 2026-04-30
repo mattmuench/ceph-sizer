@@ -39,7 +39,7 @@ async function logIngredientsWorkload(selectedFile,loadedConfigsLocal) {
 }
 
 const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsLocal, workloadsArrayLocal){
-  let localDebugOn = false
+  let localDebugOn = true
 
   debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 44, `loadedConfigsLocal.workloadConfigFile=${loadedConfigsLocal.workloadConfigFile}`,0,0,0)
   var loadedJsonChassisObject;
@@ -153,7 +153,8 @@ const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsL
                   
           }
         }
-        debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 156, `actual workloadID=${element.workloadID} item=${item} set to:${workloadsArrayLocal[element.workloadID].item}`,0,0,0)
+        let valTemp = eval('element'+'.'+'members'+'.'+item)
+        debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 156, `actual workloadID=${element.workloadID} item=${item} set to:${valTemp}`,0,0,0)
       }
     }
         
