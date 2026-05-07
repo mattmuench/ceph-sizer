@@ -17,7 +17,7 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
    * In any of the latter 3 cases, try one of these and use the one with the smallest number of servers.
    *       => Try to reduce the collocated roles and check if this relaxes it - but could max the # servers required over other approaches. However, this would make some servers special but could go with one role only = 4 cores + 4 cores for OS
    *       => We would need to reduce the number of media proportionally for the config.
-   *          In worst case, by skipping an Optane we would have lots of cores available: We'd then go and reducre the number of SSD and HDD in ratio until we get a matching result but keep the Optane.
+   *          In worst case, by skipping an NVMe3 we would have lots of cores available: We'd then go and reducre the number of SSD and HDD in ratio until we get a matching result but keep the NVMe3.
    */
 
   let localNewNumberOfServersByReducingCores = 0
@@ -82,7 +82,7 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
       let localCoresMinForMaxRolesInitiallyAnyServer = Math.max(localCoresMaxAllPerExclusiveInstance,localCoresMaxAllPerScaleOutInstance+localCoresMinAllPerScaleOutTwoInstances)
       let localMinServersForMaxRolesInitiallyAnyServer = dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances + Math.ceil(Math.max((dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances + dcConfigArrayLocal[dcItem].numberOfNeededMonInstances)/2,dcConfigArrayLocal[dcItem].numberOfNeededMonInstances))
       debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 84, `localMinServersForMaxRolesInitiallyAnyServer=${localMinServersForMaxRolesInitiallyAnyServer} = dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances=${dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances} + Math.ceil(Math.max((dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances=${dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances} + dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances})/2,dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances}))`,0,0,0)
-      // # ( DCConfig.numberOfNVMe3Needed provides the number of "Optanes", SizingConstraints.coresPerNVMe3 provides cores for the Optanes.)
+      // # ( DCConfig.numberOfNVMe3Needed provides the number of "NVMe3s", SizingConstraints.coresPerNVMe3 provides cores for the NVMe3s.)
       // # First: try to reduce the number of servers by taking the ratio of cores needed to cores provided in a server.
       // localReduceByRatioOfCoresMinRoles => How many of the actual media we need to reduce to if we would have only a single role instance on any of the servers in this DC.
       localReduceByRatioOfCoresMinRoles = Math.ceil(  dcConfigArrayLocal[dcItem].prelimNumberOfServers / 

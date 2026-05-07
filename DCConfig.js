@@ -29,7 +29,7 @@ class DCConfig {
         numberOfSSD4Needed, // none yet - RocksDB+WAL HDD on SSD
         numberOfNVMe1Needed, 
         numberOfNVMe2Needed, // N41 - for RGW dedicated cache (distinct per use case)
-        numberOfNVMe3Needed, // => WAL on NVMe for SSD1 - aka Optane
+        numberOfNVMe3Needed, // => WAL on NVMe for SSD1
         numberOfNVMe4Needed, // => RocksDB+WAL HDD on NVMe
         numberOfNVMe5Needed, // => RocksDB SSD
         numberOfNVMe6Needed, // => RGW index data
@@ -73,7 +73,7 @@ class DCConfig {
         resultingNumberOfHDD, // AD41
         resultingNumberOfNVMe1, // AB41 (unused yet)
         resultingNumberOfNVMe2, // AE41
-        resultingNumberOfNVMe3, //AF41  - aka Optane
+        resultingNumberOfNVMe3, 
         resultingNumberOfNVMe4,
         resultingNumberOfNVMe5,
         resultingNumberOfNVMe6,
@@ -108,8 +108,8 @@ class DCConfig {
         
         this.numberOfSSD4Needed = 0 // RocksDB+WAL for HDD on SSD
         this.numberOfNVMe1Needed = 0 
-        this.numberOfNVMe2Needed = 0 // N41 - for RGW dedicated cache (distinct per use case)
-        this.numberOfNVMe3Needed = 0 // U41 - "Optanes"
+        this.numberOfNVMe2Needed = 0 // for RGW dedicated cache (distinct per use case)
+        this.numberOfNVMe3Needed = 0 // 
         this.numberOfNVMe4Needed = 0 //  => RocksDB+WAL HDD on NVMe
         this.numberOfNVMe5Needed = 0 // => RocksDB SSD
         this.numberOfNVMe6Needed = 0 // => RGW index data

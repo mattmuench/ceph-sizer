@@ -90,8 +90,8 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
                 case "sizeNVMe7":
                 case "sizeNVMe8":
                 case "sizeSSD1":
-                case "ssdToOptane":
-                case "sizeOptane1":
+                case "ssdToNVMe3":
+                case "sizeNVMe3":
                 case "useSSD4overNVMe4":
                 case "hddToSSD4":
                 case "sizeSSD4":
@@ -112,7 +112,7 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
           
                 case "useNVMe8": 
                 case "useNVMe7":
-                case "useOptane1":
+                case "useNVMe3":
                 case "useRGWCaching":
                 case "useSSD4overNVMe4":
                   {
