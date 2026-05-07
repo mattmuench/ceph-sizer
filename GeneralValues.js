@@ -36,7 +36,7 @@ class GeneralValues {
         this.globalDebug = false        // false or true
         this.enableDebugOn = true
         this.enabledDebugLevel = 5
-        this.numberOfConfigsPossible = 3  // default: 8 (?)
+        this.numberOfConfigsPossible = 8  // default: 8 (?)
         this.numberOfWorkloadsPossible = 8  // actually must be set to #workloads + 1
         this.numberOfDCsPossible = 7
         this.desiredSimilarConfig = 0

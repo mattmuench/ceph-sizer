@@ -39,7 +39,7 @@ async function logIngredientsWorkload(selectedFile,loadedConfigsLocal) {
 }
 
 const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsLocal, workloadsArrayLocal){
-  let localDebugOn = true
+  let localDebugOn = false
 
   debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 44, `loadedConfigsLocal.workloadConfigFile=${loadedConfigsLocal.workloadConfigFile}`,0,0,0)
   var loadedJsonChassisObject;

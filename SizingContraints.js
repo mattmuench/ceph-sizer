@@ -224,7 +224,7 @@ class SizingConstraints {
         // HDD-SSD: #HDD fronted per SSD
         // SSD-NVMe: #SSD fronted by NVMe - type 5
         // HDD-NVMe: #HDD fronted by NVMe - type 4
-        // WAL-NVMeO: #NVMe fronted by Optane - typ NVMe type 3
+        // WAL-NVMeO: #NVMe fronted by NVMe - type 3
         this.rocksDBWALCoverage = [["HDD-SSD",5],["SSD-NVMe",4],["HDD-NVMe",17],["WAL-NVMeO",6]]
         this.defaultRocksDBWALCoverage = [["HDD-SSD",5],["SSD-NVMe",4],["HDD-NVMe",17],["WAL-NVMeO",6]]
 

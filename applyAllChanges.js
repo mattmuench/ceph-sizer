@@ -11,7 +11,7 @@ import Results from "./Results.js"
 
 const applyAllChanges = function (documentMain, generalValues, workloadsValues, chassisValues, sizingConstraints, configsArrayLocal, tableHeaderResultingConfigsArray, resultsOverviewArrayLocal) {
 
-  let localDebugOn = false
+  let localDebugOn = true
   
   // clear any previous messages
   documentMain.getElementById("misc-message").innerText = ``
@@ -229,7 +229,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                 case "use-rgw-caching": 
                 case "use-nvme-7":
                 case "use-nvme-8": 
-                case "use-optane-1": {
+                case "use-nvme-3": {
                   chassisValues[item.chassisID][entry[1]]=documentMain.getElementById(idStringToFind).checked
                   debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 234, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)                 
                   break

@@ -21,8 +21,8 @@ class Chassis {
         sizeNVMe5,
         sizeNVMe6,
         sizeSSD1,
-        ssdToOptane,
-        sizeOptane1,
+        ssdToNVMe3,
+        sizeNVMe3,
         useSSD4overNVMe4,
         hddToSSD4,
         sizeSSD4,
@@ -30,7 +30,7 @@ class Chassis {
         ssdToNVMe5,
         speedNicCluster,
         useRGWCaching,
-        useOptane1,
+        useNVMe3,
         sizeNVMe7,
         nvmeToNVMe7,
         useNVMe7,
@@ -67,15 +67,15 @@ class Chassis {
             ["size-nvme-7","sizeNVMe7"], // for NVMe1 dedicated WAL
             ["size-nvme-8","sizeNVMe8"], // for NVMe1 dedicated RocksDB
             ["size-ssd-1","sizeSSD1"],
-            ["ssd-to-optane","ssdToOptane"],
-            ["size-optane-1","sizeOptane1"], // NVMe type 3
+            ["ssd-to-nvme3","ssdToNVMe3"],
+            ["size-nvme-3","sizeNVMe3"], // NVMe type 3
             ["use-SSD4-over-NVMe4","useSSD4overNVMe4"], // select SSD fronting instead of NVMe fronting for HDD
             ["hdd-to-ssd4","hddToSSD4"],
             ["size-ssd4","sizeSSD4"], // SSD type 4
             ["ssd-to-nvme5","ssdToNVMe5"], // #SSD covered for RocksDB/WAL by NVMe type 5 (incl. and excl. WAL)
             ["speed-nic-cluster","speedNicCluster"],
             ["use-rgw-caching","useRGWCaching"],
-            ["use-optane-1","useOptane1"],
+            ["use-nvme-3","useNVMe3"],
             ["nvme-to-nvme7","nvmeToNVMe7"],
             ["use-nvme-7","useNVMe7"], // use NVMe7 for dedicated WAL for NVMe1
             ["nvme-to-nvme8","nvmeToNVMe8"], // for NVMe1 dedicated RocksDB
@@ -103,8 +103,8 @@ class Chassis {
         this.sizeNVMe5 = 0
         this.sizeNVMe6 = 0
         this.sizeSSD1 = 0
-        this.ssdToOptane = 5 // default, should be changed by setting it (for now) - should depend on ratio between used SSD vs NVMe performance difference for small IO and RocksDB WAL
-        this.sizeOptane1 = 0
+        this.ssdToNVMe3 = 5 // default, should be changed by setting it (for now) - should depend on ratio between used SSD vs NVMe performance difference for small IO and RocksDB WAL
+        this.sizeNVMe3 = 0
         this.useSSD4overNVMe4 = 1
         this.hddToSSD4 = 5
         this.sizeSSD4 = 0
@@ -112,7 +112,7 @@ class Chassis {
         this.ssdToNVMe5 = 4
         this.speedNicCluster = 0
         this.useRGWCaching = 0
-        this.useOptane1 = 0
+        this.useNVMe3 = 0
         this.sizeNVMe7 = 0
         this.nvmeToNVMe7 = 4
         this.useNVMe7 = 0
