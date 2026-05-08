@@ -11,7 +11,7 @@ import Results from "./Results.js"
 
 const applyAllChanges = function (documentMain, generalValues, workloadsValues, chassisValues, sizingConstraints, configsArrayLocal, tableHeaderResultingConfigsArray, resultsOverviewArrayLocal) {
 
-  let localDebugOn = true
+  let localDebugOn = false
   
   // clear any previous messages
   documentMain.getElementById("misc-message").innerText = ``

@@ -2,7 +2,7 @@ import displayMsg from "../common/displayMsg.js"
 import {debugMsg} from "../common/debug.js";
 
 const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID) {
-  let localDebugOn = true
+  let localDebugOn = false
 
   /**
     This is covering the H41, H42, J41, J42, N41, and O41 (for SSD)
