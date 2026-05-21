@@ -24,17 +24,27 @@
             ["HDD size 1 in TB","size-hdd-1","input"],
             ["HDD: Use SSD for fronting HDD instead of NVMe","use-SSD4-over-NVMe4","checkbox"],
             
-            ["HDD: SSD type 4 (for dedicated RocksDB+WAL) size in TB (0 => don't use SSD for HDD fronting)","size-ssd4","input"],
+            ["HDD: SSD type 4 (for dedicated RocksDB+WAL) size in TB (0 => don't use SSD for HDD fronting)","size-ssd-4","input"],
             ["HDD: #HDD per SSD type 4 for RocksDB+WAL (#HDD covered by SSD)","hdd-to-ssd4","input"],
+            ["HDD: HDD fronted by flash for RocksDB (SSD4 or NVMe4)?","use-ssd-4","checkbox"],
             
             ["HDD: NVMe type 4 (for dedicated RocksDB+WAL) size in TB (0 => don't use NVMe for HDD fronting)","size-nvme-4","input"],
             ["HDD: #HDD per NVMe type 4 for RocksDB+WAL (#HDD covered by NVMe)","hdd-to-nvme4","input"],
+
+            ["HDD: SSD type 3 (for dedicated WAL) size in TB (0 => don't use SSD for HDD separate WAL)","size-ssd-3","input"],
+            ["HDD: #HDD per SSD type 3 for dedicated WAL (#HDD covered by SSD)","hdd-to-ssd3","input"],
+            ["HDD: HDD fronted by separate WAL on SSD3 ?","use-ssd-3","checkbox"],
+            
+            ["HDD: NVMe type 9 (for dedicated WAL) size in TB (0 => don't use NVMe for HDD separate WAL)","size-nvme-9","input"],
+            ["HDD: #HDD per NVMe type 9 for dedicated WAL (#HDD covered by NVMe)","hdd-to-nvme9","input"],
+            ["HDD: HDD fronted by separate WAL on NVMe9 ?","use-nvme-9","checkbox"],
 
             ["SSD: SSD size 1 in TB","size-ssd-1","input"],
             ["SSD: SSD fronted by NVMe type 3 for WAL ?","use-nvme-3","checkbox"],
             
             ["SSD: NVMe type 5 (for dedicated RocksDB+WAL) size in TB (0 => don't use NVMe for SSD fronting)","size-nvme-5","input"],
             ["SSD: SSD fronted by NVMe type 5 for RocksDB/WAL (#SSD covered by NVMe)","ssd-to-nvme5","input"],
+            ["SSD: SSD fronted by seprate RocksDB on NVMe5 ?","use-nvme-5","checkbox"],
             
             ["SSD: NVMe type 3 (for dedicated WAL) size in TB (0 => don't use NVMe3 for fronting)","size-nvme-3","input"],
             ["SSD: #SSD per NVMe type 3 for WAL (#SSD covered by one NVMe)","ssd-to-nvme3","input"],

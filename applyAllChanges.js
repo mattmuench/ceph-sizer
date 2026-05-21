@@ -229,27 +229,31 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                 case "use-rgw-caching": 
                 case "use-nvme-7":
                 case "use-nvme-8": 
-                case "use-nvme-3": {
+                case "use-nvme-3":
+                case "use-nvme-9":
+                case "use-ssd-3":
+                case "use-ssd-4":
+                case "use-nvme-5": {
                   chassisValues[item.chassisID][entry[1]]=documentMain.getElementById(idStringToFind).checked
-                  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 234, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)                 
+                  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 238, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)                 
                   break
                 }
                 default:  {
                   // Keep the default or actual value  if nothing is provided
                   if (inputElement.value !== '') {
-                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 240, `[chassisID=${item}] CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`,0,0,0)
+                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 244, `[chassisID=${item}] CHANGE: workloadID=${item.workloadID} - inputElement.value=${inputElement.value}`,0,0,0)
                     if (!isNaN(Number(inputElement.value))) {
                       chassisValues[item.chassisID][entry[1]] = inputElement.value
                     }
                     else {
-                      displayMsg(documentMain, "applyAllChanges", 245, "error", `[chassisID=${item}] ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
+                      displayMsg(documentMain, "applyAllChanges", 249, "error", `[chassisID=${item}] ERROR: workloadID=${item.workloadID} - ${entry[0]} must be a number (actual value=${inputElement.value})`,0,0,0)
                     }
                   }
                   else {
                     // Don't change the actual value (default)
-                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 250, `[chassisID=${item}] DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`,0,0,0)
+                    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 254, `[chassisID=${item}] DEFAULT: workloadID=${item.workloadID} - ${entry[0]} is undefined - keeping set value`,0,0,0)
                   }
-                  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 252, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW ${value}: ${testToConsoleValue}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)
+                  debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 256, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW ${value}: ${testToConsoleValue}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)
                 }
               }
             }
@@ -264,9 +268,9 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
     // Calculate the media and server configuration based on changed workloads and chassis configuration. 
 
     let actualChassisID = 0
-    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 267, `working on config ${actualChassisID}`,0,0,0)
-    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 268, `the array is ${configsArrayLocal}`,0,0,0)
-    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 269, ` ... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 271, `working on config ${actualChassisID}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 272, `the array is ${configsArrayLocal}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 273, ` ... and the actual sub-array is the array ${configsArrayLocal[actualChassisID]}`,0,0,0)
 
     calcDCConfig(generalValues, workloadsValues, sizingConstraints, configsArrayLocal, chassisValues)
       
@@ -275,7 +279,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
     for (let resultingConfig = 0; resultingConfig < generalValues.numberOfConfigsPossible; resultingConfig++) {
       const resultNew = new Results
       
-      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 278, `This is length of chassisNew array: ${Object.keys(resultNew).length}`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 282, `This is length of chassisNew array: ${Object.keys(resultNew).length}`,0,0,0)
       resultNew.chassisID = `${resultingConfig}`
 
       resultsOverviewArray.push(resultNew)
@@ -288,7 +292,7 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
       for (let dcConfig = 0; dcConfig < generalValues.numberOfDCsPossible; dcConfig++) {
         const dcResultsNew = new Results
   
-        debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 291, `This is length of chassisNew array: ${Object.keys(dcResultsNew).length}`,0,0,0)
+        debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 295, `This is length of chassisNew array: ${Object.keys(dcResultsNew).length}`,0,0,0)
         dcResultsNew.chassisID = `${dcConfig}`
 
         resultsArray.push(dcResultsNew)
