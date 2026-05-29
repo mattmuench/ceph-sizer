@@ -42,7 +42,7 @@ async function logIngredients(selectedFile,loadedConfigsLocal) {
 }
 
 const readChassisConfig = function (documentMain, generalValues, loadedConfigsLocal, chassisArrayLocal){
-  let localDebugOn = false
+  let localDebugOn = true
   
   debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 47, `loadedConfigsLocal.chassisConfigFile=${loadedConfigsLocal.chassisConfigFile}`,0,0,0)
   var loadedJsonChassisObject;
@@ -92,12 +92,15 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
                 case "sizeSSD1":
                 case "ssdToNVMe3":
                 case "sizeNVMe3":
-                case "useSSD4overNVMe4":
                 case "hddToSSD4":
                 case "sizeSSD4":
                 case "ssdToNVMe5":
                 case "nvmeToNVMe7":
                 case "nvmeToNVMe8":
+                case "hddToNVMe9":
+                case "hddToSSD3":
+                case "sizeSSD3":
+                case "sizeNVMe9":
                 {
                   let valTemp = eval('element'+'.'+'members'+'.'+item)
                   debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 103, `item=${item} = item value=${valTemp}`,0,0,0)
@@ -115,6 +118,10 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
                 case "useNVMe3":
                 case "useRGWCaching":
                 case "useSSD4overNVMe4":
+                case "useSSD4":
+                case "useNVMe9":
+                case "useNVMe5":
+                case "useSSD3":
                   {
                     let valTemp = eval('element'+'.'+'members'+'.'+item)
                     debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 120, `item=${item} = item value=${valTemp}`,0,0,0)
