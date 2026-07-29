@@ -20,6 +20,10 @@ class Workload {
         checkArrayMinServersDC = [],
         RGWLifecycleNumVersions,
         selectorRGWIndexDedicatedFlashPool,
+        selectorHDDDedicatedSSD, // HDD: for separating RocksDB placement - on SSD (SSD4) or on NVMe (NVMe4)
+        selectorHDDDedicatedSSDForWAL, // HDD: for WAL separation from media and RocksDB - w/ or w/o RocksDB dedicated  - on SSD (SSD4)
+        selectorHDDDedicatedNVMe, // HDD: for separating RocksDB placement - on NVMe (NVMe4)
+        selectorHDDDedicatedNVMeForWAL, // HDD: for WAL separation from media and RocksDB - w/ or w/o RocksDB dedicated  - on NVMe (NVMe3)
         selectorSSDDedicatedNVMe, // SSD: for separating RocksDB placement 
         selectorSSDDedicatedNVMeForWAL, // SSD: for WAL separation from media and RocksDB - w/ or w/o RocksDB dedicated 
         selectorNVMe1DedicatedNVMe, // NVMe1: for separating RocksDB placement 
@@ -87,6 +91,10 @@ class Workload {
             // number of versions in life cycle is 1 without versioning enabled
             ["rgw-lifecycle-num-versions","RGWLifecycleNumVersions"],
             ["selector-rgw-index-flash","selectorRGWIndexDedicatedFlashPool"],
+            ["selector-HDDdedicatedNVMe","selectorHDDDedicatedNVMe"],
+            ["selector-HDDdedicatedNVMeForWAL","selectorHDDDedicatedNVMeForWAL"],
+            ["selector-HDDdedicatedSSD","selectorHDDDedicatedSSD"],
+            ["selector-HDDdedicatedSSDForWAL","selectorHDDDedicatedSSDForWAL"],
             ["selector-SSDdedicatedNVMe","selectorSSDDedicatedNVMe"],
             ["selector-SSDdedicatedNVMeForWAL","selectorSSDDedicatedNVMeForWAL"],
             ["selector-NVMe1dedicatedNVMe","selectorNVMe1DedicatedNVMe"],
@@ -134,6 +142,10 @@ class Workload {
 
         this.selectorRGWLifecycleNumVersions = 1
         this.selectorRGWIndexDedicatedFlashPool = 0
+        this.selectorHDDDedicatedNVMe = 0
+        this.selectorHDDDedicatedNVMeForWAL = 0
+        this.selectorHDDDedicatedSSD = 0
+        this.selectorHDDDedicatedSSDForWAL = 0
         this.selectorSSDDedicatedNVMe = 0
         this.selectorSSDDedicatedNVMeForWAL = 0
         this.selectorNVMe1DedicatedNVMe = 0

@@ -16,6 +16,17 @@ class DCConfig {
         numberOfHDDNeeded, // J41
         numberOfSSDNeeded, // J42
 
+        numberOfHDD1NeededWithoutDedicatedRocksDBNorWAL, // // WAL is included here together with block device - no use of NVMe4, SSD4, NVMe9, SSD9
+        numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9, // WAL is not included here (separate) but RocksDB is not separate - for slower archive use - no use of NVMe4/SSD4 but use of NVMe9 (WAL)
+        numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9, // WAL is not included here (separate) but RocksDB is not separate - for slower archive use - no use of NVMe4/SSD4 but use of SSD9 (WAL)
+        numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9, // WAL is not included here (separate) and RocksDB is definitely separate - for slower HDD based interactive workloads ? - use of SSD4 and NVMe9 (WAL)
+        numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9, // WAL is not included here (separate) and RocksDB is definitely separate - for slower HDD based interactive workloads ? - use of SSD4 and SSD9 (WAL)
+        numberOfHDD1NeededWithDedicatedSSD4IncludingWAL, // WAL is included here with RocksDB and RocksDB is separate - use of SSD4
+        numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9, // WAL is not included here (separate) and RocksDB is definitely separate - for slower HDD based interactive workloads ? - use of NVMe4 and NVMe9 (WAL)
+        numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9, // WAL is not included here (separate) and RocksDB is definitely separate - for slower HDD based interactive workloads ? - use of NVMe4 and SSD9 (WAL)
+        numberOfHDD1NeededWithDedicatedNVMe4IncludingWAL, // WAL is included here with RocksDB and RocksDB is separate - use of NVMe4
+
+
         numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL, // // WAL is included here together with RocksDB - for SSD1 - no use of NVMe5 nor NVMe3
         numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL, // WAL is not included here (separate) but RocksDB is not separate - for slower Read-Intensive SSD1 - no use of NVMe5 but use of NVMe3 (WAL)
         numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL, // WAL is not included here (separate) and RocksDB is definitely separate - for slower Read-Intensive SSD1 - use of NVMe5 and NVMe3 (WAL)
@@ -26,7 +37,8 @@ class DCConfig {
         numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL, // WAL is not included here (separate) and RocksDB is definitely separate - for slower Read-Intensive NVMe1 - use of NVMe8 (RocksDB) and use of NVMe7 (WAL)
         numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL, // WAL is included here with RocksDB and RocksDB is separate -  for NVMe1 - use of NVMe8 (RocksDB+WAL)
         
-        numberOfSSD4Needed, // none yet - RocksDB+WAL HDD on SSD
+        numberOfSSD4Needed, // RocksDB for HDD on SSD
+        numberOfSSD9Needed, // RocksDB for HDD on SSD
         numberOfNVMe1Needed, 
         numberOfNVMe2Needed, // N41 - for RGW dedicated cache (distinct per use case)
         numberOfNVMe3Needed, // => WAL on NVMe for SSD1
@@ -35,6 +47,7 @@ class DCConfig {
         numberOfNVMe6Needed, // => RGW index data
         numberOfNVMe7Needed, // => WAL on NVMe for NVMe1
         numberOfNVMe8Needed, // => RocksDB on NVMe for NVMe1
+        numberOfNVMe9Needed, // => RocksDB on NVMe for NVMe1
         
         numberOfCoresNeeded, // V41
         memNeededPerServer, // W41
@@ -56,6 +69,7 @@ class DCConfig {
         prelimPerServerNumberOfNVMe6Needed, // NVMe6 per server
         prelimPerServerNumberOfNVMe7Needed, // NVMe7 per server
         prelimPerServerNumberOfNVMe8Needed, // NVMe8 per server
+        prelimPerServerNumberOfNVMe9Needed, // NVMe9 per server
         prelimPerServerNumberOfCoresNeeded, // cores per server
         prelimPerServerMemNeededPerServer,  // memory per server
         prelimNumberOfServers,              // instead of resultingNumberOfServers that was used differently before
@@ -79,6 +93,7 @@ class DCConfig {
         resultingNumberOfNVMe6,
         resultingNumberOfNVMe7,
         resultingNumberOfNVMe8,
+        resultingNumberOfNVMe9,
         resultingNumberOfServersAsPerChassis, // Y41
         resultingNumberOfServersForiSCSILocalAsPerChassis, // Y42
         resultingNumberOfPublicNetNICs,
@@ -106,7 +121,8 @@ class DCConfig {
         this.numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL = 0 // WAL is included here with RocksDB and RocksDB is separate 
         
         
-        this.numberOfSSD4Needed = 0 // RocksDB+WAL for HDD on SSD
+        this.numberOfSSD4Needed = 0 // RocksDB for HDD on SSD
+        this.numberOfSSD9Needed = 0 // WAL for HDD on SSD
         this.numberOfNVMe1Needed = 0 
         this.numberOfNVMe2Needed = 0 // for RGW dedicated cache (distinct per use case)
         this.numberOfNVMe3Needed = 0 // 
@@ -115,6 +131,7 @@ class DCConfig {
         this.numberOfNVMe6Needed = 0 // => RGW index data
         this.numberOfNVMe7Needed = 0 // => WAL on NVMe for NVMe1
         this.numberOfNVMe8Needed = 0 // => RocksDB on NVMe for NVMe1
+        this.numberOfNVMe9Needed = 0 // => WAL on NVMe for HDD1
         
         this.numberOfCoresNeeded = 4 // V41
         this.memNeededPerServer = 0 // W41

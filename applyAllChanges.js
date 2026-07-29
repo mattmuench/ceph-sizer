@@ -126,7 +126,10 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
                 case "selector-nvme": 
                 case "selector-rgw-index-flash":
                 case "selector-rgw-cache":
-                case "selector-dedicatedNVMe":
+                case "selector-HDDdedicatedNVMe":
+                case "selector-HDDdedicatedNVMeForWAL":
+                case "selector-HDDdedicatedSSD":
+                case "selector-HDDdedicatedSSDForWAL":
                 case "selector-SSDdedicatedNVMe":
                 case "selector-SSDdedicatedNVMeForWAL":
                 case "selector-NVMe1dedicatedNVMe":
@@ -227,13 +230,13 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
               switch (entry[0]) {
                 case "use-SSD4-over-NVMe4":
                 case "use-rgw-caching": 
+                case "use-nvme-3":
+                case "use-nvme-5":
                 case "use-nvme-7":
                 case "use-nvme-8": 
-                case "use-nvme-3":
                 case "use-nvme-9":
-                case "use-ssd-3":
                 case "use-ssd-4":
-                case "use-nvme-5": {
+                case "use-ssd-9": {
                   chassisValues[item.chassisID][entry[1]]=documentMain.getElementById(idStringToFind).checked
                   debugMsg(generalValues, localDebugOn, 5, "applyAllChanges", 238, `[chassisID=${item}] For ${item.chassisID} is chassisValues.item.value is NEW: chassisValues[${item.chassisID}].${entry[1]}=${chassisValues[item.chassisID][entry[1]]}`,0,0,0)                 
                   break
