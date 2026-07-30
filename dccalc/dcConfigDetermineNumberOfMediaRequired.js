@@ -819,41 +819,51 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
       // NVMe9 for HDD1
       if (chassisArrayLocal[actualChassisID].sizeNVMe9 == 0){
         if ((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9) > 0) {
-          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 798, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe9 but size of NVMe9 is zero`,0,0,0)
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 810, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe9 but size of NVMe9 is zero`,0,0,0)
         }
         else {
-          // sizeNVMe9 is > 0
-          if (chassisArrayLocal[actualChassisID].useNVMe9 == true){
-            dcConfigArrayLocal[dcItem].numberOfNVMe9Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 * (sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000)) / chassisArrayLocal[actualChassisID].sizeNVMe9) 
-                                                           + Math.ceil((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 * (sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000)) / chassisArrayLocal[actualChassisID].sizeNVMe9)
-                                                           + Math.ceil((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9 * (sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000)) / chassisArrayLocal[actualChassisID].sizeNVMe9)
-            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 818, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe9 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed}`,0,0,0)
-            if (dcConfigArrayLocal[dcItem].numberOfNVMe9Needed < (Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9) )){
-              // The number of media required based on capacity is not sufficient - would need to add more NVMe for the actual required number of HDD1 to front.
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 819, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe9 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed} < Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9} / chassisArrayLocal[actualChassisID].nvmeToNVMe9=${chassisArrayLocal[actualChassisID].nvmeToNVMe9}) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9} / chassisArrayLocal[actualChassisID].nvmeToNVMe9=${chassisArrayLocal[actualChassisID].nvmeToNVMe9}) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9} / chassisArrayLocal[actualChassisID].nvmeToNVMe9=${chassisArrayLocal[actualChassisID].nvmeToNVMe9})`,0,0,0)
-              dcConfigArrayLocal[dcItem].numberOfNVMe9Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 820, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe9 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed}`,0,0,0)
-            }
-            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 821, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe9 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed}`,0,0,0)
+          dcConfigArrayLocal[dcItem].numberOfNVMe9Needed = 0
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 811, `[chassisID=${actualChassisID},DC=${dcItem}] size of NVMe9=0 => dcConfigArrayLocal[dcItem].numberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed}`,0,0,0)
+        }
+      }
+      else {
+        // sizeNVMe9 is > 0
+        if (chassisArrayLocal[actualChassisID].useNVMe9 == true){
+          dcConfigArrayLocal[dcItem].numberOfNVMe9Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 * (sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000)) / chassisArrayLocal[actualChassisID].sizeNVMe9) 
+                                                         + Math.ceil((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 * (sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000)) / chassisArrayLocal[actualChassisID].sizeNVMe9)
+                                                         + Math.ceil((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9 * (sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000)) / chassisArrayLocal[actualChassisID].sizeNVMe9)
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 818, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe9 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed}`,0,0,0)
+          if (dcConfigArrayLocal[dcItem].numberOfNVMe9Needed < (Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9) )){
+            // The number of media required based on capacity is not sufficient - would need to add more NVMe for the actual required number of HDD1 to front.
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 819, `[chassisID=${actualChassisID},DC=${dcItem}] need to correct: #NVMe9 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed} < Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9} / chassisArrayLocal[actualChassisID].nvmeToNVMe9=${chassisArrayLocal[actualChassisID].nvmeToNVMe9}) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9} / chassisArrayLocal[actualChassisID].nvmeToNVMe9=${chassisArrayLocal[actualChassisID].nvmeToNVMe9}) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9} / chassisArrayLocal[actualChassisID].nvmeToNVMe9=${chassisArrayLocal[actualChassisID].nvmeToNVMe9})`,0,0,0)
+            dcConfigArrayLocal[dcItem].numberOfNVMe9Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9 / chassisArrayLocal[actualChassisID].nvmeToNVMe9)
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 820, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe9 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed}`,0,0,0)
+          }
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 821, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe9 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed}`,0,0,0)
+        }
+        else {
+          if ((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9) > 0) {
+            displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 822, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe9 but use of NVMe9 is disabled`,0,0,0)
           }
           else {
-            if ((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9) > 0) {
-              displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 822, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe9 but use of NVMe9 is disabled`,0,0,0)
-            }
-            else {
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 723, `[chassisID=${actualChassisID},DC=${dcItem}] size of NVMe9=0 => dcConfigArrayLocal[dcItem].numberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed}`,0,0,0)
-              dcConfigArrayLocal[dcItem].numberOfNVMe9Needed = 0
-            }
-          }   
-        }
+            dcConfigArrayLocal[dcItem].numberOfNVMe9Needed = 0
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 823, `[chassisID=${actualChassisID},DC=${dcItem}] use of NVMe9 is disabled => dcConfigArrayLocal[dcItem].numberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe9Needed}`,0,0,0)
+          }
+        }   
       }
 
       // SSD9 for HDD1
       if (chassisArrayLocal[actualChassisID].sizeSSD9 == 0){
         if ((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9) > 0) {
-          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 827, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require SSD9 but size of SSD9 is zero`,0,0,0)
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 825, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require SSD9 but size of SSD9 is zero`,0,0,0)
         }
-        // sizeNVMe9 is > 0
+        else {
+          dcConfigArrayLocal[dcItem].numberOfSSD9Needed = 0
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 827, `[chassisID=${actualChassisID},DC=${dcItem}] size of SDD9=0 => dcConfigArrayLocal[dcItem].numberOfSSD9Needed=${dcConfigArrayLocal[dcItem].numberOfSSD9Needed}`,0,0,0)
+        }
+      }
+      else {
+        // sizeSSD9 is > 0
         if (chassisArrayLocal[actualChassisID].useSSD9 == true){
           dcConfigArrayLocal[dcItem].numberOfSSD9Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9 * (sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000)) / chassisArrayLocal[actualChassisID].sizeSSD9) 
                                                          + Math.ceil((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9 * (sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000)) / chassisArrayLocal[actualChassisID].sizeSSD9)
@@ -862,7 +872,7 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
           debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 829, `[chassisID=${actualChassisID},DC=${dcItem}] #SSD9 needed=${dcConfigArrayLocal[dcItem].numberOfSSD9Needed}`,0,0,0)
           if (dcConfigArrayLocal[dcItem].numberOfNVMe9Needed < (Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9 / chassisArrayLocal[actualChassisID].nvmeToSSD9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9 / chassisArrayLocal[actualChassisID].nvmeToSSD9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9 / chassisArrayLocal[actualChassisID].nvmeToSSD9) )){
             // The number of media required based on capacity is not sufficient - would need to add more SSD for the actual required number of HDD1 to front.
-            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 830, `[chassisID=${actualChassisID},DC=${dcItem}] #SSD9 needed=${dcConfigArrayLocal[dcItem].numberOfSSD9Needed} < Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9} / chassisArrayLocal[actualChassisID].nvmeToSSD9=${chassisArrayLocal[actualChassisID].nvmeToSSD9}) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9} / chassisArrayLocal[actualChassisID].nvmeToSSD9=${chassisArrayLocal[actualChassisID].nvmeToSSD9}) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9} / chassisArrayLocal[actualChassisID].nvmeToSSD9=${chassisArrayLocal[actualChassisID].nvmeToSSD9})`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 830, `[chassisID=${actualChassisID},DC=${dcItem}] #need to correct: #SSD9 needed=${dcConfigArrayLocal[dcItem].numberOfSSD9Needed} < Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9} / chassisArrayLocal[actualChassisID].nvmeToSSD9=${chassisArrayLocal[actualChassisID].nvmeToSSD9}) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9} / chassisArrayLocal[actualChassisID].nvmeToSSD9=${chassisArrayLocal[actualChassisID].nvmeToSSD9}) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9} / chassisArrayLocal[actualChassisID].nvmeToSSD9=${chassisArrayLocal[actualChassisID].nvmeToSSD9})`,0,0,0)
             dcConfigArrayLocal[dcItem].numberOfSSD9Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9 / chassisArrayLocal[actualChassisID].nvmeToSSD9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9 / chassisArrayLocal[actualChassisID].nvmeToSSD9) + Math.ceil(dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9 / chassisArrayLocal[actualChassisID].nvmeToSSD9)
             debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 831, `[chassisID=${actualChassisID},DC=${dcItem}] #SSD9 needed=${dcConfigArrayLocal[dcItem].numberOfSSD9Needed}`,0,0,0)
           }
@@ -873,15 +883,10 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
             displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 833, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require SSD9 but but use of SSD9 is disabled`,0,0,0)
           }
           else {
-            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 834, `[chassisID=${actualChassisID},DC=${dcItem}] size of SDD9 = 0 dcConfigArrayLocal[dcItem].numberOfSSD9Needed=${dcConfigArrayLocal[dcItem].numberOfSSD9Needed}`,0,0,0)
             dcConfigArrayLocal[dcItem].numberOfSSD9Needed = 0
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 834, `[chassisID=${actualChassisID},DC=${dcItem}] use of SDD9 disabled => dcConfigArrayLocal[dcItem].numberOfSSD9Needed=${dcConfigArrayLocal[dcItem].numberOfSSD9Needed}`,0,0,0)
           }
-        }  
-        
-        
-      } 
-      else {
-        
+        }   
       }
       
       // SSD as pool media: 
