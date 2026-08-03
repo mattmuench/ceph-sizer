@@ -14,7 +14,9 @@ const dcConfigMemNeededInitial = function (generalValues, sizingConstraints, dcC
       }
     }
   
-    dcConfigArrayLocal[dcItem].memNeededPerServer = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded * sizingConstraints.memInGBPerHDD 
+    dcConfigArrayLocal[dcItem].memNeededPerServer = (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithoutDedicatedRocksDBNeeded
+                                                      + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithDedicatedRockSDBonSSD4Needed
+                                                      + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithDedicatedRockSDBonNVMe4Needed) * sizingConstraints.memInGBPerHDD 
                                                   + (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded)*sizingConstraints.memInGBPerSSD 
                                                   + (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL) * sizingConstraints.memInGBPerNVMe1
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.memInGBPerNVMeForObjectIndexOnNVMe6 
@@ -24,13 +26,16 @@ const dcConfigMemNeededInitial = function (generalValues, sizingConstraints, dcC
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.memInGBPerNVMe5
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.memInGBPerNVMe7
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.memInGBPerNVMe8
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.memInGBPerNVMe9
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.memInGBPerSSD4
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.memInGBPerSSD9
                                                   + sizingConstraints.memPerNodeBase 
                                                   + localMemPerAdditionalRole
   }
-  debugMsg(generalValues, localDebugOn, 5, "dcConfigMemNeededInitial", 30, `[DC=${dcItem} dcConfigArrayLocal[dcItem].memNeededPerServer=${dcConfigArrayLocal[dcItem].memNeededPerServer}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigMemNeededInitial", 35, `[DC=${dcItem} dcConfigArrayLocal[dcItem].memNeededPerServer=${dcConfigArrayLocal[dcItem].memNeededPerServer}`,0,0,0)
   dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer = dcConfigArrayLocal[dcItem].memNeededPerServer
 
-  debugMsg(generalValues, localDebugOn, 5, "dcConfigMemNeededInitial", 33, `[DC=${dcItem} dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer=${dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigMemNeededInitial", 38, `[DC=${dcItem} dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer=${dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer}`,0,0,0)
   
 }
 

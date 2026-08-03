@@ -103,10 +103,13 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.coresPerNVMe5
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.coresPerNVMe7
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.coresPerNVMe8
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.coresPerNVMe9
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.coresPerSSD4
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.coresPerSSD9
                                                 )
                                             )
                                           )
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 109, `dcConfigAdjustNumberOfServers 124: [chassisID=${actualChassisID},DC=${dcItem}] localReduceByRatioOfCoresMinRoles=${localReduceByRatioOfCoresMinRoles} = Math.ceil(  dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers} / 
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 112, `dcConfigAdjustNumberOfServers 124: [chassisID=${actualChassisID},DC=${dcItem}] localReduceByRatioOfCoresMinRoles=${localReduceByRatioOfCoresMinRoles} = Math.ceil(  dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers} / 
       (
           (  (chassisArrayLocal[actualChassisID].maxCpuSockets=${chassisArrayLocal[actualChassisID].maxCpuSockets} * chassisArrayLocal[actualChassisID].maxCpuCores=${chassisArrayLocal[actualChassisID].maxCpuCores}) 
                 - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe6}
@@ -123,6 +126,9 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
             + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.coresPerNVMe5=${sizingConstraints.coresPerNVMe5}
             + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.coresPerNVMe7=${sizingConstraints.coresPerNVMe7}
             + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.coresPerNVMe8=${sizingConstraints.coresPerNVMe8}
+            + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.coresPerNVMe9=${sizingConstraints.coresPerNVMe9}
+            + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.coresPerSSD4=${sizingConstraints.coresPerSS4}
+            + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.coresPerSSD9=${sizingConstraints.coresPerSS9}
             )
       )
       )`,0,0,0)
@@ -145,10 +151,13 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.coresPerNVMe5
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.coresPerNVMe7
                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.coresPerNVMe8
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.coresPerNVMe9
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.coresPerSSD4
+                                                  + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.coresPerSSD9
                                                 )
                                             )
                                           )
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 151, `dcConfigAdjustNumberOfServers 164: [chassisID=${actualChassisID},DC=${dcItem}] localReduceByRatioOfCoresMaxRoles=${localReduceByRatioOfCoresMaxRoles} = Math.ceil(  dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers} / 
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 160, `dcConfigAdjustNumberOfServers 164: [chassisID=${actualChassisID},DC=${dcItem}] localReduceByRatioOfCoresMaxRoles=${localReduceByRatioOfCoresMaxRoles} = Math.ceil(  dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers} / 
       (
           (  (chassisArrayLocal[actualChassisID].maxCpuSockets=${chassisArrayLocal[actualChassisID].maxCpuSockets} * chassisArrayLocal[actualChassisID].maxCpuCores=${chassisArrayLocal[actualChassisID].maxCpuCores}) 
                 - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe6}
@@ -165,6 +174,9 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
             + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.coresPerNVMe5=${sizingConstraints.coresPerNVMe5}
             + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.coresPerNVMe7=${sizingConstraints.coresPerNVMe7}
             + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.coresPerNVMe8=${sizingConstraints.coresPerNVMe8}
+            + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.coresPerNVMe9=${sizingConstraints.coresPerNVMe9}
+            + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.coresPerSSD4=${sizingConstraints.coresPerSSD4}
+            + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.coresPerSSD9=${sizingConstraints.coresPerSSD9}
             )
       )
       )`,0,0,0)
@@ -178,7 +190,7 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
       
       // Check for the number of media that has the largest number with regards of the number of cores consumed in sum (highest score = highest portion of cores assigned)
        // Media with 0 or 1 count are skipped for score.
-      let scoreCoresPerMediaType = ["SSD", "HDD", "NVMe1", "NVMe2", "NVMe3", "NVMe6", "NVMe8"]
+      let scoreCoresPerMediaType = ["SSD", "SSD4", "SSD9", "HDD", "NVMe1", "NVMe2", "NVMe3", "NVMe4", "NVMe6", "NVMe7", "NVMe8", "NVMe9"]
       let highScore = 0
       let mediaNumber = 0
       let lowestMinServersMinRoles = 0
@@ -192,12 +204,12 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
         let prelimString = "prelimPerServerNumberOf" + scoreCoresPerMediaType[mediatype] + "Needed"
         let mediaSumString = "numberOf" + scoreCoresPerMediaType[mediatype] + "Needed"
         let prelimMediaSumString = "prelimPerServerNumberOf" + scoreCoresPerMediaType[mediatype] + "Needed"
-        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 195, `coreString=${coreString}, prelimString=${prelimString}; dcConfigArrayLocal[dcItem].prelimString=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints.coreString=${sizingConstraints[coreString]}`,0,0,0)
-        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 196, `scoreCoresPerMediaType=${scoreCoresPerMediaType}, mediatype=${mediatype}`,0,0,0)
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 207, `coreString=${coreString}, prelimString=${prelimString}; dcConfigArrayLocal[dcItem].prelimString=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints.coreString=${sizingConstraints[coreString]}`,0,0,0)
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 208, `scoreCoresPerMediaType=${scoreCoresPerMediaType}, mediatype=${mediatype}`,0,0,0)
         scoreCoresPerMediaType[mediatype] = {}
         scoreCoresPerMediaType[mediatype].score = dcConfigArrayLocal[dcItem][prelimString] * sizingConstraints[coreString]
         scoreCoresPerMediaType[mediatype].number = dcConfigArrayLocal[dcItem][prelimString]
-        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 200, `coreString=${coreString}, prelimString=${prelimString}, scoreCoresPerMediaType[mediatype].score=${scoreCoresPerMediaType[mediatype].score}, scoreCoresPerMediaType[mediatype].number=${scoreCoresPerMediaType[mediatype].number}`,0,0,0)
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 212, `coreString=${coreString}, prelimString=${prelimString}, scoreCoresPerMediaType[mediatype].score=${scoreCoresPerMediaType[mediatype].score}, scoreCoresPerMediaType[mediatype].number=${scoreCoresPerMediaType[mediatype].number}`,0,0,0)
         if (scoreCoresPerMediaType[mediatype].number > 1) {
           let localAddBackElement = 0
           if (scoreCoresPerMediaType[mediatype].score > highScore){
@@ -233,26 +245,32 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.coresPerNVMe5
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.coresPerNVMe7
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.coresPerNVMe8
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.coresPerNVMe9
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.coresPerSSD4
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.coresPerSSD9
                                                       + dcConfigArrayLocal[dcItem][prelimString] * sizingConstraints[coreString]
                                                 )/sizingConstraints[coreString]
                                               )
 
             if (generalValues.globalDebug == true || localDebugOn == true) {
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 241, `localAddBackElement=${localAddBackElement}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 242, `localCoresMinForMinRolesInitiallyAnyServer=${localCoresMinForMinRolesInitiallyAnyServer}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 243, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 244, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 245, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.coresPerHDD=${sizingConstraints.coresPerHDD}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 246, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} * sizingConstraints.coresPerNVMe1=${sizingConstraints.coresPerNVMe1}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 247, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL} * sizingConstraints.coresPerNVMe1=${sizingConstraints.coresPerNVMe1}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 248, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe2}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 249, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} * sizingConstraints.coresPerNVMe3=${sizingConstraints.coresPerNVMe3}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 250, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} * sizingConstraints.coresPerNVMe4=${sizingConstraints.coresPerNVMe4}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 251, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.coresPerNVMe5=${sizingConstraints.coresPerNVMe5}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 252, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.coresPerNVMe6=${sizingConstraints.coresPerNVMe6}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 253, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.coresPerNVMe7=${sizingConstraints.coresPerNVMe7}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 254, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.coresPerNVMe8=${sizingConstraints.coresPerNVMe8}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 255, `dcConfigArrayLocal[dcItem][prelimString]=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints[coreString]=${sizingConstraints[coreString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 256, `localAddBackElement=${localAddBackElement}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 257, `localCoresMinForMinRolesInitiallyAnyServer=${localCoresMinForMinRolesInitiallyAnyServer}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 258, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 259, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 260, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.coresPerHDD=${sizingConstraints.coresPerHDD}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 261, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} * sizingConstraints.coresPerNVMe1=${sizingConstraints.coresPerNVMe1}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 262, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL} * sizingConstraints.coresPerNVMe1=${sizingConstraints.coresPerNVMe1}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 263, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe2}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 264, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} * sizingConstraints.coresPerNVMe3=${sizingConstraints.coresPerNVMe3}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 265, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} * sizingConstraints.coresPerNVMe4=${sizingConstraints.coresPerNVMe4}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 266, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.coresPerNVMe5=${sizingConstraints.coresPerNVMe5}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 267, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.coresPerNVMe6=${sizingConstraints.coresPerNVMe6}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 268, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.coresPerNVMe7=${sizingConstraints.coresPerNVMe7}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 269, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.coresPerNVMe8=${sizingConstraints.coresPerNVMe8}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 270, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.coresPerNVMe9=${sizingConstraints.coresPerNVMe9}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 271, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.coresPerSSD4=${sizingConstraints.coresPerSSD4}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 272, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.coresPerSSD9=${sizingConstraints.coresPerSSD9}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 273, `dcConfigArrayLocal[dcItem][prelimString]=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints[coreString]=${sizingConstraints[coreString]}`,0,0,0)
             }
             // Once we've got the actual number of devices in question per server, calculate the number of servers needed then - based on number of devices needed actually per server multiplied with the number of localReduceToMinRoles
             // This gives us the minimum number of servers based on reducing only this device (no other).
@@ -260,10 +278,10 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
             if (lowestMinServersMinRoles < scoreCoresPerMediaType[mediatype].minNumber) {
               lowestMinServersMinRoles = scoreCoresPerMediaType[mediatype].minNumber
               lowestMinServersMediaTypeMinRoles = mediatype
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 263, `media name=${coreString}, lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMinRoles=${localReduceToMinRoles}, scoreCoresPerMediaType[mediatype].minNumber=${scoreCoresPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 281, `media name=${coreString}, lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMinRoles=${localReduceToMinRoles}, scoreCoresPerMediaType[mediatype].minNumber=${scoreCoresPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
             }
             else {
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 266, `media name=${coreString}, lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMinRoles=${localReduceToMinRoles},  scoreCoresPerMediaType[mediatype].minNumber=${scoreCoresPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 284, `media name=${coreString}, lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMinRoles=${localReduceToMinRoles},  scoreCoresPerMediaType[mediatype].minNumber=${scoreCoresPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
             }
             let localReduceToMaxRoles = // number of servers to size the config per server down for the actual media using max number of roles per server (e.g. MON+RGW if there is one)
                                               Math.ceil(( chassisArrayLocal[actualChassisID].maxCpuSockets * chassisArrayLocal[actualChassisID].maxCpuCores 
@@ -284,47 +302,53 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.coresPerNVMe5
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.coresPerNVMe7
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.coresPerNVMe8
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.coresPerNVMe9
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.coresPerSSD4
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.coresPerSSD9
                                                       + dcConfigArrayLocal[dcItem][prelimString] * sizingConstraints[coreString]
                                                 )/sizingConstraints[coreString]
                                               )
             if (generalValues.globalDebug == true || localDebugOn == true) {
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 291, `localAddBackElement=${localAddBackElement}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 292, `localCoresMinForMaxRolesInitiallyAnyServer=${localCoresMinForMaxRolesInitiallyAnyServer}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 293, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 294, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 295, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.coresPerHDD=${sizingConstraints.coresPerHDD}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 296, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} * sizingConstraints.coresPerNVMe1=${sizingConstraints.coresPerNVMe1}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 297, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL} * sizingConstraints.coresPerNVMe1=${sizingConstraints.coresPerNVMe1}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 298, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe2}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 299, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} * sizingConstraints.coresPerNVMe3=${sizingConstraints.coresPerNVMe3}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 300, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} * sizingConstraints.coresPerNVMe4=${sizingConstraints.coresPerNVMe4}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 301, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.coresPerNVMe5=${sizingConstraints.coresPerNVMe5}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 302, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.coresPerNVMe6=${sizingConstraints.coresPerNVMe6}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 303, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.coresPerNVMe7=${sizingConstraints.coresPerNVMe7}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 304, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.coresPerNVMe8=${sizingConstraints.coresPerNVMe8}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 305, `dcConfigArrayLocal[dcItem][prelimString]=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints[coreString]=${sizingConstraints[coreString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 312, `localAddBackElement=${localAddBackElement}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 313, `localCoresMinForMaxRolesInitiallyAnyServer=${localCoresMinForMaxRolesInitiallyAnyServer}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 314, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 315, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded} * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 316, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.coresPerHDD=${sizingConstraints.coresPerHDD}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 317, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} * sizingConstraints.coresPerNVMe1=${sizingConstraints.coresPerNVMe1}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 318, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL} * sizingConstraints.coresPerNVMe1=${sizingConstraints.coresPerNVMe1}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 319, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe2}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 320, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} * sizingConstraints.coresPerNVMe3=${sizingConstraints.coresPerNVMe3}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 321, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} * sizingConstraints.coresPerNVMe4=${sizingConstraints.coresPerNVMe4}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 322, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.coresPerNVMe5=${sizingConstraints.coresPerNVMe5}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 323, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.coresPerNVMe6=${sizingConstraints.coresPerNVMe6}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 324, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.coresPerNVMe7=${sizingConstraints.coresPerNVMe7}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 325, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.coresPerNVMe8=${sizingConstraints.coresPerNVMe8}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 326, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.coresPerNVMe9=${sizingConstraints.coresPerNVMe9}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 327, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.coresPerSSD4=${sizingConstraints.coresPerSSD4}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 328, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.coresPerSSD9=${sizingConstraints.coresPerSSD9}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 329, `dcConfigArrayLocal[dcItem][prelimString]=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints[coreString]=${sizingConstraints[coreString]}`,0,0,0)
             }
             // Once we've got the actual number of devices in question per server, calculate the number of servers needed then
             // This gives us the minimum number of servers based on reducing only this device (no other).
             scoreCoresPerMediaType[mediatype].minNumber = localReduceToMaxRoles
-            debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 310, `scoreCoresPerMediaType[mediatype].minNumber=${scoreCoresPerMediaType[mediatype].minNumber}   = Math.ceil(dcConfigArrayLocal[dcItem][prelimMediaSumString=${prelimMediaSumString}]=${dcConfigArrayLocal[dcItem][prelimMediaSumString]} * localReduceToMaxRoles=${localReduceToMaxRoles})`,0,0,0)
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 334, `scoreCoresPerMediaType[mediatype].minNumber=${scoreCoresPerMediaType[mediatype].minNumber}   = Math.ceil(dcConfigArrayLocal[dcItem][prelimMediaSumString=${prelimMediaSumString}]=${dcConfigArrayLocal[dcItem][prelimMediaSumString]} * localReduceToMaxRoles=${localReduceToMaxRoles})`,0,0,0)
             if (lowestMinServersMaxRoles < scoreCoresPerMediaType[mediatype].minNumber) {
               lowestMinServersMaxRoles = scoreCoresPerMediaType[mediatype].minNumber
               lowestMinServersMediaTypeMaxRoles = mediatype
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 314, `lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMaxRoles=${localReduceToMaxRoles}, scoreCoresPerMediaType[mediatype].minNumber=${scoreCoresPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 338, `lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMaxRoles=${localReduceToMaxRoles}, scoreCoresPerMediaType[mediatype].minNumber=${scoreCoresPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
             }
             else {
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 317, `media name=${coreString}, lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMaxRoles=${lowestMinServersMediaTypeMaxRoles}, localReduceToMaxRoles=${localReduceToMinRoles},  scoreCoresPerMediaType[mediatype].minNumber=${scoreCoresPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 341, `media name=${coreString}, lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMaxRoles=${lowestMinServersMediaTypeMaxRoles}, localReduceToMaxRoles=${localReduceToMinRoles},  scoreCoresPerMediaType[mediatype].minNumber=${scoreCoresPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
             }
             
           }
         }
         else {
           scoreCoresPerMediaType[mediatype].score = 0
-          debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 324, `media name=${coreString}, score=0`,0,0,0)
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 348, `media name=${coreString}, score=0`,0,0,0)
         }
       }
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 327, `lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}; lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMaxRoles=${lowestMinServersMediaTypeMaxRoles}, dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances}`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 351, `lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}; lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMaxRoles=${lowestMinServersMediaTypeMaxRoles}, dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances}`,0,0,0)
       
       //  # We simply reduce the number of roles ___ BUT: WE NEED TO CHECK THE NUMBER OF SERVERS THEN needed
       if (localMinScaleOutRolesPerServer == 2) {
@@ -348,10 +372,13 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                                                                                    + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.coresPerNVMe5
                                                                                                    + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.coresPerNVMe7
                                                                                                    + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.coresPerNVMe8
+                                                                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.coresPerNVMe9
+                                                                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.coresPerSSD4
+                                                                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.coresPerSSD9
                                                                                                   )
                                                                                                  )
                                           )
-        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 354, `dcConfigAdjustNumberOfServers() 354: [chassisID=${actualChassisID},DC=${dcItem}] localReducedByNumberOfRoles=${localReducedByNumberOfRoles} = Math.ceil(dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers} / (((chassisArrayLocal[actualChassisID].maxCpuSockets=${chassisArrayLocal[actualChassisID].maxCpuSockets} * chassisArrayLocal[actualChassisID].maxCpuCores=${chassisArrayLocal[actualChassisID].maxCpuCores})
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 381, `dcConfigAdjustNumberOfServers() 354: [chassisID=${actualChassisID},DC=${dcItem}] localReducedByNumberOfRoles=${localReducedByNumberOfRoles} = Math.ceil(dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers} / (((chassisArrayLocal[actualChassisID].maxCpuSockets=${chassisArrayLocal[actualChassisID].maxCpuSockets} * chassisArrayLocal[actualChassisID].maxCpuCores=${chassisArrayLocal[actualChassisID].maxCpuCores})
         - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.coresPerNVMe6=${sizingConstraints.coresPerNVMe6}
         - sizingConstraints.coresPerNodeBase=${sizingConstraints.coresPerNodeBase} - localCoresMinForRolesInitiallyAnyServer=${localCoresMinForRolesInitiallyAnyServer}
         - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.coresPerNVMe2=${sizingConstraints.coresPerNVMe2}
@@ -366,6 +393,9 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
         +dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.coresPerNVMe5=${sizingConstraints.coresPerNVMe5}
         +dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.coresPerNVMe7=${sizingConstraints.coresPerNVMe7}
         +dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.coresPerNVMe8=${sizingConstraints.coresPerNVMe8}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.coresPerNVMe9=${sizingConstraints.coresPerNVMe9}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.coresPerSSD4=${sizingConstraints.coresPerSSD4}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.coresPerSSD9=${sizingConstraints.coresPerSSD9}
         )  
         ))`,0,0,0)
         // take the min of all above => this is the number of servers we will correct the cores per server
@@ -384,7 +414,7 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                                             Math.max(lowestMinServersMaxRoles,localMinServersForMaxRolesInitiallyAnyServer,localMinServersForRoles)
                                                           )
                                                         )
-        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 387, `dcConfigAdjustNumberOfServers() 380a: localNewNumberOfServersByReducingCores=${localNewNumberOfServersByReducingCores} = Math.min(
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 417, `dcConfigAdjustNumberOfServers() 380a: localNewNumberOfServersByReducingCores=${localNewNumberOfServersByReducingCores} = Math.min(
           Math.min(
             Math.max(localReduceByRatioOfCoresMinRoles=${localReduceByRatioOfCoresMinRoles},localMinServersForMinRolesInitiallyAnyServer=${localMinServersForMinRolesInitiallyAnyServer},localMinServersForRoles=${localMinServersForRoles}), 
             Math.max(localReduceByRatioOfCoresMaxRoles=${localReduceByRatioOfCoresMaxRoles},localMinServersForMaxRolesInitiallyAnyServer=${localMinServersForMaxRolesInitiallyAnyServer},localMinServersForRoles=${localMinServersForRoles})
@@ -400,9 +430,9 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
     }
     else {
       localNewNumberOfServersByReducingCores = Math.max(dcConfigArrayLocal[dcItem].prelimNumberOfServers,localMinServersForRoles)
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 403, `localNewNumberOfServersByReducingCores=Math.max(${localNewNumberOfServersByReducingCores},localMinServersForRoles=${localMinServersForRoles})`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 433, `localNewNumberOfServersByReducingCores=Math.max(${localNewNumberOfServersByReducingCores},localMinServersForRoles=${localMinServersForRoles})`,0,0,0)
     }
-    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 405, `[chassisID=${actualChassisID},DC=${dcItem}]  localNewNumberOfServersByReducingCores=${localNewNumberOfServersByReducingCores}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 435, `[chassisID=${actualChassisID},DC=${dcItem}]  localNewNumberOfServersByReducingCores=${localNewNumberOfServersByReducingCores}`,0,0,0)
     // End of first entries to max from
     // Second to max from:
     if (dcConfigArrayLocal[dcItem].prelimPerServerMemNeededPerServer > chassisArrayLocal[actualChassisID].maxMemGb) {
@@ -430,21 +460,21 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
       // RFE: might be improved to really use tha ctual configuration of the workloads to pick the best h/w config and not pick more than needed for minimum - this actually assumes that there are always 2nd scale-out instances
       let localMemMinAllPerScaleOutTwoInstances = Math.max(sizingConstraints.memPerMGRInstance,sizingConstraints.memPerRGWInstance,sizingConstraints.memPerMDSInstance) // MONs are no secondary instances 
       //let localMinServersForRoles = dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances + Math.max(Math.ceil((dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances+dcConfigArrayLocal[dcItem].numberOfNeededMonInstances)/2),dcConfigArrayLocal[dcItem].numberOfNeededMonInstances)
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 433, `localMinServersForRoles=${localMinServersForRoles} dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances=${dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances} + Math.max(Math.ceil((dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances=${dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances}+dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances})/2),dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances})`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 463, `localMinServersForRoles=${localMinServersForRoles} dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances=${dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances} + Math.max(Math.ceil((dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances=${dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances}+dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances})/2),dcConfigArrayLocal[dcItem].numberOfNeededMonInstances=${dcConfigArrayLocal[dcItem].numberOfNeededMonInstances})`,0,0,0)
       //let localMinMemReducableAgnostic = Math.min(Math.max(sizingConstraints.memPerMGRInstance,sizingConstraints.memPerRGWInstance,sizingConstraints.memPerMDSInstance, sizingConstraints.memPerMONInstance), Math.max(sizingConstraints.memPeriSCSIInstance,sizingConstraints.memPerRBDMirrorInstance))
       let localMemMinForRolesInitiallyAnyServer = 0  // this is the actual minimum number of cores that will be needed to run the role instances on any server (all servers are equeal in this DC)
       ///// ???? REVISIT 1) localMinServersForRoles in all as min max , 2) the following calculation (and also for the one about cores) doesn't make sense at all)
       // check feasibility of the number of servers proposed regarding the role instances we need
       if (localMinServersForRoles <= dcConfigArrayLocal[dcItem].prelimNumberOfServers) {
         // ok - can place the roles
-        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 440, `ok - localMinServersForRoles=${localMinServersForRoles}, dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers}`,0,0,0)
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 470, `ok - localMinServersForRoles=${localMinServersForRoles}, dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers}`,0,0,0)
       }
       else {
-        displayMsg(document, "dcConfigAdjustNumberOfServers", 465, "error", "unable to place all roles to preliminary number of servers already - number of servers must be increased",0,0,0)
+        displayMsg(document, "dcConfigAdjustNumberOfServers", 473, "error", "unable to place all roles to preliminary number of servers already - number of servers must be increased",0,0,0)
         /// MUST ADJUST PRELIM #servers
         dcConfigArrayLocal[dcItem].prelimNumberOfServers = localMinServersForRoles
       }
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 447, `dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers}`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 477, `dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers}`,0,0,0)
       // Figure out the minium number of cores that we'd need to place the needed instances on any server
       if ((dcConfigArrayLocal[dcItem].prelimNumberOfServers - localMemExclusiveRoles) <= localMemScaleOutRoles) {
         // there would be enough room to store each scale-out role to a node exclusively
@@ -477,12 +507,12 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
         let prelimString = "prelimPerServerNumberOf" + scoreMemPerMediaType[mediatype] + "Needed"
         let mediaSumString = "numberOf" + scoreMemPerMediaType[mediatype] + "Needed"
         let prelimMediaSumString = "prelimPerServerNumberOf" + scoreMemPerMediaType[mediatype] + "Needed"
-        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 480, `memString=${memString}, prelimString=${prelimString}; dcConfigArrayLocal[dcItem].prelimString=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints.memString=${sizingConstraints[memString]}`,0,0,0)
-        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 481, `scoreMemPerMediaType=${scoreMemPerMediaType}, mediatype=${mediatype}`,0,0,0)
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 510, `memString=${memString}, prelimString=${prelimString}; dcConfigArrayLocal[dcItem].prelimString=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints.memString=${sizingConstraints[memString]}`,0,0,0)
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 511, `scoreMemPerMediaType=${scoreMemPerMediaType}, mediatype=${mediatype}`,0,0,0)
         scoreMemPerMediaType[mediatype] = {}
         scoreMemPerMediaType[mediatype].score = dcConfigArrayLocal[dcItem][prelimString] * sizingConstraints[memString]
         scoreMemPerMediaType[mediatype].number = dcConfigArrayLocal[dcItem][prelimString]
-        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 485, `memString=${memString}, prelimString=${prelimString}, scoreMemPerMediaType[mediatype].score=${scoreMemPerMediaType[mediatype].score}, scoreMemPerMediaType[mediatype].number=${scoreMemPerMediaType[mediatype].number}`,0,0,0)
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 515, `memString=${memString}, prelimString=${prelimString}, scoreMemPerMediaType[mediatype].score=${scoreMemPerMediaType[mediatype].score}, scoreMemPerMediaType[mediatype].number=${scoreMemPerMediaType[mediatype].number}`,0,0,0)
         if (scoreMemPerMediaType[mediatype].number > 1) {
           let localAddBackElement = 0
           if (scoreMemPerMediaType[mediatype].score > highScore){
@@ -516,25 +546,31 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.memInGBPerNVMe5
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.memInGBPerNVMe7
                                                       - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.memInGBPerNVMe8
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.memInGBPerNVMe9
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.memInGBPerSSD4
+                                                      - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.memInGBPerSSD9
                                                       + dcConfigArrayLocal[dcItem][prelimString] * sizingConstraints[memString]
                                                 )/sizingConstraints[memString]
                                               )
             if (generalValues.globalDebug == true || localDebugOn == true) {
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 523, `localAddBackElement=${localAddBackElement}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 524, `localMemMinForMinRolesInitiallyAnyServer=${localMemMinForMinRolesInitiallyAnyServer}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 525, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 526, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded} * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 527, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.memInGBPerHDD=${sizingConstraints.memInGBPerHDD}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 528, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 529, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 530, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.memInGBPerNVMe2=${sizingConstraints.memInGBPerNVMe2}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 531, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} * sizingConstraints.memInGBPerNVMe3=${sizingConstraints.memInGBPerNVMe3}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 532, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} * sizingConstraints.memInGBPerNVMe4=${sizingConstraints.memInGBPerNVMe4}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 533, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.memInGBPerNVMe5=${sizingConstraints.memInGBPerNVMe5}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 534, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.memInGBPerNVMe6=${sizingConstraints.memInGBPerNVMe6}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 535, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.memInGBPerNVMe7=${sizingConstraints.memInGBPerNVMe7}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 536, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.memInGBPerNVMe8=${sizingConstraints.memInGBPerNVMe8}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 537, `dcConfigArrayLocal[dcItem][prelimString]=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints[memString]=${sizingConstraints[memString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 556, `localAddBackElement=${localAddBackElement}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 557, `localMemMinForMinRolesInitiallyAnyServer=${localMemMinForMinRolesInitiallyAnyServer}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 558, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 559, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded} * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 560, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.memInGBPerHDD=${sizingConstraints.memInGBPerHDD}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 561, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 562, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 563, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} * sizingConstraints.memInGBPerNVMe2=${sizingConstraints.memInGBPerNVMe2}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 564, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} * sizingConstraints.memInGBPerNVMe3=${sizingConstraints.memInGBPerNVMe3}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 565, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} * sizingConstraints.memInGBPerNVMe4=${sizingConstraints.memInGBPerNVMe4}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 566, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.memInGBPerNVMe5=${sizingConstraints.memInGBPerNVMe5}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 567, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.memInGBPerNVMe6=${sizingConstraints.memInGBPerNVMe6}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 568, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.memInGBPerNVMe7=${sizingConstraints.memInGBPerNVMe7}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 569, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.memInGBPerNVMe8=${sizingConstraints.memInGBPerNVMe8}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 570, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.memInGBPerNVMe9=${sizingConstraints.memInGBPerNVMe9}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 571, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.memInGBPerSSD4=${sizingConstraints.memInGBPerSSD4}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 572, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.memInGBPerSSD9=${sizingConstraints.memInGBPerSSD9}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 573, `dcConfigArrayLocal[dcItem][prelimString]=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints[memString]=${sizingConstraints[memString]}`,0,0,0)
             }
             // Once we've got the actual number of devices in question per server, calculate the number of servers needed then 
             // This gives us the minimum number of servers based on reducing only this device (no other).
@@ -542,10 +578,10 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
             if (lowestMinServersMinRoles < scoreMemPerMediaType[mediatype].minNumber) {
               lowestMinServersMinRoles = scoreMemPerMediaType[mediatype].minNumber
               lowestMinServersMediaTypeMinRoles = mediatype
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 545, `media name=${memString}, lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMinRoles=${localReduceToMinRoles}, scoreMemPerMediaType[mediatype].minNumber=${scoreMemPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 581, `media name=${memString}, lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMinRoles=${localReduceToMinRoles}, scoreMemPerMediaType[mediatype].minNumber=${scoreMemPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
             }
             else {
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 548, `media name=${memString}, lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMinRoles=${localReduceToMinRoles},  scoreMemPerMediaType[mediatype].minNumber=${scoreMemPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 584, `media name=${memString}, lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMinRoles=${localReduceToMinRoles},  scoreMemPerMediaType[mediatype].minNumber=${scoreMemPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
             }
            
             let localReduceToMaxRoles = // number of media to size the config per server down for the actual media
@@ -566,12 +602,15 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                     - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.memInGBPerNVMe5
                     - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.memInGBPerNVMe7
                     - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.memInGBPerNVMe8
+                    - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.memInGBPerNVMe9
+                    - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.memInGBPerSSD4
+                    - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.memInGBPerSSD9
                     + dcConfigArrayLocal[dcItem][prelimString] * sizingConstraints[memString]
               )/sizingConstraints[memString]
             )
 
             if (generalValues.globalDebug == true || localDebugOn == true) {
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 574, `dcConfigAdjustNumberOfServers() 547: localReduceToMaxRoles=${localReduceToMaxRoles} = Math.ceil(( chassisArrayLocal[actualChassisID].maxMemGb=${chassisArrayLocal[actualChassisID].maxMemGb} 
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 613, `dcConfigAdjustNumberOfServers() 547: localReduceToMaxRoles=${localReduceToMaxRoles} = Math.ceil(( chassisArrayLocal[actualChassisID].maxMemGb=${chassisArrayLocal[actualChassisID].maxMemGb} 
                                         - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.memIGBPerNVMe6=${sizingConstraints.memIGBPerNVMe6}
                                         - sizingConstraints.memPerNodeBase=${sizingConstraints.memPerNodeBase}
                                         - localMemMinForMaxRolesInitiallyAnyServer=${localMemMinForMaxRolesInitiallyAnyServer}
@@ -589,23 +628,29 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                         - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.memInGBPerNVMe6=${sizingConstraints.memInGBPerNVMe6}
                                         - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.memInGBPerNVMe7=${sizingConstraints.memInGBPerNVMe7}
                                         - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.memInGBPerNVMe8=${sizingConstraints.memInGBPerNVMe8}
+                                        - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.memInGBPerNVMe9=${sizingConstraints.memInGBPerNVMe9}
+                                        - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.memInGBPerSSD4=${sizingConstraints.memInGBPerSSD4}
+                                        - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.memInGBPerSSD9=${sizingConstraints.memInGBPerSSD9}
                                         + dcConfigArrayLocal[dcItem][prelimString]=${dcConfigArrayLocal[dcItem][prelimString]} * sizingConstraints[memString]=${sizingConstraints[memString]}
                                   )/sizingConstraints[memString]=${sizingConstraints[memString]})`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 594, `localAddBackElement=${localAddBackElement}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 595, `localMemMinForMaxRolesInitiallyAnyServer=${localMemMinForMaxRolesInitiallyAnyServer}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 596, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.memInGBmPerSSD=${sizingConstraints.memInGBPerSSD}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 597, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded} * sizingConstraints.memInGBmPerSSD=${sizingConstraints.memInGBPerSSD}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 598, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.memInGBPerHDD=${sizingConstraints.memInGBPerHDD}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 599, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 600, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 601, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} memzingConstraints.memInGBPerNVMe2=${sizingConstraints.memInGBPerNVMe2}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 602, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} memzingConstraints.memInGBPerNVMe3=${sizingConstraints.memInGBPerNVMe3}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 603, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} memzingConstraints.memInGBPerNVMe4=${sizingConstraints.memInGBPerNVMe4}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 604, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} memzingConstraints.memInGBPerNVMe5=${sizingConstraints.memInGBPerNVMe5}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 605, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} memzingConstraints.memInGBPerNVMe6=${sizingConstraints.memInGBPerNVMe6}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 606, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} memzingConstraints.memInGBPerNVMe7=${sizingConstraints.memInGBPerNVMe7}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 607, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} memzingConstraints.memInGBPerNVMe8=${sizingConstraints.memInGBPerNVMe8}`,0,0,0)
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 608, `dcConfigArrayLocal[dcItem][prelimString]=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints[memString]=${sizingConstraints[memString]}`)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 636, `localAddBackElement=${localAddBackElement}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 634, `localMemMinForMaxRolesInitiallyAnyServer=${localMemMinForMaxRolesInitiallyAnyServer}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 635, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} * sizingConstraints.memInGBmPerSSD=${sizingConstraints.memInGBPerSSD}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 636, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded} * sizingConstraints.memInGBmPerSSD=${sizingConstraints.memInGBPerSSD}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 637, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.memInGBPerHDD=${sizingConstraints.memInGBPerHDD}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 638, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 639, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 640, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed} memzingConstraints.memInGBPerNVMe2=${sizingConstraints.memInGBPerNVMe2}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 641, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} memzingConstraints.memInGBPerNVMe3=${sizingConstraints.memInGBPerNVMe3}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 642, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} memzingConstraints.memInGBPerNVMe4=${sizingConstraints.memInGBPerNVMe4}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 643, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} memzingConstraints.memInGBPerNVMe5=${sizingConstraints.memInGBPerNVMe5}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 644, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} memzingConstraints.memInGBPerNVMe6=${sizingConstraints.memInGBPerNVMe6}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 645, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} memzingConstraints.memInGBPerNVMe7=${sizingConstraints.memInGBPerNVMe7}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 646, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} memzingConstraints.memInGBPerNVMe8=${sizingConstraints.memInGBPerNVMe8}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 647, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.memInGBPerNVMe9=${sizingConstraints.memInGBPerNVMe9}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 648, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.memInGBPerSSD4=${sizingConstraints.memInGBPerSSD4}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 649, `dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.memInGBPerSSD9=${sizingConstraints.memInGBPerSSD9}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 650, `dcConfigArrayLocal[dcItem][prelimString]=${dcConfigArrayLocal[dcItem][prelimString]}, sizingConstraints[memString]=${sizingConstraints[memString]}`)
             }
             // Once we've got the actual number of devices in question per server, calculate the number of servers needed then 
             // This gives us the minimum number of servers based on reducing only this device (no other).
@@ -613,20 +658,20 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
             if (lowestMinServersMaxRoles < scoreMemPerMediaType[mediatype].minNumber) {
               lowestMinServersMaxRoles = scoreMemPerMediaType[mediatype].minNumber
               lowestMinServersMediaTypeMaxRoles = mediatype
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 616, `media name=${memString}, lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMaxRoles=${localReduceToMaxRoles}, scoreMemPerMediaType[mediatype].minNumber=${scoreMemPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 661, `media name=${memString}, lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}, localReduceToMaxRoles=${localReduceToMaxRoles}, scoreMemPerMediaType[mediatype].minNumber=${scoreMemPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
             }
             else {
-              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 619, `media name=${memString}, lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMaxRoles=${lowestMinServersMediaTypeMaxRoles}, localReduceToMaxRoles=${localReduceToMinRoles},  scoreMemPerMediaType[mediatype].minNumber=${scoreMemPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 664, `media name=${memString}, lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMaxRoles=${lowestMinServersMediaTypeMaxRoles}, localReduceToMaxRoles=${localReduceToMinRoles},  scoreMemPerMediaType[mediatype].minNumber=${scoreMemPerMediaType[mediatype].minNumber}, dcConfigArrayLocal[dcItem][mediaSumString]=${dcConfigArrayLocal[dcItem][mediaSumString]}`,0,0,0)
             }
            
           }
         }
         else {
           scoreMemPerMediaType[mediatype].score = 0
-          debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 626, `media name=${memString}, score=0`,0,0,0)
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 671, `media name=${memString}, score=0`,0,0,0)
         }
       }
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 629, `lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}; lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMaxRoles=${lowestMinServersMediaTypeMaxRoles}`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 674, `lowestMinServersMinRoles=${lowestMinServersMinRoles}, lowestMinServersMediaTypeMinRoles=${lowestMinServersMediaTypeMinRoles}; lowestMinServersMaxRoles=${lowestMinServersMaxRoles}, lowestMinServersMediaTypeMaxRoles=${lowestMinServersMediaTypeMaxRoles}`,0,0,0)
       // MAY BE UNNEEDED, especially regarding this line above: if (dcConfigArrayLocal[dcItem].prelimNumberOfServers > localMinServersForMaxRolesInitiallyAnyServer) {
       localReduceMemByRatioMinRoles = Math.ceil( dcConfigArrayLocal[dcItem].prelimNumberOfServers / 
                                        ((chassisArrayLocal[actualChassisID].maxMemGb 
@@ -645,10 +690,13 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                          + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.memInGBPerNVMe5
                                          + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.memInGBPerNVMe7
                                          + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.memInGBPerNVMe8
+                                         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.memInGBPerNVMe9
+                                         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.memInGBPerSSD4
+                                         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.memInGBPerSSD9
                                         )
                                        )
                                      )
-       debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 651, `dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers}/(${(chassisArrayLocal[actualChassisID].maxMemGb 
+       debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 699, `dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers}/(${(chassisArrayLocal[actualChassisID].maxMemGb 
         - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.memInGBPerNVMe6
         - sizingConstraints.memPerNodeBase
         - localMemMinForMinRolesInitiallyAnyServer
@@ -682,10 +730,14 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.memInGBPerNVMe5
                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.memInGBPerNVMe7
                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.memInGBPerNVMe8
+                                       + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.memInGBPerNVMe9
+                                       + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.memInGBPerSSD4
+                                       + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.memInGBPerSSD9
+                                       
                                       )
                                      )
                                     )
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 688, `localReduceMemByRatioMaxRoles=${localReduceMemByRatioMaxRoles} = Math.ceil( dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers} / 
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 740, `localReduceMemByRatioMaxRoles=${localReduceMemByRatioMaxRoles} = Math.ceil( dcConfigArrayLocal[dcItem].prelimNumberOfServers=${dcConfigArrayLocal[dcItem].prelimNumberOfServers} / 
       ((chassisArrayLocal[actualChassisID].maxMemGb=${chassisArrayLocal[actualChassisID].maxMemGb} 
         - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.memInGBPerNVMe6=${sizingConstraints.memInGBPerNVMe6}
         - sizingConstraints.memPerNodeBase=${sizingConstraints.memPerNodeBase}
@@ -699,10 +751,13 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}
         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1Needed} * sizingConstraints.memInGBPerNVMe1=${sizingConstraints.memInGBPerNVMe1}
         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed} * sizingConstraints.memInGBPerNVMe3=${sizingConstraints.memInGBPerNVMe3}
-        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} * sizingConstraints.memInGBPerNVMe4=${sizingConstraints.memInGBPerNVMe3}
-        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.memInGBPerNVMe5=${sizingConstraints.memInGBPerNVMe3}
-        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.memInGBPerNVMe7=${sizingConstraints.memInGBPerNVMe3}
-        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.memInGBPerNVMe8=${sizingConstraints.memInGBPerNVMe3}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed} * sizingConstraints.memInGBPerNVMe4=${sizingConstraints.memInGBPerNVMe4}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.memInGBPerNVMe5=${sizingConstraints.memInGBPerNVMe5}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.memInGBPerNVMe7=${sizingConstraints.memInGBPerNVMe7}
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.memInGBPerNVMe8=${sizingConstraints.memInGBPerNVMe8}
+        - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.memInGBPerNVMe9=${sizingConstraints.memInGBPerNVMe9}
+        - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.memInGBPerSSD4=${sizingConstraints.memInGBPerSSD4}
+        - dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.memInGBPerSSD9=${sizingConstraints.memInGBPerSSD9}
        )
       )
      )`,0,0,0)
@@ -726,6 +781,9 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                          + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.memInGBPerNVMe5
                                          + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.memInGBPerNVMe7
                                          + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.memInGBPerNVMe8
+                                         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.memInGBPerNVMe9
+                                         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.memInGBPerSSD4
+                                         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.memInGBPerSSD9
                                         )
                                        )
                                       )
@@ -741,7 +799,7 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
                                                         Math.max(localReduceMemByRatioMaxRoles,localMinServersForMaxRolesInitiallyAnyServer)
                                                       )
                                                     )
-        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 744, `localNewNumberOfServersByReducingMem = Math.min(
+        debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 802, `localNewNumberOfServersByReducingMem = Math.min(
           Math.min(
             Math.max(localReduceMemByRatioMinRoles=${localReduceMemByRatioMinRoles},localMinServersForMinRolesInitiallyAnyServer=${localMinServersForMinRolesInitiallyAnyServer}), 
             Math.max(localReduceMemByRatioMaxRoles=${localReduceMemByRatioMaxRoles},localMinServersForMaxRolesInitiallyAnyServer=${localMinServersForMaxRolesInitiallyAnyServer})
@@ -756,13 +814,13 @@ const dcConfigAdjustNumberOfServers   = function (generalValues, sizingConstrain
     else {
       localNewNumberOfServersByReducingMem = dcConfigArrayLocal[dcItem].prelimNumberOfServers
     }
-    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 759, `localNewNumberOfServersByReducingMem=${localNewNumberOfServersByReducingMem}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 817, `localNewNumberOfServersByReducingMem=${localNewNumberOfServersByReducingMem}`,0,0,0)
     // From all these reduction either by reducing cores or by reducing memory needed, take the max number of servers resulting
     dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis = Math.max (localNewNumberOfServersByReducingCores, localNewNumberOfServersByReducingMem)
-    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 762, `dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis =${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis }`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 820, `dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis =${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis }`,0,0,0)
 
   }
-  debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 765, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis=${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigAdjustNumberOfServers", 823, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis=${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis}`,0,0,0)
 }
 
 export default dcConfigAdjustNumberOfServers

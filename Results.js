@@ -14,6 +14,7 @@ class Results {
         sizeSSD1,
         numSSD1,
         numSSD4,
+        numSSD9,
         sizeNVMe1,
         numNVMe1,
         numNVMe2,
@@ -23,6 +24,7 @@ class Results {
         numNVMe6,
         numNVMe7,
         numNVMe8,
+        numNVMe9,
         rawCapacityDataDevices,
         netCapacityDataDevices,
         rawCapacityAllDevices,
@@ -65,7 +67,9 @@ class Results {
             ["num-nvme-6","numNVMe6"],
             ["num-nvme-7","numNVMe7"],
             ["num-nvme-8","numNVMe8"],
+            ["num-nvme-9","numNVMe9"],
             ["num-ssd-4","numSSD4"],
+            ["num-ssd-9","numSSD9"],
             ["capacity-raw-data","rawCapacityDataDevices"],
             ["capacity-net","netCapacityDataDevices"],
             ["capacity-raw","rawCapacityAllDevices"],
@@ -95,8 +99,11 @@ class Results {
         this.sizeHDD1 = 0
         this.numHDD1 = 0
         this.sizeSSD1 = 0
+        this.sizeSSD4 = 0
+        this.sizeSSD9 = 0
         this.numSSD1 = 0
         this.numSSD4 = 0
+        this.numSSD9 = 0
         this.sizeNVMe1 = 0
         this.numNVMe1 = 0
         this.numNVMe2 = 0
@@ -106,6 +113,7 @@ class Results {
         this.numNVMe6 = 0
         this.numNVMe7 = 0
         this.numNVMe8 = 0
+        this.numNVMe9 = 0
         this.rawCapacityDataDevices = 0
         this.netCapacityDataDevices = 0
         this.rawCapacityAllDevices = 0

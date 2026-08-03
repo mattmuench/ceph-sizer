@@ -16,7 +16,9 @@ class TableHeaderResults {
             ["HDD size","size-hdd-1"],
             ["HDD: # HDDs","num-hdd-1"],
             ["HDD: # SSD type 4","num-ssd-4"],
+            ["HDD: # SSD type 9","num-ssd-9"],
             ["HDD: # NVMe type 4","num-nvme-4"],
+            ["HDD: # NVMe type 9","num-nvme-9"],
 
             ["SSD size in TB","size-ssd-1"],
             ["SSD: # SSD","num-ssd-1"],

@@ -53,14 +53,17 @@ class DCConfig {
         memNeededPerServer, // W41
 
         prelimPerServerNumberOfHDDNeeded, // HDD per server
+        prelimPerServerNumberOfHDDWithoutDedicatedRocksDBNeeded, // SSD1 without NVMe5 
+        prelimPerServerNumberOfHDDWithDedicatedRockSDBonSSD4Needed,
+        prelimPerServerNumberOfHDDWithDedicatedRockSDBonNVMe4Needed,
         prelimPerServerNumberOfSSDNeeded, // SSD per server
         prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded, // SSD1 without NVMe5 
         prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded,
         prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL, // NVMe1 per server
         prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL,
         
-        
-        // prelimPerServerNumberOfSSD4Needed,  // SSD4 per server - not needed anymore because of separation into prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL and prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL
+        prelimPerServerNumberOfSSD4Needed,  // SSD4 per server 
+        prelimPerServerNumberOfSSD9Needed,  // SSD9 per server 
         prelimPerServerNumberOfNVMe1Needed, // NVMe1 per server - not needed anymore because of separation into prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded and prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded
         prelimPerServerNumberOfNVMe2Needed, // NVMe2 per server
         prelimPerServerNumberOfNVMe3Needed, // NVMe3 per server
@@ -84,6 +87,8 @@ class DCConfig {
         resultingNumberOfCores, // Z41
         resultingMem, // AA41
         resultingNumberOfSSD, // AC41
+        resultingNumberOfSSD4,
+        resultingNumberOfSSD9,
         resultingNumberOfHDD, // AD41
         resultingNumberOfNVMe1, // AB41 (unused yet)
         resultingNumberOfNVMe2, // AE41
@@ -115,6 +120,22 @@ class DCConfig {
         this.numberOfHDDNeeded = 0 // J41
         this.numberOfSSDNeeded = 0 // J42
 
+        this.numberOfHDD1NeededWithoutDedicatedRocksDBNorWAL = 0
+        this.numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 = 0
+        this.numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9 = 0
+        this.numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9 = 0
+        this.numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9 = 0
+        this.numberOfHDD1NeededWithDedicatedSSD4IncludingWAL = 0
+        this.numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 = 0
+        this.numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9 = 0
+        this.numberOfHDD1NeededWithDedicatedNVMe4IncludingWAL = 0
+
+
+        this.numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL = 0
+        this.numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL = 0
+        this.numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL = 0
+        this.numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL = 0
+
         this.numberOfNVMe1NeededWithoutDedicatedRocksDBNorWAL = 0 // // WAL is included here together with RocksDB 
         this.numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL = 0 // WAL is not included here (separate) but RocksDB is not separate - for slower Read-Intensive NVMe1
         this.numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL = 0 // WAL is not included here (separate) and RocksDB is definitely separate - for slower Read-Intensive NVMe1
@@ -145,6 +166,8 @@ class DCConfig {
         this.resultingNumberOfCores = 0 // Z41
         this.resultingMem = 0 // AA41
         this.resultingNumberOfSSD = 0 // AC41
+        this.resultingNumberOfSSD4 = 0
+        this.resultingNumberOfSSD9 = 0
         this.resultingNumberOfHDD = 0 // AD41
         this.resultingNumberOfNVMe1 = 0 // AB41 
         this.resultingNumberOfNVMe2 = 0 // AE41
@@ -154,6 +177,7 @@ class DCConfig {
         this.resultingNumberOfNVMe6 = 0
         this.resultingNumberOfNVMe7 = 0
         this.resultingNumberOfNVMe8 = 0
+        this.resultingNumberOfNVMe9 = 0
 
         this.resultingNumberOfServersAsPerChassis = 0
         this.resultingNumberOfServersForiSCSILocalAsPerChassis = 0 // Y42

@@ -63,8 +63,8 @@ const resultsOverviewDisplay = function (documentMain, generalValues, idLabel, n
                 //documentMain.getElementById("resultsoverview-0-num-servers").innerHTML = "Hello2"
                 ////document.getElementById(cellID).innerhHTML = "Hello"
                 if (generalValues.globalDebug == true || localDebugOn == true) {
-                  debugMsg(generalValues, localDebugOn, 5, "resultsOverviewDisplay", 67, `HTML node: ${document.getElementById(cellID)}, local HTML node: ${documentMain.getElementById(cellID)}`,0,0,0)
-                  debugMsg(generalValues, localDebugOn, 5, "resultsOverviewDisplay", 68, `config = ${item.chassisID}, lookupValue=${entry[1]}, result=${resultsOverviewArrayLocal[item.chassisID][entry[1]]}`,0,0,0)
+                  debugMsg(generalValues, localDebugOn, 5, "resultsOverviewDisplay", 66, `HTML node: ${document.getElementById(cellID)}, local HTML node: ${documentMain.getElementById(cellID)}`,0,0,0)
+                  debugMsg(generalValues, localDebugOn, 5, "resultsOverviewDisplay", 67, `config = ${item.chassisID}, lookupValue=${entry[1]}, result=${resultsOverviewArrayLocal[item.chassisID][entry[1]]}`,0,0,0)
                 }
               } 
             }

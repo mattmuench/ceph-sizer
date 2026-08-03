@@ -15,12 +15,16 @@ const dcConfigFinalSSDPerServer   = function (generalValues, dcConfigArrayLocal,
   if (dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis > 0) {
     dcConfigArrayLocal[dcItem].resultingNumberOfSSD = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded
                                                     + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded
+    dcConfigArrayLocal[dcItem].resultingNumberOfSSD4 = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed
+    dcConfigArrayLocal[dcItem].resultingNumberOfSSD9 = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed
   }
   else {
-    debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalSSDPerServer", 20, `dcConfigArrayLocal[dcItem=${dcItem}].resultingNumberOfServersAsPerChassis=${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis}`,0,0,0)
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalSSDPerServer", 22, `dcConfigArrayLocal[dcItem=${dcItem}].resultingNumberOfServersAsPerChassis=${dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis}`,0,0,0)
     dcConfigArrayLocal[dcItem].resultingNumberOfSSD = 0
   }
-  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalSSDPerServer", 23, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem=${dcItem}].resultingNumberOfSSD=${dcConfigArrayLocal[dcItem].resultingNumberOfSSD}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalSSDPerServer", 25, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem=${dcItem}].resultingNumberOfSSD=${dcConfigArrayLocal[dcItem].resultingNumberOfSSD}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalSSDPerServer", 26, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem=${dcItem}].resultingNumberOfSSD4=${dcConfigArrayLocal[dcItem].resultingNumberOfSSD4}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalSSDPerServer", 27, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem=${dcItem}].resultingNumberOfSSD9=${dcConfigArrayLocal[dcItem].resultingNumberOfSSD9}`,0,0,0)
 }
 
 export default dcConfigFinalSSDPerServer

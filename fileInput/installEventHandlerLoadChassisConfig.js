@@ -104,11 +104,11 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
                 case "nvmeToNVMe8":
                 {
                   let valTemp = eval('element'+'.'+'members'+'.'+item)
-                  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 103, `item=${item} = item value=${valTemp}`,0,0,0)
+                  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 107, `item=${item} = item value=${valTemp}`,0,0,0)
                   // constructing the id string for the cell to read from
                   let idStringToFind =  `chassis-${element.chassisID}-${chassisArrayLocal[element.chassisID].ChassisItemsDict[j][0]}`
           
-                  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 107, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
+                  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 111, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
                   const inputElement = documentMain.getElementById(idStringToFind)
                   inputElement.value = valTemp
                 }
@@ -126,20 +126,20 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
                 case "useSSD9":
                   {
                     let valTemp = eval('element'+'.'+'members'+'.'+item)
-                    debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 120, `item=${item} = item value=${valTemp}`,0,0,0)
+                    debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 129, `item=${item} = item value=${valTemp}`,0,0,0)
           
                     // constructing the id string for the cell to read from
                     let idStringToFind =  `chassis-${element.chassisID}-${chassisArrayLocal[element.chassisID].ChassisItemsDict[j][0]}`
           
-                    debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 125, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
+                    debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 134, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
                     const inputElement = documentMain.getElementById(idStringToFind)
                     inputElement.checked = valTemp
                   }
                 break;
           
                 default: {
-                  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 132, `no valid statement found for ${item}`,0,0,0)
-                  displayMsg(documentMain, "readChassisConfig", 133, "error", `no valid statement found for ${item}`,0,0,0)
+                  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 141, `no valid statement found for ${item}`,0,0,0)
+                  displayMsg(documentMain, "readChassisConfig", 142, "error", `no valid statement found for ${item}`,0,0,0)
                 }
               }
         }
@@ -147,7 +147,7 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
     }
   });
 
-  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 141, `loading chassis config file finished`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "readChassisConfig", 150, `loading chassis config file finished`,0,0,0)
 }
 
 export {installEventHandlerLoadChassisConfig,readChassisConfig}

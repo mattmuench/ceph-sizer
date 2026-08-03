@@ -4,27 +4,6 @@ import {debugMsg} from "../common/debug.js";
 const dcConfigFinalMemoryPerServer   = function (generalValues, sizingConstraints, dcConfigArrayLocal, actualChassisID, dcItem) {
   let localDebugOn = false
 
-  // =if($Y41>0
-  //    ,
-  //      roundup($J41/$Y41,0) * $G$6
-  //      + roundup($J42/$Y41,0) * $J$6
-  //      + roundup($N41/$Y41,0) * $AH$6
-  //      + $AR$6
-  //      + if(C41>0
-  //          ,
-  //            if(roundup(($Y41-$S41-$E41)/C41,0) < 1
-  //              ,
-  //                $AR$7
-  //              ,
-  //                0
-  //              )
-  //          ,
-  //            0
-  //          )
-  //    ,
-  //      0
-  //    )
-
   let localAdditionalRoleMemory = 0
   if (dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances > 0) {
     if (Math.ceil((dcConfigArrayLocal[dcItem].resultingNumberOfServersAsPerChassis - dcConfigArrayLocal[dcItem].numberOfNeededMonInstances - dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances)/dcConfigArrayLocal[dcItem].numberOfLocalScaleoutInstances) < 1) {
@@ -56,13 +35,16 @@ const dcConfigFinalMemoryPerServer   = function (generalValues, sizingConstraint
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.memInGBPerNVMe6
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.memInGBPerNVMe7
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.memInGBPerNVMe8
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.memInGBPerNVMe9
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.memInGBPerSSD4
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.memInGBPerSSD9
                                               + sizingConstraints.memPerNodeBase
                                               + localAdditionalRoleMemory
   }
   else {
     dcConfigArrayLocal[dcItem].resultingMem = 0
   }
-  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalMemoryPerServer", 65, `
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalMemoryPerServer", 47, `
   dcConfigArrayLocal[dcItem].resultingMem=${dcConfigArrayLocal[dcItem].resultingMem} = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded} * sizingConstraints.memInGBPerHDD=${sizingConstraints.memInGBPerHDD}
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded * sizingConstraints.memInGBPerSSD=${sizingConstraints.memInGBPerSSD}
@@ -74,11 +56,14 @@ const dcConfigFinalMemoryPerServer   = function (generalValues, sizingConstraint
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.memInGBPerNVMe5=${sizingConstraints.memInGBPerNVMe5}
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed} * sizingConstraints.memInGBPerNVMe6=${sizingConstraints.memInGBPerNVMe6}
                                               + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.memInGBPerNVMe7=${sizingConstraints.memInGBPerNVMe7}
-                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.memInGBPerNVMe18=${sizingConstraints.memInGBPerNVMe8}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.memInGBPerNVMe8=${sizingConstraints.memInGBPerNVMe8}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.memInGBPerNVMe9=${sizingConstraints.memInGBPerNVMe9}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.memInGBPerSSD9=${sizingConstraints.memInGBPerSSD4}
+                                              + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.memInGBPerSSD9=${sizingConstraints.memInGBPerSSD9}
                                               + sizingConstraints.memPerNodeBase=${sizingConstraints.memPerNodeBase}
                                               + localAdditionalRoleMemor=${localAdditionalRoleMemory}
   `,0,0,0)
-  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalMemoryPerServer", 81, `[chassisID=${actualChassisID}] dcConfigArrayLocal[dcItem=${dcItem}].resultingMem=${dcConfigArrayLocal[dcItem].resultingMem}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalMemoryPerServer", 66, `[chassisID=${actualChassisID}] dcConfigArrayLocal[dcItem=${dcItem}].resultingMem=${dcConfigArrayLocal[dcItem].resultingMem}`,0,0,0)
 }
 
 export default dcConfigFinalMemoryPerServer
