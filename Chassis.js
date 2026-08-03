@@ -21,10 +21,6 @@ class Chassis {
         sizeNVMe2,
         sizeNVMe6,
 
-        sizeSSD3,
-        hddToSSD3,
-        useSSD3,
-
         sizeNVMe3,
         ssdToNVMe3,
         useNVMe3,
@@ -34,6 +30,9 @@ class Chassis {
         useSSD4overNVMe4,
         useSSD4,
 
+        sizeSSD9,
+        hddToSSD9,
+        useSSD9,
 
         sizeNVMe4,
         hddToNVMe4,
@@ -103,12 +102,12 @@ class Chassis {
             ["size-ssd-4","sizeSSD4"], // SSD type 4
             ["size-nvme-4","sizeNVMe4"], // for RocksDBcache HDD
             ["hdd-to-nvme4","hddToNVMe4"], // ratio of number of HDD fronted by NVMe type 4 - either SSD or NVMe fronted
-            ["size-ssd-3","sizeSSD3"], // SSD type 3 for WAL for HDD
-            ["hdd-to-ssd3","hddToSSD3"],
-            ["use-ssd-3","useSSD3"],
             ["size-nvme-9","sizeNVMe9"], // NVMe type 9 for WAL for HDD
             ["hdd-to-nvme9","hddToNVMe9"],
-            ["use-nvme-9","useNVMe9"]
+            ["use-nvme-9","useNVMe9"],
+            ["size-ssd-9","sizeSSD9"], // SSD type 9 for WAL for HDD
+            ["hdd-to-ssd9","hddToSSD9"],
+            ["use-ssd-9","useSSD9"]
             
         ]
         
@@ -150,12 +149,12 @@ class Chassis {
         this.nvmeToNVMe8 = 4
         this.useNVMe8 = 0
         this.sizeNVMe8 = 0
-        this.sizeSSD3 = 0
-        this.hddToSSD3 = 12
-        this.useSSD3 = 0
         this.sizeNVMe9 = 0
         this.hddToNVMe9 = 17
         this.useNVMe9 = 0
+        this.sizeSSD9 = 0
+        this.hddToSSD9 = 17
+        this.useSSD9 = 0
         
         
 

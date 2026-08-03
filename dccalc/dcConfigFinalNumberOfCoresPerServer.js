@@ -36,13 +36,16 @@ const dcConfigFinalNumberOfCoresPerServer   = function (generalValues, sizingCon
                                                         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed * sizingConstraints.coresPerNVMe6
                                                         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.coresPerNVMe7
                                                         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.coresPerNVMe8
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.coresPerNVMe9
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.coresPerSSD4
+                                                        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.coresPerSSD9
                                                         + sizingConstraints.coresPerNodeBase
                                                         + localAdditionRoleCores
   }
   else {
     dcConfigArrayLocal[dcItem].resultingNumberOfCores = 0
   }
-  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalNumberOfCoresPerServer", 45, `[chassisID=${actualChassisID}] [DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfCores=${dcConfigArrayLocal[dcItem].resultingNumberOfCores}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigFinalNumberOfCoresPerServer", 48, `[chassisID=${actualChassisID}] [DC=${dcItem}] dcConfigArrayLocal[dcItem].resultingNumberOfCores=${dcConfigArrayLocal[dcItem].resultingNumberOfCores}`,0,0,0)
 }
 
 

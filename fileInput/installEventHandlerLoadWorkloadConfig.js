@@ -51,7 +51,7 @@ const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsL
   }
   loadedJsonChassisObject.workloadConfig.forEach(element => {
     if (element.workloadID >= generalValues.numberOfConfigsPossible) {
-      debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 49, `ERROR - max number of configs possible is generalValues.numberOfConfigsPossible - check input file for workloadID`,0,0,0)
+      debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 54, `ERROR - max number of configs possible is generalValues.numberOfConfigsPossible - check input file for workloadID`,0,0,0)
       displayMsg(documentMain, "readWorkloadConfig", 55, "error", "max number of configs possible is generalValues.numberOfConfigsPossible - check input file for workloadID",0,0,0)
     }
     else {
@@ -120,18 +120,22 @@ const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsL
             case "selectorHighdense":
             case "selectorRGWCache":
             case "selectorRGWIndexDedicatedFlashPool":
+            case "selectorHDDDedicatedNVMe":
+            case "selectorHDDDedicatedNVMeForWAL":
+            case "selectorHDDDedicatedSSD":
+            case "selectorHDDDedicatedSSDForWAL":
             case "selectorSSDDedicatedNVMe":
             case "selectorSSDDedicatedNVMeForWAL":
             case "selectorNVMe1DedicatedNVMe":
             case "selectorNVMe1DedicatedNVMeForWAL":
               {
                 let valTemp = eval('element'+'.'+'members'+'.'+item)
-                debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 129, `item=${item} = item value=${valTemp}`,0,0,0)
+                debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 133, `item=${item} = item value=${valTemp}`,0,0,0)
 
                 // constructing the id string for the cell to read from
                 let idStringToFind =  `workload-${element.workloadID}-${workloadsArrayLocal[element.workloadID].workloadItemsDict[j][0]}`
 
-                debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 134, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
+                debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 138, `[workload detail=${item}] looking up the DOM element id ${idStringToFind}`,0,0,0)
                 const inputElement = documentMain.getElementById(idStringToFind)
                 inputElement.checked = valTemp
               }
@@ -147,20 +151,20 @@ const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsL
             break;
 
             default: {
-              debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 150, `no valid statement found for ${item}`,0,0,0)
-              displayMsg(documentMain, "readWorkloadConfig", 151, "error", `no valid statement found for ${item}`,0,0,0)
+              debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 154, `no valid statement found for ${item}`,0,0,0)
+              displayMsg(documentMain, "readWorkloadConfig", 155, "error", `no valid statement found for ${item}`,0,0,0)
             }
                   
           }
         }
         let valTemp = eval('element'+'.'+'members'+'.'+item)
-        debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 156, `actual workloadID=${element.workloadID} item=${item} set to:${valTemp}`,0,0,0)
+        debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 161, `actual workloadID=${element.workloadID} item=${item} set to:${valTemp}`,0,0,0)
       }
     }
         
   });
 
-  debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 162, `loading workload config file finished`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "readWorkloadConfig", 167, `loading workload config file finished`,0,0,0)
 }
 
 export {installEventHandlerLoadWorkloadConfig,readWorkloadConfig}

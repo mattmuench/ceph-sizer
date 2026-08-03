@@ -3,8 +3,11 @@ class SizingConstraints {
         coresPerRGWCacheDevice,
         coresPerNVMeOForWALDevice,
         coresPerHDD,
+        coresPerSSD,
         coresPerSSDold,
         coresPerSSDnew,
+        coresPerSSD4,
+        coresPerSSD9,
         coresPerNVMe,
         coresPerNVMe1,
         coresPerNVMe2,
@@ -14,6 +17,7 @@ class SizingConstraints {
         coresPerNVMe6,
         coresPerNVMe7,
         coresPerNVMe8,
+        coresPerNVMe9,
         coresPerNVMeForObjectIndexOnNVMe6, // AH5
         coresPerAdditionalRole,
         coresPerNodeBase,  // AR5 w/o the special roles needs (below)
@@ -26,6 +30,10 @@ class SizingConstraints {
 
         memInGBPerHDD,
         memInGBPerSSD,
+        memInGBPerSSDold,
+        memInGBPerSSDnew,
+        memInGBPerSSD4,
+        memInGBPerSSD9,
         memInGBPerNVMe1,
         memInGBPerNVMe2,
         memInGBPerNVMe3,
@@ -34,6 +42,7 @@ class SizingConstraints {
         memInGBPerNVMe6,
         memInGBPerNVMe7,
         memInGBPerNVMe8,
+        memInGBPerNVMe9,
         memInGBPerNVMeForObjectIndexOnNVMe6, //AH6 
         memPerNodeBase,
         memPerMONInstance,
@@ -52,6 +61,8 @@ class SizingConstraints {
         defaultCoresPerSSDold, // J5
         defaultCoresPerSSD, // used for compatibility because the code is using SSD but neither SSDold nor SSDnew across the board (needs fixing and enhancement by allowing selectiong SSDnew and SSDold styles as well)
         defaultCoresPerSSDnew,
+        defaultCoresPerSSD4,
+        defaultCoresPerSSD9,
         defaultCoresPerNVMe, // N5
         defaultCoresPerNVMe1,
         defaultCoresPerNVMe2,
@@ -61,6 +72,7 @@ class SizingConstraints {
         defaultCoresPerNVMe6,
         defaultCoresPerNVMe7,
         defaultCoresPerNVMe8,
+        defaultCoresPerNVMe9,
         defaultCoresPerNVMeForObjectIndexOnNVMe6,
         defaultCoresPerAdditionalRole,
         defaultCoresPerNodeBase,
@@ -73,6 +85,10 @@ class SizingConstraints {
 
         defaultMemInGBPerHDD,   // G6
         defaultMemInGBPerSSD,   // J6
+        defaultMemInGBPerSSDold,
+        defaultMemInGBPerSSDnew,
+        defaultMemInGBPerSSD4,
+        defaultMemInGBPerSSD9,
         defaultMemInGBPerNVMe1, // N6 (2 OSDs)
         defaultMemInGBPerNVMe2,
         defaultMemInGBPerNVMe3,
@@ -81,6 +97,7 @@ class SizingConstraints {
         defaultMemInGBPerNVMe6,
         defaultMemInGBPerNVMe7,
         defaultMemInGBPerNVMe8,
+        defaultMemInGBPerNVMe9,
         defaultMemInGBPerNVMeForObjectIndexOnNVMe6,
         defaultMemPerNodeBase,
         defaultMemPerMONInstance,
@@ -124,11 +141,15 @@ class SizingConstraints {
 
         
         networkBandwidthPerHDDinMBsec,
+        networkBandwidthPerSSDinMBsec,
         networkBandwidthPerSSDoldinMBsec,
+        networkBandwidthPerSSDnewinMBsec,
         networkBandwidthPerNVMeinMBsec,
 
         defaultNetworkBandwidthPerHDDinMBsec,
         defaultNetworkBandwidthPerSSDinMBsec,
+        defaultNetworkBandwidthPerSSDoldinMBsec,
+        defaultNetworkBandwidthPerSSDnewinMBsec,
         defaultNetworkBandwidthPerNVMeinMBsec,
 
         minPercentageOfClusterBandwidthForClientTrafficPerNode,
@@ -173,6 +194,8 @@ class SizingConstraints {
         this.defaultCoresPerSSDold = 4
         this.defaultCoresPerSSD = this.defaultCoresPerSSDold
         this.defaultCoresPerSSDnew = 8
+        this.defaultCoresPerSSD4 = 4
+        this.defaultCoresPerSSD9 = 4
         this.defaultCoresPerNVMe = 16 // logical CPUs seen => for HT #cores/2
         this.defaultCoresPerNVMe1 = 8
         this.defaultCoresPerNVMe2 = 4
@@ -182,6 +205,7 @@ class SizingConstraints {
         this.defaultCoresPerNVMe6 = 4
         this.defaultCoresPerNVMe7 = 0  // is accounted for in ordinary NVMe cores (for block device)
         this.defaultCoresPerNVMe8 = 4  // is accounted for in ordinary NVMe cores (for block device)
+        this.defaultCoresPerNVMe9 = 4
         this.defaultCoresPerNVMeForObjectIndexOnNVMe6 = 4
         this.defaultCoresPerAdditionalRole = 4
         this.defaultCoresPerNodeBase = 8
@@ -201,6 +225,8 @@ class SizingConstraints {
         // However, this would be at cost for higher latency. Because of this, it's more
         // economical still to use 2 OSD per NVMe with the same or higher number of vCPU to 
         // stay below the latency boundary of single used NVMe but deliver at least the same performance.
+        this.defaultMemInGBPerSSD4 = 4
+        this.defaultMemInGBPerSSD9 = 8
         this.defaultMemInGBPerNVMe1 = 15
         this.defaultMemInGBPerNVMe2 = 8
         this.defaultMemInGBPerNVMe3 = 8
@@ -209,6 +235,7 @@ class SizingConstraints {
         this.defaultMemInGBPerNVMe6 = 8
         this.defaultMemInGBPerNVMe7 = 8
         this.defaultMemInGBPerNVMe8 = 8
+        this.defaultMemInGBPerNVMe9 = 8
         this.defaultMemInGBPerNVMeForObjectIndexOnNVMe6 = 15
         this.defaultMemPerNodeBase = 16
         this.defaultMemPerMONInstance = 8
@@ -244,6 +271,8 @@ class SizingConstraints {
 
         this.defaultNetworkBandwidthPerHDDinMBsec = 100
         this.defaultNetworkBandwidthPerSSDinMBsec = 500
+        this.defaultNetworkBandwidthPerSSDoldinMBsec = 500
+        this.defaultNetworkBandwidthPerSSDnewinMBsec = 1000
         this.defaultNetworkBandwidthPerNVMeinMBsec = 1000
 
         this.defaultMinPercentageOfClusterBandwidthForClientTrafficPerNode = 10
@@ -281,6 +310,8 @@ class SizingConstraints {
         this.coresPerSSDold = this.defaultCoresPerSSDold
         this.coresPerSSD = this.defaultCoresPerSSD
         this.coresPerSSDnew = this.defaultCoresPerSSDnew
+        this.coresPerSSD4 = this.defaultCoresPerSSD4
+        this.coresPerSSD9 = this.defaultCoresPerSSD9
         this.coresPerNVMe = this.defaultCoresPerNVMe
         this.coresPerNVMe1 = this.defaultCoresPerNVMe1
         this.coresPerNVMe2 = this.defaultCoresPerNVMe2
@@ -290,6 +321,7 @@ class SizingConstraints {
         this.coresPerNVMe6 = this.defaultCoresPerNVMe6
         this.coresPerNVMe7 = this.defaultCoresPerNVMe7
         this.coresPerNVMe8 = this.defaultCoresPerNVMe8
+        this.coresPerNVMe9 = this.defaultCoresPerNVMe9
         this.coresPerNVMeForObjectIndexOnNVMe6 = this.defaultCoresPerNVMeForObjectIndexOnNVMe6
         this.coresPerAdditionalRole = this.defaultCoresPerAdditionalRole
         this.coresPerNodeBase = this.defaultCoresPerNodeBase
@@ -304,6 +336,10 @@ class SizingConstraints {
 
         this.memInGBPerHDD = this.defaultMemInGBPerHDD
         this.memInGBPerSSD = this.defaultMemInGBPerSSD
+        this.memInGBPerSSDold = this.defaultMemInGBPerSSDold
+        this.memInGBPerSSDnew = this.defaultMemInGBPerSSDnew
+        this.memInGBPerSSD4 = this.defaultMemInGBPerSSD4
+        this.memInGBPerSSD9 = this.defaultMemInGBPerSSD9
         this.memInGBPerNVMe1 = this.defaultMemInGBPerNVMe1
         this.memInGBPerNVMe2 = this.defaultMemInGBPerNVMe2
         this.memInGBPerNVMe3 = this.defaultMemInGBPerNVMe3
@@ -312,6 +348,7 @@ class SizingConstraints {
         this.memInGBPerNVMe6 = this.defaultMemInGBPerNVMe6
         this.memInGBPerNVMe7 = this.defaultMemInGBPerNVMe7
         this.memInGBPerNVMe8 = this.defaultMemInGBPerNVMe8
+        this.memInGBPerNVMe9 = this.defaultMemInGBPerNVMe9
         this.memInGBPerNVMeForObjectIndexOnNVMe6 = this.defaultMemInGBPerNVMeForObjectIndexOnNVMe6
         this.memPerNodeBase = this.defaultMemPerNodeBase
         this.memPerMONInstance = this.defaultMemPerMONInstance
@@ -335,7 +372,9 @@ class SizingConstraints {
         this.minNumberOfInstancesRoleiSCSI = this.defaultMinNumberOfInstancesRoleiSCSI
 
         this.networkBandwidthPerHDDinMBsec = this.defaultNetworkBandwidthPerHDDinMBsec
-        this.networkBandwidthPerSSDoldinMBsec = this.defaultNetworkBandwidthPerSSDinMBsec
+        this.networkBandwidthPerSSDinMBsec = this.defaultNetworkBandwidthPerSSDinMBsec
+        this.networkBandwidthPerSSDoldinMBsec = this.defaultNetworkBandwidthPerSSDoldinMBsec
+        this.networkBandwidthPerSSDnewinMBsec = this.defaultNetworkBandwidthPerSSDnewinMBsec
         this.networkBandwidthPerNVMeinMBsec = this.defaultNetworkBandwidthPerNVMeinMBsec
 
         this.minPercentageOfClusterBandwidthForClientTrafficPerNode = this.defaultMinPercentageOfClusterBandwidthForClientTrafficPerNode

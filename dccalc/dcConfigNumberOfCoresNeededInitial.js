@@ -35,7 +35,10 @@ const dcConfigNumberOfCoresNeededInitial = function (generalValues, sizingConstr
     // Needs to be changed to use SSD new and SSD old later on based on selection of SSD speed - currently using SSDold only
     // Note: numberOfSSD4Needed omitted since the HDD account for the use of dedicated devices for RocksDB and WAL already.
     // TODO: Add cores needed per additional role - not only as a coresPerAdditionalRole but more based on individual scale-out and dedicated roles needs
-    dcConfigArrayLocal[dcItem].numberOfCoresNeeded = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded*sizingConstraints.coresPerHDD 
+    dcConfigArrayLocal[dcItem].numberOfCoresNeeded = (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithoutDedicatedRocksDBNeeded
+                                                      + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithDedicatedRockSDBonSSD4Needed
+                                                      + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithDedicatedRockSDBonNVMe4Needed) 
+                                                               * sizingConstraints.coresPerHDD 
                                                    + (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded)
                                                                * sizingConstraints.coresPerSSDold 
                                                    + (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL)
@@ -48,15 +51,18 @@ const dcConfigNumberOfCoresNeededInitial = function (generalValues, sizingConstr
                                                    + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * sizingConstraints.coresPerNVMe5
                                                    + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed * sizingConstraints.coresPerNVMe7
                                                    + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed * sizingConstraints.coresPerNVMe8 
+                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed * sizingConstraints.coresPerNVMe9
+                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * sizingConstraints.coresPerSSD4
+                                                   + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed * sizingConstraints.coresPerSSD9 
                                                    + sizingConstraints.coresPerNodeBase 
                                                    + localCoresForScaleOutInstances
                                                    + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances / dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances)
     
-    debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 55, `[chassisID=${actualChassisID},DC=${dcItem}]  
+    debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 61, `[chassisID=${actualChassisID},DC=${dcItem}]  
       dcConfigArrayLocal[dcItem].numberOfCoresNeeded=${dcConfigArrayLocal[dcItem].numberOfCoresNeeded} 
-      = dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDNeeded})*sizingConstraints.coresPerHDD=${sizingConstraints.coresPerHDD} 
+      = (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithoutDedicatedRocksDBNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithoutDedicatedRocksDBNeeded} + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithDedicatedRockSDBonSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithDedicatedRockSDBonSSD4Needed} + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithDedicatedRockSDBonNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfHDDWithDedicatedRockSDBonNVMe4Needed}) * sizingConstraints.coresPerHDD=${sizingConstraints.coresPerHDD} 
       + (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithoutDedicatedNVMeNeeded} 
-        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded})*sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold} 
+        + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSDWithDedicatedNVMeNeeded}) * sizingConstraints.coresPerSSDold=${sizingConstraints.coresPerSSDold} 
       + (dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithoutDedicatedWAL} 
         + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1NeededWithDedicatedWAL}) * sizingConstraints.coresPerNVMe1=${sizingConstraints.coresPerNVMe1}
       + localCoresForRGWCaching=${localCoresForRGWCaching} 
@@ -67,11 +73,14 @@ const dcConfigNumberOfCoresNeededInitial = function (generalValues, sizingConstr
       + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed} * sizingConstraints.coresPerNVMe5=${sizingConstraints.coresPerNVMe5}
       + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} * sizingConstraints.coresPerNVMe7=${sizingConstraints.coresPerNVMe7}
       + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed} * sizingConstraints.coresPerNVMe8=${sizingConstraints.coresPerNVMe8}
+      + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed} * sizingConstraints.coresPerNVMe9=${sizingConstraints.coresPerNVMe9}
+      + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed} * sizingConstraints.coresPerSSD4=${sizingConstraints.coresPerSSD4}
+      + dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed} * sizingConstraints.coresPerSSD9=${sizingConstraints.coresPerSSD9}
       + sizingConstraints.coresPerNodeBase=${sizingConstraints.coresPerNodeBase} 
       + localCoresForScaleOutInstances=${localCoresForScaleOutInstances} 
       + Math.ceil(dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances=${dcConfigArrayLocal[dcItem].numberOfLocalSpecialInstances}/dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances=${dcConfigArrayLocal[dcItem].numberOfServersNeededAllInstances}`,0,0,0)
   }
-  debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial", 74, `[chassisID=${actualChassisID},DC=${dcItem}] number of cores initial = ${dcConfigArrayLocal[dcItem].numberOfCoresNeeded}`,0,0,0)
+  debugMsg(generalValues, localDebugOn, 5, "dcConfigNumberOfCoresNeededInitial",83, `[chassisID=${actualChassisID},DC=${dcItem}] number of cores initial = ${dcConfigArrayLocal[dcItem].numberOfCoresNeeded}`,0,0,0)
   dcConfigArrayLocal[dcItem].prelimPerServerNumberOfCoresNeeded = dcConfigArrayLocal[dcItem].numberOfCoresNeeded
 }
 
