@@ -110,10 +110,10 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
       let localNumberOfHDDNeededWithDedicatedNVMe4DedicatedWALonSSD9 = 0
       let localNumberOfHDDNeededWithDedicatedNVMe4IncludingWAL = 0
 
-      let localNumberOfSSDNeededDedicatedRocksDBIncludingWAL = 0
-      let localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL = 0
-      let localNumberOfSSDNeededNonDedicatedRocksDBNorWAL = 0
-      let localNumberOfSSDNeededNonDedicatedRocksDBDedicatedWAL = 0
+      
+      
+  
+      
 
       let localNumberOfNVMe1NeededDedicatedRocksDBDedicatedWAL = 0
       let localNumberOfNVMe1NeededDedicatedRocksDBIncludingWAL = 0
@@ -997,21 +997,21 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
       }
       
       // SSD1: - number of devices - the capacity for unaligned objects is already included here in the localSSDCapacity*
-      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL =  localNumberOfSSDNeededDedicatedRocksDBIncludingWAL = Math.ceil((localSSDCapacityWithDedicatedRocksDBIncludingWAL + localDCRocksDBSizeSSDWithDedicatedNVMeIncludingWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1001, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL} =  localNumberOfSSDNeededDedicatedRocksDBIncludingWAL=${localNumberOfSSDNeededDedicatedRocksDBIncludingWAL} = Math.ceil((localSSDCapacityWithDedicatedRocksDBIncludingWAL=${localSSDCapacityWithDedicatedRocksDBIncludingWAL} + localDCRocksDBSizeSSDWithDedicatedNVMeIncludingWAL=${localDCRocksDBSizeSSDWithDedicatedNVMeIncludingWAL}) / chassisArrayLocal[actualChassisID].sizeSSD1=${chassisArrayLocal[actualChassisID].sizeSSD1})`,0,0,0)
+      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL = Math.ceil((localSSDCapacityWithDedicatedRocksDBIncludingWAL + localDCRocksDBSizeSSDWithDedicatedNVMeIncludingWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1001, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL} = Math.ceil((localSSDCapacityWithDedicatedRocksDBIncludingWAL=${localSSDCapacityWithDedicatedRocksDBIncludingWAL} + localDCRocksDBSizeSSDWithDedicatedNVMeIncludingWAL=${localDCRocksDBSizeSSDWithDedicatedNVMeIncludingWAL}) / chassisArrayLocal[actualChassisID].sizeSSD1=${chassisArrayLocal[actualChassisID].sizeSSD1})`,0,0,0)
       dcConfigArrayLocal[dcItem].numberOfSSDNeeded = dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1003, `[chassisID=${actualChassisID},DC=${dcItem}]#SSD(sum) needed=${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}`,0,0,0)
       
-      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL =  localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL = Math.ceil((localSSDCapacityWithDedicatedRocksDBDedicatedWAL + localDCRocksDBSizeSSDWithDedicatedNVMeDedicatedWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
-      debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1006, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL} =  localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL=${localNumberOfSSDNeededDedicatedRocksDBDedicatedWAL} = Math.ceil((localSSDCapacityWithDedicatedRocksDBDedicatedWAL=${localSSDCapacityWithDedicatedRocksDBDedicatedWAL} + localDCRocksDBSizeSSDWithDedicatedNVMeDedicatedWAL=${localDCRocksDBSizeSSDWithDedicatedNVMeDedicatedWAL}) / chassisArrayLocal[actualChassisID].sizeSSD1=${chassisArrayLocal[actualChassisID].sizeSSD1})`,0,0,0)
+      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL = Math.ceil((localSSDCapacityWithDedicatedRocksDBDedicatedWAL + localDCRocksDBSizeSSDWithDedicatedNVMeDedicatedWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
+      debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1006, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL=${dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL} = Math.ceil((localSSDCapacityWithDedicatedRocksDBDedicatedWAL=${localSSDCapacityWithDedicatedRocksDBDedicatedWAL} + localDCRocksDBSizeSSDWithDedicatedNVMeDedicatedWAL=${localDCRocksDBSizeSSDWithDedicatedNVMeDedicatedWAL}) / chassisArrayLocal[actualChassisID].sizeSSD1=${chassisArrayLocal[actualChassisID].sizeSSD1})`,0,0,0)
       dcConfigArrayLocal[dcItem].numberOfSSDNeeded += dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1008, `[chassisID=${actualChassisID},DC=${dcItem}]#SSD(sum) needed=${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}`,0,0,0)
       
-      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL = localNumberOfSSDNeededNonDedicatedRocksDBDedicatedWAL = Math.ceil((localSSDCapacityWithoutDedicatedRocksDBDedicatedWAL + localDCRocksDBSizeSSDWithoutDedicatedNVMeDedicatedWAL + localDCRequiredIndexCapacityOnSSD1DedicatedWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
+      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL = Math.ceil((localSSDCapacityWithoutDedicatedRocksDBDedicatedWAL + localDCRocksDBSizeSSDWithoutDedicatedNVMeDedicatedWAL + localDCRequiredIndexCapacityOnSSD1DedicatedWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
       dcConfigArrayLocal[dcItem].numberOfSSDNeeded += dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1012, `[chassisID=${actualChassisID},DC=${dcItem}]#SSD(sum) needed=${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}`,0,0,0)
 
-      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL = localNumberOfSSDNeededNonDedicatedRocksDBNorWAL = Math.ceil((localSSDCapacityWithoutDedicatedRocksDBNorWAL + localDCRocksDBSizeSSDWithoutDedicatedNVMeNorWAL + localDCRequiredIndexCapacityOnSSD1NorWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
+      dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL = Math.ceil((localSSDCapacityWithoutDedicatedRocksDBNorWAL + localDCRocksDBSizeSSDWithoutDedicatedNVMeNorWAL + localDCRequiredIndexCapacityOnSSD1NorWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
       dcConfigArrayLocal[dcItem].numberOfSSDNeeded += dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1016, `[chassisID=${actualChassisID},DC=${dcItem}]#SSD(sum) needed=${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}`,0,0,0)
 
