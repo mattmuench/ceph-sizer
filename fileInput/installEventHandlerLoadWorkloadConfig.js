@@ -13,6 +13,7 @@ const installEventHandlerLoadWorkloadConfig = function (documentMain, workloadsA
       debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadWorkloadConfig", 13, `Recalculation after loading new workload config should start now`,0,0,0)
       const selectedFile = clickedLoadWorkloadConfig.files[0];
       debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadWorkloadConfig", 15, `changed filename to selectedFile=${selectedFile.name}`,0,0,0)
+      documentMain.getElementById("filename-display-workload").innerText = selectedFile.name;
       
       const textFile = new Response(selectedFile).text()
       debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadWorkloadConfig", 18, `textFile=${textFile}`,0,0,0)
