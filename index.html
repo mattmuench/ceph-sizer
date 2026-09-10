@@ -122,12 +122,21 @@
         <tbody>
             <tr>
                 <td>Chassis config file load:</td>
-                <td>
-                    <input type="file" id="input-filename-chassis-config">
+                <td style="white-space: nowrap;">
+                    <label for="input-filename-chassis-config" style="cursor: pointer; border: 1px solid black; padding: 2px 5px; background: #eee; border-radius: 3px;">
+                        Choose File
+                    </label>
+                    <input type="file" id="input-filename-chassis-config" style="width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1;">
+                    <span id="filename-display-chassis" style="margin-left: 10px; color: #555;">No file chosen</span>
                 </td>
-                <td>Workload config file load:</td>
-                <td>
-                    <input type="file" id="input-filename-workload-config">
+                
+                <td style="padding-left: 30px;">Workload config file load:</td>
+                <td style="white-space: nowrap;">
+                    <label for="input-filename-workload-config" style="cursor: pointer; border: 1px solid black; padding: 2px 5px; background: #eee; border-radius: 3px;">
+                        Choose File
+                    </label>
+                    <input type="file" id="input-filename-workload-config" style="width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1;">
+                    <span id="filename-display-workload" style="margin-left: 10px; color: #555;">No file chosen</span>
                 </td>
             </tr>
         </tbody>
