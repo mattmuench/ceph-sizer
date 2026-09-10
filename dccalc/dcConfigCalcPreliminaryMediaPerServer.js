@@ -48,7 +48,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
   debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 48, `actualChassisID=${actualChassisID}, dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe1Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe1Needed}`,0,0,0)
 
   // Dedicated media for RocksDB, WAL, dedicated index pool, and RGW cache media
-  if (chassisArrayLocal[actualChassisID].sizeSSD4 > 0) {
+  if ((chassisArrayLocal[actualChassisID].sizeSSD4 > 0) && (chassisArrayLocal[actualChassisID].useSSD4 == true)) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSD4Needed / numberOfServersNeeded)
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 51, `actualChassisID=${actualChassisID}, initial dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed}`,0,0,0)
     if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4IncludingWAL)/chassisArrayLocal[actualChassisID].hddToSSD4) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed * numberOfServersNeeded){
@@ -61,7 +61,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 58, `actualChassisID=${actualChassisID}, dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfSSD4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD4Needed}`,0,0,0)
   }
   
-  if (chassisArrayLocal[actualChassisID].sizeSSD9 > 0) {
+  if ((chassisArrayLocal[actualChassisID].sizeSSD9 > 0) && (chassisArrayLocal[actualChassisID].useSSD9 == true)) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfSSD9Needed / numberOfServersNeeded)
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 66, `actualChassisID=${actualChassisID}, numberOfServersNeeded=${numberOfServersNeeded}, dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed}`,0,0,0)
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 67, `actualChassisID=${actualChassisID}, initial dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed}`,0,0,0)
@@ -76,7 +76,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 76, `actualChassisID=${actualChassisID}, dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed}`,0,0,0)
   }
   
-  if (chassisArrayLocal[actualChassisID].sizeNVMe2 > 0) {
+  if ((chassisArrayLocal[actualChassisID].sizeNVMe2 > 0) && (chassisArrayLocal[actualChassisID].useRGWCaching == true)) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe2Needed / numberOfServersNeeded)
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 81, `dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed}`,0,0,0)
   }
@@ -85,7 +85,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 85, `dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed}`,0,0,0)
   }
   
-  if (chassisArrayLocal[actualChassisID].sizeNVMe3 > 0) {
+  if ((chassisArrayLocal[actualChassisID].sizeNVMe3 > 0) && (chassisArrayLocal[actualChassisID].useNVMe3 == true)) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe3Needed / numberOfServersNeeded)
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 90, `actualChassisID=${actualChassisID}, dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed}`,0,0,0)
     if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL + dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL) / chassisArrayLocal[actualChassisID].ssdToNVMe3) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed * numberOfServersNeeded){
@@ -98,7 +98,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 98, `actualChassisID=${actualChassisID}, dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe3Needed}`,0,0,0)
   }
   
-  if (chassisArrayLocal[actualChassisID].sizeNVMe4 > 0) {
+  if ((chassisArrayLocal[actualChassisID].sizeNVMe4 > 0) && (chassisArrayLocal[actualChassisID].useNVMe4 == true)) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe4Needed / numberOfServersNeeded)
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 103, `actualChassisID=${actualChassisID}, initial dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed}`,0,0,0)
     if (Math.ceil((dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonNVMe9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4DedicatedWALonSSD9 + dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4IncludingWAL)/chassisArrayLocal[actualChassisID].hddToNVMe4) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed * numberOfServersNeeded){
@@ -111,7 +111,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer",111, `actualChassisID=${actualChassisID}, dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe4Needed}`,0,0,0)
   }
   
-  if (chassisArrayLocal[actualChassisID].sizeNVMe5 > 0) {
+  if ((chassisArrayLocal[actualChassisID].sizeNVMe5 > 0) && (chassisArrayLocal[actualChassisID].useNVMe5 == true)) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe5Needed / numberOfServersNeeded)
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 116, `actualChassisID=${actualChassisID}, initial dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed}`,0,0,0)
     if (Math.ceil(( dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL + dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL) / chassisArrayLocal[actualChassisID].ssdToNVMe5 ) > dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe5Needed * numberOfServersNeeded){
@@ -133,7 +133,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 133, `actualChassisID=${actualChassisID}, dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe6Needed}`,0,0,0)
   }
   
-  if (chassisArrayLocal[actualChassisID].sizeNVMe7 > 0) {
+  if ((chassisArrayLocal[actualChassisID].sizeNVMe7 > 0) && (chassisArrayLocal[actualChassisID].useNVMe7 == true)) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe7Needed / numberOfServersNeeded)
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 138, `actualChassisID=${actualChassisID}, initial dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed} = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed} / numberOfServersNeeded=${numberOfServersNeeded})`,0,0,0)
 
@@ -149,7 +149,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 149, `actualChassisID=${actualChassisID}, dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe7Needed}`,0,0,0)
   }
   
-  if (chassisArrayLocal[actualChassisID].sizeNVMe8 > 0) {
+  if ((chassisArrayLocal[actualChassisID].sizeNVMe8 > 0) && (chassisArrayLocal[actualChassisID].useNVMe8 == true)) {
     if (chassisArrayLocal[actualChassisID].useNVMe8 == true) {
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe8Needed / numberOfServersNeeded)
       debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 155, `actualChassisID=${actualChassisID}, initial dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe8Needed}`,0,0,0)
@@ -177,7 +177,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     }
   }
 
-  if (chassisArrayLocal[actualChassisID].sizeNVMe9 > 0) {
+  if ((chassisArrayLocal[actualChassisID].sizeNVMe9 > 0) && (chassisArrayLocal[actualChassisID].useNVMe9 == true)) {
     if (chassisArrayLocal[actualChassisID].useNVMe9 == true) {
       dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe9Needed / numberOfServersNeeded)
       debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 183, `actualChassisID=${actualChassisID}, initial dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe9Needed}`,0,0,0)

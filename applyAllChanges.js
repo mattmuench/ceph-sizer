@@ -228,9 +228,9 @@ const applyAllChanges = function (documentMain, generalValues, workloadsValues, 
             }
             else {
               switch (entry[0]) {
-                case "use-SSD4-over-NVMe4":
                 case "use-rgw-caching": 
                 case "use-nvme-3":
+                case "use-nvme-4":
                 case "use-nvme-5":
                 case "use-nvme-7":
                 case "use-nvme-8": 

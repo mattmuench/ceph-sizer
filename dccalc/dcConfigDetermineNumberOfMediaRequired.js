@@ -2,7 +2,7 @@ import displayMsg from "../common/displayMsg.js"
 import {debugMsg} from "../common/debug.js";
 
 const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workloadsArrayLocal, sizingConstraints, dcConfigArrayLocal, chassisArrayLocal, actualChassisID) {
-  let localDebugOn = false
+  let localDebugOn = true
 
   /**
     This is covering the H41, H42, J41, J42, N41, and O41 (for SSD)
@@ -777,6 +777,17 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 777, `[chassisID=${actualChassisID},DC=${dcItem}] localDCDedicatedObjectIndexCapacity=${localDCDedicatedObjectIndexCapacity} / chassisArrayLocal[actualChassisID].sizeNVMe6 ${chassisArrayLocal[actualChassisID].sizeNVMe6}`,0,0,0)
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 778, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe6 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe6Needed}`,0,0,0)
 
+      // NVMe6: Check for chassis setting to have any size other than 0 and if at all selected
+      if (chassisArrayLocal[actualChassisID].sizeNVMe6 == 0){
+        if (dcConfigArrayLocal[dcItem].numberOfNVMe6Needed > 0) {
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 822, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe6 but size of NVMe6 is zero`,0,0,0)
+        }
+        else {
+          dcConfigArrayLocal[dcItem].numberOfNVMe6Needed = 0
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 826, `[chassisID=${actualChassisID},DC=${dcItem}] size of NVMe6=0 => dcConfigArrayLocal[dcItem].numberOfNVMe6Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe6Needed}`,0,0,0)
+        }
+      }
+
       
       ///////////
       // Calculate the number of dediatec WAL devices needed per block device type with respect to dependency on different schemes of dedicated RocksDB and WAL devices
@@ -913,6 +924,34 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
       }
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 914, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe3 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe3Needed}`,0,0,0)
 
+      // NVMe3: Check for chassis setting to have any size other than 0 and if at all selected
+      if (chassisArrayLocal[actualChassisID].sizeNVMe3 == 0){
+        if (dcConfigArrayLocal[dcItem].numberOfNVMe3Needed > 0) {
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 822, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe3 but size of NVMe3 is zero`,0,0,0)
+          dcConfigArrayLocal[dcItem].numberOfNVMe3Needed = 0
+        }
+        else {
+          dcConfigArrayLocal[dcItem].numberOfNVMe3Needed = 0
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 826, `[chassisID=${actualChassisID},DC=${dcItem}] size of NVMe3=0 => dcConfigArrayLocal[dcItem].numberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe3Needed}`,0,0,0)
+        }
+      }
+      else {
+        // sizeNVMe3 is > 0
+        if (chassisArrayLocal[actualChassisID].useNVMe3 == true){
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 835, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe3 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe3Needed}`,0,0,0)
+        }
+        else {
+          if (dcConfigArrayLocal[dcItem].numberOfNVMe3Needed > 0) {
+            dcConfigArrayLocal[dcItem].numberOfNVMe3Needed = 0
+            displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 846, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe3 but use of NVMe3 is disabled`,0,0,0)
+          }
+          else {
+            dcConfigArrayLocal[dcItem].numberOfNVMe3Needed = 0
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 850, `[chassisID=${actualChassisID},DC=${dcItem}] use of NVMe3 is disabled => dcConfigArrayLocal[dcItem].numberOfNVMe3Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe3Needed}`,0,0,0)
+          }
+        }   
+      }
+
       // NVMe1:
       if (generalValues.globalDebug == true || localDebugOn == true) {
         debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 918, `[chassisID=${actualChassisID},DC=${dcItem}] localDCRocksDBSizeNVMe1WithDedicatedNVMeIncludingWAL=${localDCRocksDBSizeNVMe1WithDedicatedNVMeIncludingWAL}`,0,0,0)
@@ -923,6 +962,7 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
         debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 923, `[chassisID=${actualChassisID},DC=${dcItem}] localDCRocksDBSizeNVMe1WithDedicatedNVMeDedicatedWAL=${localDCRocksDBSizeNVMe1WithDedicatedNVMeDedicatedWAL}`,0,0,0)
       }
       
+      // NVMe8:
       // NVMe1 - with dedicated WAL => this is used to calculate the number of NVMe8 devices
       // RGW index data goes to RocksDB place - if there is a dedicated device this will be used.
       dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL = Math.ceil((localNVMe1CapacityWithoutDedicatedRocksDBDedicatedWAL + localDCRocksDBSizeNVMe1WithoutDedicatedNVMeDedicatedWAL + localDCRequiredIndexCapacityOnNVMe1DedicatedWAL) / chassisArrayLocal[actualChassisID].sizeNVMe1)
@@ -940,9 +980,67 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
       }
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 941, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe8 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe8Needed}`,0,0,0)
 
+      // NVMe8: Check for chassis setting to have any size other than 0 and if at all selected
+      if (chassisArrayLocal[actualChassisID].sizeNVMe8 == 0){
+        if (dcConfigArrayLocal[dcItem].numberOfNVMe8Needed > 0) {
+          dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = 0
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 822, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe8 but size of NVMe8 is zero`,0,0,0)
+        }
+        else {
+          dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = 0
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 826, `[chassisID=${actualChassisID},DC=${dcItem}] size of NVMe8=0 => dcConfigArrayLocal[dcItem].numberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe8Needed}`,0,0,0)
+        }
+      }
+      else {
+        // sizeNVMe8 is > 0
+        if (chassisArrayLocal[actualChassisID].useNVMe8 == true){
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 835, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe8 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe8Needed}`,0,0,0)
+        }
+        else {
+          if (dcConfigArrayLocal[dcItem].numberOfNVMe8Needed > 0) {
+            dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = 0
+            displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 846, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe8 but use of NVMe8 is disabled`,0,0,0)
+          }
+          else {
+            dcConfigArrayLocal[dcItem].numberOfNVMe8Needed = 0
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 850, `[chassisID=${actualChassisID},DC=${dcItem}] use of NVMe8 is disabled => dcConfigArrayLocal[dcItem].numberOfNVMe8Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe8Needed}`,0,0,0)
+          }
+        }   
+      }
+      
+
+      // NVMe2:
       // RGW cache media are dedicated and counted as they are
       dcConfigArrayLocal[dcItem].numberOfNVMe2Needed = localDCNumberOfRGWCacheMedia
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 945, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe2 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe2Needed}`,0,0,0)
+
+      // NVMe2: Check for chassis setting to have any size other than 0 and if at all selected
+      if (chassisArrayLocal[actualChassisID].sizeNVMe2 == 0){
+        if (dcConfigArrayLocal[dcItem].numberOfNVMe2Needed > 0) {
+          dcConfigArrayLocal[dcItem].numberOfNVMe2Needed = 0
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 822, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe2 but size of NVMe2 is zero`,0,0,0)
+        }
+        else {
+          dcConfigArrayLocal[dcItem].numberOfNVMe2Needed = 0
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 826, `[chassisID=${actualChassisID},DC=${dcItem}] size of NVMe2=0 => dcConfigArrayLocal[dcItem].numberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe2Needed}`,0,0,0)
+        }
+      }
+      else {
+        // sizeNVMe2 is > 0
+        if (chassisArrayLocal[actualChassisID].useRGWCaching == true){
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 835, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe2 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe2Needed}`,0,0,0)
+        }
+        else {
+          if (dcConfigArrayLocal[dcItem].numberOfNVMe2Needed > 0) {
+            dcConfigArrayLocal[dcItem].numberOfNVMe2Needed = 0
+            displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 846, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe2 but use of NVMe2 is disabled`,0,0,0)
+          }
+          else {
+            dcConfigArrayLocal[dcItem].numberOfNVMe2Needed = 0
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 850, `[chassisID=${actualChassisID},DC=${dcItem}] use of NVMe2 is disabled => dcConfigArrayLocal[dcItem].numberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe2Needed}`,0,0,0)
+          }
+        }   
+      }      
 
       
       ///////////
@@ -995,6 +1093,27 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
         debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 995, `[chassisID=${actualChassisID},DC=${dcItem}] #HDD w/ SSD dedicated w/ separate WAL NVMe9 needed=${dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9}`,0,0,0)
         debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 996, `[chassisID=${actualChassisID},DC=${dcItem}] #HDD(sum)) needed=${dcConfigArrayLocal[dcItem].numberOfHDDNeeded}`,0,0,0)
       }
+
+      // Check for chassis setting to have any size other than 0
+      if (chassisArrayLocal[actualChassisID].sizeHDD1 == 0){
+        if ((dcConfigArrayLocal[dcItem].numberOfHDDNeeded) > 0) {
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 1001, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require HDD1 but size of HDD1 is zero`,0,0,0)
+          dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBNorWAL = 0
+          dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonNVMe9 = 0 
+          dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithoutDedicatedRocksDBDedicatedWALonSSD9 = 0
+          dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe4IncludingWAL = 0
+          dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4IncludingWAL = 0
+          dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe44DedicatedWALonSSD9 = 0
+          dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonSSD9 = 0
+          dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedNVMe44DedicatedWALonNVMe9 = 0
+          dcConfigArrayLocal[dcItem].numberOfHDD1NeededWithDedicatedSSD4DedicatedWALonNVMe9 = 0
+          dcConfigArrayLocal[dcItem].numberOfHDDNeeded = 0
+        }
+        else {
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1005, `[chassisID=${actualChassisID},DC=${dcItem}] size of HDD1=0 => dcConfigArrayLocal[dcItem].numberOfHDDNeeded=${dcConfigArrayLocal[dcItem].numberOfHDDNeeded}`,0,0,0)
+        }
+      }
+
       
       // SSD1: - number of devices - the capacity for unaligned objects is already included here in the localSSDCapacity*
       dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL = Math.ceil((localSSDCapacityWithDedicatedRocksDBIncludingWAL + localDCRocksDBSizeSSDWithDedicatedNVMeIncludingWAL) / chassisArrayLocal[actualChassisID].sizeSSD1)
@@ -1023,6 +1142,22 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
         debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1023, `[chassisID=${actualChassisID},DC=${dcItem}] #SSD(sum)) needed=${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}`,0,0,0)
       }
 
+      // Check for chassis setting to have any size other than 0
+      if (chassisArrayLocal[actualChassisID].sizeSSD1 == 0){
+        if ((dcConfigArrayLocal[dcItem].numberOfSSDNeeded) > 0) {
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 1001, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require HDD1 but size of HDD1 is zero`,0,0,0)
+          dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBNorWAL = 0
+          dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithoutDedicatedRocksDBDedicatedWAL = 0 
+          dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL = 0
+          dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL = 0
+          dcConfigArrayLocal[dcItem].numberOfSSDNeeded = 0
+        }
+        else {
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1005, `[chassisID=${actualChassisID},DC=${dcItem}] size of SSD1=0 => dcConfigArrayLocal[dcItem].numberOfSSDNeeded=${dcConfigArrayLocal[dcItem].numberOfSSDNeeded}`,0,0,0)
+        }
+      }
+      
+
       // NVMe1 - number of devices - the capacity for unaligned objects is already included here in the localNVMe1Capacity*
       dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL =  localNumberOfNVMe1NeededDedicatedRocksDBIncludingWAL = Math.ceil((localNVMe1CapacityWithDedicatedRocksDBIncludingWAL + localDCRocksDBSizeNVMe1WithDedicatedNVMeIncludingWAL) / chassisArrayLocal[actualChassisID].sizeNVMe1)
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1028, `[chassisID=${actualChassisID},DC=${dcItem}] dcConfigArrayLocal[dcItem].numberOfNMVe1NeededWithDedicatedRocksDBIncludingWAL=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL} =  localNumberOfNVMe1NeededDedicatedRocksDBIncludingWAL=${localNumberOfNVMe1NeededDedicatedRocksDBIncludingWAL} = Math.ceil((localNVMe1CapacityWithDedicatedRocksDBIncludingWAL=${localNVMe1CapacityWithDedicatedRocksDBIncludingWAL} + localDCRocksDBSizeNVMe1WithDedicatedNVMeIncludingWAL=${localDCRocksDBSizeNVMe1WithDedicatedNVMeIncludingWAL}) / chassisArrayLocal[actualChassisID].sizeNVMe7=${chassisArrayLocal[actualChassisID].sizeNVMe1})`,0,0,0)
@@ -1045,6 +1180,22 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
         debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1045, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe1 w/ NVMe dedicated w/ separate WAL needed=${dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL}`,0,0,0)
         debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1046, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe1(sum)) needed=${dcConfigArrayLocal[dcItem].numberOfNVMe1Needed}`,0,0,0)
       }
+
+      // Check for chassis setting to have any size other than 0
+      if (chassisArrayLocal[actualChassisID].sizeNVMe1 == 0){
+        if ((dcConfigArrayLocal[dcItem].numberOfNVMe1Needed) > 0) {
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 1001, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe1 but size of NVMe1 is zero`,0,0,0)
+          dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBNorWAL = 0
+          dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithoutDedicatedRocksDBDedicatedWAL = 0 
+          dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL = 0
+          dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL = 0
+          dcConfigArrayLocal[dcItem].numberOfNVMe1Needed = 0
+        }
+        else {
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1005, `[chassisID=${actualChassisID},DC=${dcItem}] size of NVMe1=0 => dcConfigArrayLocal[dcItem].numberOfNVMe1Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe1Needed}`,0,0,0)
+        }
+      }
+      
     
       ///////////
       // Calculate number of dedicated RocksDB media per block device type with respect to dependency on different schemes of dedicated WAL devices
@@ -1063,6 +1214,35 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
       }
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1064, `[chassisID=${actualChassisID},DC=${dcItem}] final #NVMe4 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe4Needed}`,0,0,0)
 
+      // NVMe4: Check for chassis setting to have any size other than 0 and if at all selected
+      if (chassisArrayLocal[actualChassisID].sizeNVMe4 == 0){
+        if (dcConfigArrayLocal[dcItem].numberOfNVMe4Needed > 0) {
+          dcConfigArrayLocal[dcItem].numberOfNVMe4Needed = 0
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 822, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe4 but size of NVMe4 is zero`,0,0,0)
+        }
+        else {
+          dcConfigArrayLocal[dcItem].numberOfNVMe4Needed = 0
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 826, `[chassisID=${actualChassisID},DC=${dcItem}] size of NVMe4=0 => dcConfigArrayLocal[dcItem].numberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe4Needed}`,0,0,0)
+        }
+      }
+      else {
+        // sizeNVMe4 is > 0
+        if (chassisArrayLocal[actualChassisID].useNVMe4 == true){
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 835, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe4 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe4Needed}`,0,0,0)
+        }
+        else {
+          if (dcConfigArrayLocal[dcItem].numberOfNVMe4Needed > 0) {
+            dcConfigArrayLocal[dcItem].numberOfNVMe4Needed = 0
+            displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 846, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe4 but use of NVMe4 is disabled`,0,0,0)
+          }
+          else {
+            dcConfigArrayLocal[dcItem].numberOfNVMe4Needed = 0
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 850, `[chassisID=${actualChassisID},DC=${dcItem}] use of NVMe4 is disabled => dcConfigArrayLocal[dcItem].numberOfNVMe4Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe4Needed}`,0,0,0)
+          }
+        }   
+      }      
+      
+
       // SSD4 for HDD1
       dcConfigArrayLocal[dcItem].numberOfSSD4Needed = Math.ceil((localDCRocksDBSizeHDDWithDedicatedSSD4DedicatedWALonNVMe9 + localDCRequiredIndexCapacityOnSSD4DedicatedWALonNVMe9) / chassisArrayLocal[actualChassisID].sizeSSD4)
                                                      + Math.ceil((localDCRocksDBSizeHDDWithDedicatedSSD4DedicatedWALonSSD9 + localDCRequiredIndexCapacityOnSSD4DedicatedWALonSSD9) / chassisArrayLocal[actualChassisID].sizeSSD4) 
@@ -1076,6 +1256,35 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
       }
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1077, `[chassisID=${actualChassisID},DC=${dcItem}] final #SSD4 needed=${dcConfigArrayLocal[dcItem].numberOfSSD4Needed}`,0,0,0)
 
+      // NVMe4: Check for chassis setting to have any size other than 0 and if at all selected
+      if (chassisArrayLocal[actualChassisID].sizeSSD4 == 0){
+        if (dcConfigArrayLocal[dcItem].numberOfSSD4Needed > 0) {
+          dcConfigArrayLocal[dcItem].numberOfSSD4Needed = 0
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 822, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require SSD4 but size of SSD4 is zero`,0,0,0)
+        }
+        else {
+          dcConfigArrayLocal[dcItem].numberOfSSD4Needed = 0
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 826, `[chassisID=${actualChassisID},DC=${dcItem}] size of SSD4=0 => dcConfigArrayLocal[dcItem].numberOfSSD4Needed=${dcConfigArrayLocal[dcItem].numberOfSSD4Needed}`,0,0,0)
+        }
+      }
+      else {
+        // sizeSSD4 is > 0
+        if (chassisArrayLocal[actualChassisID].useSSD4 == true){
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 835, `[chassisID=${actualChassisID},DC=${dcItem}] #SSD4 needed=${dcConfigArrayLocal[dcItem].numberOfSSD4Needed}`,0,0,0)
+        }
+        else {
+          if (dcConfigArrayLocal[dcItem].numberOfSSD4Needed > 0) {
+            dcConfigArrayLocal[dcItem].numberOfSSD4Needed = 0
+            displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 846, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require SSD4 but use of SSD4 is disabled`,0,0,0)
+          }
+          else {
+            dcConfigArrayLocal[dcItem].numberOfSSD4Needed = 0
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 850, `[chassisID=${actualChassisID},DC=${dcItem}] use of SSD4 is disabled => dcConfigArrayLocal[dcItem].numberOfSSD4Needed=${dcConfigArrayLocal[dcItem].numberOfSSD4Needed}`,0,0,0)
+          }
+        }   
+      }      
+      
+
       // NVMe5 for SSD1
       dcConfigArrayLocal[dcItem].numberOfNVMe5Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBDedicatedWAL * (sizingConstraints.defaultSizeOfWALOnNVMeInGB  / 1000) + localDCRequiredIndexCapacityOnNVMe5DedicatedWAL) / chassisArrayLocal[actualChassisID].sizeNVMe5) + Math.ceil(((dcConfigArrayLocal[dcItem].numberOfSSD1NeededWithDedicatedRocksDBIncludingWAL * sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000) + localDCRequiredIndexCapacityOnNVMe5NorWAL)/ chassisArrayLocal[actualChassisID].sizeNVMe5)
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1081, `[chassisID=${actualChassisID},DC=${dcItem}] initially #NVMe5 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe5Needed}`,0,0,0)
@@ -1085,6 +1294,35 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
         debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1085, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe5 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe5Needed}`,0,0,0)
       }
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1087, `[chassisID=${actualChassisID},DC=${dcItem}] final #NVMe5 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe5Needed}`,0,0,0)
+
+      // NVMe5: Check for chassis setting to have any size other than 0 and if at all selected
+      if (chassisArrayLocal[actualChassisID].sizeNVMe5 == 0){
+        if (dcConfigArrayLocal[dcItem].numberOfNVMe5Needed > 0) {
+          dcConfigArrayLocal[dcItem].numberOfNVMe5Needed = 0
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 822, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe5 but size of NVMe5 is zero`,0,0,0)
+        }
+        else {
+          dcConfigArrayLocal[dcItem].numberOfNVMe5Needed = 0
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 826, `[chassisID=${actualChassisID},DC=${dcItem}] size of NVMe5=0 => dcConfigArrayLocal[dcItem].numberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe5Needed}`,0,0,0)
+        }
+      }
+      else {
+        // sizeNVMe5 is > 0
+        if (chassisArrayLocal[actualChassisID].useNVMe5 == true){
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 835, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe5 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe5Needed}`,0,0,0)
+        }
+        else {
+          if (dcConfigArrayLocal[dcItem].numberOfNVMe5Needed > 0) {
+            dcConfigArrayLocal[dcItem].numberOfNVMe5Needed = 0
+            displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 846, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe5 but use of NVMe5 is disabled`,0,0,0)
+          }
+          else {
+            dcConfigArrayLocal[dcItem].numberOfNVMe5Needed = 0
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 850, `[chassisID=${actualChassisID},DC=${dcItem}] use of NVMe5 is disabled => dcConfigArrayLocal[dcItem].numberOfNVMe5Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe5Needed}`,0,0,0)
+          }
+        }   
+      }
+
 
       // NVMe7 for NVMe1
       dcConfigArrayLocal[dcItem].numberOfNVMe7Needed = Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBDedicatedWAL * (sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000) +  localDCRequiredIndexCapacityOnNVMe7DedicatedWAL) / chassisArrayLocal[actualChassisID].sizeNVMe7) + Math.ceil((dcConfigArrayLocal[dcItem].numberOfNVMe1NeededWithDedicatedRocksDBIncludingWAL * (sizingConstraints.defaultSizeOfWALOnNVMeInGB / 1000) + localDCRequiredIndexCapacityOnNVMe7IncludingWAL) / chassisArrayLocal[actualChassisID].sizeNVMe7)
@@ -1097,6 +1335,33 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
       }
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1098, `[chassisID=${actualChassisID},DC=${dcItem}] final #NVMe7 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed}`,0,0,0)
 
+      // NVMe7: Check for chassis setting to have any size other than 0 and if at all selected
+      if (chassisArrayLocal[actualChassisID].sizeNVMe7 == 0){
+        if (dcConfigArrayLocal[dcItem].numberOfNVMe7Needed > 0) {
+          dcConfigArrayLocal[dcItem].numberOfNVMe7Needed = 0
+          displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 822, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe7 but size of NVMe7 is zero`,0,0,0)
+        }
+        else {
+          dcConfigArrayLocal[dcItem].numberOfNVMe7Needed = 0
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 826, `[chassisID=${actualChassisID},DC=${dcItem}] size of NVMe7=0 => dcConfigArrayLocal[dcItem].numberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed}`,0,0,0)
+        }
+      }
+      else {
+        // sizeNVMe7 is > 0
+        if (chassisArrayLocal[actualChassisID].useNVMe7 == true){
+          debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 835, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe7 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed}`,0,0,0)
+        }
+        else {
+          if (dcConfigArrayLocal[dcItem].numberOfNVMe7Needed > 0) {
+            dcConfigArrayLocal[dcItem].numberOfNVMe7Needed = 0
+            displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 846, "error", `[chassisID=${actualChassisID},DC=${dcItem}] ERROR: workloads require NVMe7 but use of NVMe7 is disabled`,0,0,0)
+          }
+          else {
+            dcConfigArrayLocal[dcItem].numberOfNVMe7Needed = 0
+            debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 850, `[chassisID=${actualChassisID},DC=${dcItem}] use of NVMe7 is disabled => dcConfigArrayLocal[dcItem].numberOfNVMe7Needed=${dcConfigArrayLocal[dcItem].numberOfNVMe7Needed}`,0,0,0)
+          }
+        }   
+      }
 
       // This should now have all media covered for this DC.
       if (generalValues.globalDebug == true || localDebugOn == true) {

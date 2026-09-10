@@ -6,7 +6,7 @@ import generalValues from "../GeneralValues.js"
 import Chassis from "../Chassis.js";
 
 const installEventHandlerLoadChassisConfig = function (documentMain, chassisArrayLocal, generalValues, loadedConfigsLocal) {
-  let localDebugOn = true
+  let localDebugOn = false
 
   // recognize button for loading presaved chassis config definition file
   const clickedLoadChassisConfig = documentMain.getElementById("input-filename-chassis-config")
@@ -117,8 +117,8 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
 
                 
                 case "useRGWCaching":
-                case "useSSD4overNVMe4":
                 case "useNVMe3":
+                case "useNVMe4":
                 case "useNVMe5":
                 case "useNVMe7":
                 case "useNVMe8": 
