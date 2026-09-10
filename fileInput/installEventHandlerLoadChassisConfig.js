@@ -6,7 +6,7 @@ import generalValues from "../GeneralValues.js"
 import Chassis from "../Chassis.js";
 
 const installEventHandlerLoadChassisConfig = function (documentMain, chassisArrayLocal, generalValues, loadedConfigsLocal) {
-  let localDebugOn = false
+  let localDebugOn = true
 
   // recognize button for loading presaved chassis config definition file
   const clickedLoadChassisConfig = documentMain.getElementById("input-filename-chassis-config")
@@ -16,6 +16,7 @@ const installEventHandlerLoadChassisConfig = function (documentMain, chassisArra
       debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadChassisConfig", 16, `Recalculation after loading new chassis config should start now`,0,0,0)
       const selectedFile = clickedLoadChassisConfig.files[0];
       debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadChassisConfig", 18, `changed filename to selectedFile=${selectedFile.name}`,0,0,0)
+      documentMain.getElementById("filename-display-chassis").innerText = selectedFile.name;
       
       const textFile = new Response(selectedFile).text()
       debugMsg(generalValues, localDebugOn, 5, "installEventHandlerLoadChassisConfig", 21, `textFile=${textFile}`,0,0,0)
