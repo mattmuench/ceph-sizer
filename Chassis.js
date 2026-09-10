@@ -27,7 +27,6 @@ class Chassis {
 
         sizeSSD4,
         hddToSSD4,
-        useSSD4overNVMe4,
         useSSD4,
 
         sizeSSD9,
@@ -36,6 +35,7 @@ class Chassis {
 
         sizeNVMe4,
         hddToNVMe4,
+        useNVMe4,
         
         sizeNVMe5,
         ssdToNVMe5,
@@ -96,9 +96,9 @@ class Chassis {
             ["nvme-to-nvme8","nvmeToNVMe8"], // for NVMe1 dedicated RocksDB
             ["use-nvme-8","useNVMe8"], // use NVMe8 for dedicated RocksDB for NVMe1
 
-            ["use-SSD4-over-NVMe4","useSSD4overNVMe4"], // select SSD fronting instead of NVMe fronting for HDD
+            ["use-ssd-4","useSSD4"], // select SSD fronting for RocksDB for HDD
+            ["use-nvme-4","useNVMe4"], // select NVMe fronting for RocksDB for HDD
             ["hdd-to-ssd4","hddToSSD4"],
-            ["use-ssd-4","useSSD4"],
             ["size-ssd-4","sizeSSD4"], // SSD type 4
             ["size-nvme-4","sizeNVMe4"], // for RocksDBcache HDD
             ["hdd-to-nvme4","hddToNVMe4"], // ratio of number of HDD fronted by NVMe type 4 - either SSD or NVMe fronted
@@ -127,13 +127,14 @@ class Chassis {
         this.speedNicPublic = 10000
         this.sizeNVMe1 = 0
         this.sizeNVMe2 = 0
+        this.useNVMe4 = 1
         this.sizeNVMe4 = 0
         this.sizeNVMe5 = 0
         this.sizeNVMe6 = 0
         this.sizeSSD1 = 0
         this.ssdToNVMe3 = 5 // default, should be changed by setting it (for now) - should depend on ratio between used SSD vs NVMe performance difference for small IO and RocksDB WAL
         this.sizeNVMe3 = 0
-        this.useSSD4overNVMe4 = 1
+        this.useSSD4 = 1
         this.hddToSSD4 = 5
         this.sizeSSD4 = 0
         this.useSSD4 = 0

@@ -22,37 +22,40 @@
             ["NIC speed per port in Gb/sec for cluster network","speed-nic-cluster","input"],
             
             ["HDD size 1 in TB","size-hdd-1","input"],
-            ["HDD: Use SSD for fronting HDD instead of NVMe","use-SSD4-over-NVMe4","checkbox"],
-            
+
+            ["HDD: HDD fronted by SSD for RocksDB (SSD4)","use-ssd-4","checkbox"],
             ["HDD: SSD type 4 (for dedicated RocksDB+WAL) size in TB (0 => don't use SSD for HDD fronting)","size-ssd-4","input"],
             ["HDD: #HDD per SSD type 4 for RocksDB+WAL (#HDD covered by SSD)","hdd-to-ssd4","input"],
-            ["HDD: HDD fronted by flash for RocksDB (SSD4 or NVMe4)?","use-ssd-4","checkbox"],
             
+            ["HDD: HDD fronted by NVMe for RocksDB (NVMe4)?","use-nvme-4","checkbox"],
             ["HDD: NVMe type 4 (for dedicated RocksDB+WAL) size in TB (0 => don't use NVMe for HDD fronting)","size-nvme-4","input"],
             ["HDD: #HDD per NVMe type 4 for RocksDB+WAL (#HDD covered by NVMe)","hdd-to-nvme4","input"],
             
+            ["HDD: HDD fronted by separate WAL on NVMe9 ?","use-nvme-9","checkbox"],
             ["HDD: NVMe type 9 (for dedicated WAL) size in TB (0 => don't use NVMe for HDD separate WAL)","size-nvme-9","input"],
             ["HDD: #HDD per NVMe type 9 for dedicated WAL (#HDD covered by NVMe)","hdd-to-nvme9","input"],
-            ["HDD: HDD fronted by separate WAL on NVMe9 ?","use-nvme-9","checkbox"],
 
+            ["HDD: HDD fronted by separate WAL on SSD9 ?","use-ssd-9","checkbox"],
             ["HDD: SSD type 9 (for dedicated WAL) size in TB (0 => don't use SSD for HDD separate WAL)","size-ssd-9","input"],
             ["HDD: #HDD per SSD type 9 for dedicated WAL (#HDD covered by SSD)","hdd-to-ssd9","input"],
-            ["HDD: HDD fronted by separate WAL on SSD9 ?","use-ssd-9","checkbox"],
 
             ["SSD: SSD size 1 in TB","size-ssd-1","input"],
+
             ["SSD: SSD fronted by NVMe type 3 for WAL ?","use-nvme-3","checkbox"],
-            
+            ["SSD: NVMe type 3 (for dedicated WAL) size in TB (0 => don't use NVMe3 for fronting)","size-nvme-3","input"],
+            ["SSD: #SSD per NVMe type 3 for WAL (#SSD covered by one NVMe)","ssd-to-nvme3","input"],
+
             ["SSD: NVMe type 5 (for dedicated RocksDB+WAL) size in TB (0 => don't use NVMe for SSD fronting)","size-nvme-5","input"],
             ["SSD: SSD fronted by NVMe type 5 for RocksDB/WAL (#SSD covered by NVMe)","ssd-to-nvme5","input"],
             ["SSD: SSD fronted by seprate RocksDB on NVMe5 ?","use-nvme-5","checkbox"],
             
-            ["SSD: NVMe type 3 (for dedicated WAL) size in TB (0 => don't use NVMe3 for fronting)","size-nvme-3","input"],
-            ["SSD: #SSD per NVMe type 3 for WAL (#SSD covered by one NVMe)","ssd-to-nvme3","input"],
 
             ["NMVe: NVMe type 1 (for data) size in TB","size-nvme-1","input"],
+
             ["NVMe: NVMe type 1 fronted by NVMe type 7 for WAL ?","use-nvme-7","checkbox"],
             ["NMVe: NVMe7 (as WAL for NVMe1) size in TB","size-nvme-7","input"],
             ["NMVe: #NVMe1 per NVMe type 7 for WAL (#NVMe covered by one NVMe7)","nvme-to-nvme7","input"],
+
             ["NVMe: NVMe type 1 fronted by NVMe type 8 for RocksDB ?","use-nvme-8","checkbox"],
             ["NMVe: NVMe8 (as RocksDB for NVMe1) size in TB","size-nvme-8","input"],
             ["NMVe: #NVMe1 per NVMe type 8 for RocksDB (#NVMe covered by one NVMe8)","nvme-to-nvme8","input"],
