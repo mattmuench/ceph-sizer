@@ -1,6 +1,5 @@
 class SizingConstraints {
     constructor (
-        coresPerRGWCacheDevice,
         coresPerNVMeOForWALDevice,
         coresPerHDD,
         coresPerSSD,
@@ -55,7 +54,6 @@ class SizingConstraints {
 
         sizeOfWALOnNVMeInGB,
 
-        defaultCoresPerRGWCacheDevice, // G3
         defaultCoresPerNVMeOForWALDevice, // G4
         defaultCoresPerHDD, // G5
         defaultCoresPerSSDold, // J5
@@ -188,7 +186,6 @@ class SizingConstraints {
     {
         // pre-sets for defaults
         // Cores = HT cores = vCPU
-        //this.defaultCoresPerRGWCacheDevice = 4  - now NVMe2
         this.defaultCoresPerNVMeOForWALDevice = 12
         this.defaultCoresPerHDD = 2
         this.defaultCoresPerSSDold = 4
@@ -304,7 +301,6 @@ class SizingConstraints {
 
         // pre-sets from defaults
 
-        this.coresPerRGWCacheDevice = this.defaultCoresPerRGWCacheDevice
         this.coresPerNVMeOForWALDevice = this.defaultCoresPerNVMeOForWALDevice
         this.coresPerHDD = this.defaultCoresPerHDD
         this.coresPerSSDold = this.defaultCoresPerSSDold

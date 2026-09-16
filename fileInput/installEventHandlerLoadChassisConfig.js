@@ -116,7 +116,7 @@ const readChassisConfig = function (documentMain, generalValues, loadedConfigsLo
                 break;
 
                 
-                case "useRGWCaching":
+                case "useNVMe2":
                 case "useNVMe3":
                 case "useNVMe4":
                 case "useNVMe5":

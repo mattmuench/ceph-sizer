@@ -76,7 +76,7 @@ const dcConfigCalcPreliminaryMediaPerServer = function (generalValues, dcConfigA
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 76, `actualChassisID=${actualChassisID}, dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfSSD9Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfSSD9Needed}`,0,0,0)
   }
   
-  if ((chassisArrayLocal[actualChassisID].sizeNVMe2 > 0) && (chassisArrayLocal[actualChassisID].useRGWCaching == true)) {
+  if ((chassisArrayLocal[actualChassisID].sizeNVMe2 > 0) && (chassisArrayLocal[actualChassisID].useNVMe2 == true)) {
     dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed = Math.ceil(dcConfigArrayLocal[dcItem].numberOfNVMe2Needed / numberOfServersNeeded)
     debugMsg(generalValues, localDebugOn, 5, "dcConfigCalcPreliminaryMediaPerServer", 81, `dcConfigArrayLocal[dcItem=${dcItem}].prelimPerServerNumberOfNVMe2Needed=${dcConfigArrayLocal[dcItem].prelimPerServerNumberOfNVMe2Needed}`,0,0,0)
   }
