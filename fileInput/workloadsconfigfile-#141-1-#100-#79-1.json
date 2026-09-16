@@ -8,7 +8,7 @@
       {
         "reqCapacityNet":100,
         "reqFlashPercent":100,
-        "useCase":"filedata",
+        "useCase":"rgwdata",
         "reqNumReplica":3,
         "reqNumberFd":3,
         "selectorNVMe":false,
@@ -25,7 +25,7 @@
           "6":0,
           "7":0
         },
-        "selectorNVMe2":false,
+        "selectorNVMe2":true,
         "RGWLifecycleNumVersions":1,
         "selectorRGWIndexDedicatedFlashPool":false,
         "selectorHDDDedicatedNVMe":true,
