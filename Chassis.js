@@ -55,7 +55,7 @@ class Chassis {
 
         speedNicPublic,
         speedNicCluster,
-        useRGWCaching,
+        useNVMe2,
     ) {
 
             /// For debugging purposes, this translates the cell names into the 
@@ -89,7 +89,7 @@ class Chassis {
             ["ssd-to-nvme5","ssdToNVMe5"], // #SSD covered for RocksDB/WAL by NVMe type 5 (incl. and excl. WAL)
             ["use-nvme-5","useNVMe5"], // use NVMe5 for dedicated RocksDB for SSD1
             ["speed-nic-cluster","speedNicCluster"],
-            ["use-rgw-caching","useRGWCaching"],
+            ["use-rgw-caching","useNVMe2"],
             ["use-nvme-3","useNVMe3"],
             ["nvme-to-nvme7","nvmeToNVMe7"],
             ["use-nvme-7","useNVMe7"], // use NVMe7 for dedicated WAL for NVMe1
@@ -100,7 +100,7 @@ class Chassis {
             ["use-nvme-4","useNVMe4"], // select NVMe fronting for RocksDB for HDD
             ["hdd-to-ssd4","hddToSSD4"],
             ["size-ssd-4","sizeSSD4"], // SSD type 4
-            ["size-nvme-4","sizeNVMe4"], // for RocksDBcache HDD
+            ["size-nvme-4","sizeNVMe4"], // for RocksDB HDD
             ["hdd-to-nvme4","hddToNVMe4"], // ratio of number of HDD fronted by NVMe type 4 - either SSD or NVMe fronted
             ["size-nvme-9","sizeNVMe9"], // NVMe type 9 for WAL for HDD
             ["hdd-to-nvme9","hddToNVMe9"],
@@ -141,7 +141,7 @@ class Chassis {
         this.hddToNVMe4 = 17
         this.ssdToNVMe5 = 4
         this.speedNicCluster = 0
-        this.useRGWCaching = 0
+        this.useNVMe2 = 0
         this.useNVMe3 = 0
         this.useNVMe5 = 0
         this.sizeNVMe7 = 0

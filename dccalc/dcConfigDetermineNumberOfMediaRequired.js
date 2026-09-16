@@ -21,7 +21,7 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
 
     
       let localDCDedicatedObjectIndexCapacity = 0 // raw capacity needed for dedicated index pool in TB
-      let localDCNumberOfRGWCacheMedia = 0
+      let localDCNumberOfNVMe2 = 0
 
       // RGW index capacity per media configuration
       // HDD without dedicated RocksDB
@@ -349,13 +349,13 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
             }
 
             // Determine the need of RGW dedicated cache and sum up a dedicated media per workload and minNumber of instances for RGW per workload
-            if (workloadsArrayLocal[workloadItem].selectorRGWCache === true) {
-              if (chassisArrayLocal[actualChassisID].useRGWCaching == 1) {
-                localDCNumberOfRGWCacheMedia += sizingConstraints.minNumberOfInstancesRoleRGW
-                debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 355, `[chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] RGW cache media needed=${localDCNumberOfRGWCacheMedia}`,0,0,0)
+            if (workloadsArrayLocal[workloadItem].selectorNVMe2 === true) {
+              if (chassisArrayLocal[actualChassisID].useNVMe2 == 1) {
+                localDCNumberOfNVMe2 += sizingConstraints.minNumberOfInstancesRoleRGW
+                debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 355, `[chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] RGW cache media (NVMe2) needed=${localDCNumberOfNVMe2}`,0,0,0)
               }
               else {
-                displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 347, "error", `[chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] RGW cache media selected but chassis doesn't support it`,0,0,0)
+                displayMsg(document, "dcConfigDetermineNumberOfMediaRequired", 347, "error", `[chassisID=${actualChassisID},workloadID=${workloadItem},DC=${dcItem}] RGW cache media (NVMe2) selected but chassis doesn't support it`,0,0,0)
               }
               
             }
@@ -1022,7 +1022,7 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
 
       // NVMe2:
       // RGW cache media are dedicated and counted as they are
-      dcConfigArrayLocal[dcItem].numberOfNVMe2Needed = localDCNumberOfRGWCacheMedia
+      dcConfigArrayLocal[dcItem].numberOfNVMe2Needed = localDCNumberOfNVMe2
       debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1026, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe2 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe2Needed}`,0,0,0)
 
       // NVMe2: Check for chassis setting to have any size other than 0 and if at all selected
@@ -1038,7 +1038,7 @@ const dcConfigDetermineNumberOfMediaRequired = function (generalValues, workload
       }
       else {
         // sizeNVMe2 is > 0
-        if (chassisArrayLocal[actualChassisID].useRGWCaching == true){
+        if (chassisArrayLocal[actualChassisID].useNVMe2 == true){
           debugMsg(generalValues, localDebugOn, 5, "dcConfigDetermineNumberOfMediaRequired", 1042, `[chassisID=${actualChassisID},DC=${dcItem}] #NVMe2 needed=${dcConfigArrayLocal[dcItem].numberOfNVMe2Needed}`,0,0,0)
         }
         else {

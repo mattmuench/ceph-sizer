@@ -119,7 +119,7 @@ const readWorkloadConfig = function (documentMain, generalValues, loadedConfigsL
             
             case "selectorNVMe":
             case "selectorHighdense":
-            case "selectorRGWCache":
+            case "selectorNVMe2":
             case "selectorRGWIndexDedicatedFlashPool":
             case "selectorHDDDedicatedNVMe":
             case "selectorHDDDedicatedNVMeForWAL":

@@ -15,7 +15,7 @@ class Workload {
         sumNumberDC,
         checkNumDC,
         checkInputDC,
-        selectorRGWCache,
+        selectorNVMe2,
         checkMinServersAll,
         checkArrayMinServersDC = [],
         RGWLifecycleNumVersions,
@@ -43,8 +43,8 @@ class Workload {
         reqCapacityGrossNVMe,
         // all the additional NVMe and flash types for various use types - calculated per DC for selected DCs
         reqCapacityGrossNVMe2PerDC, // for RGW cache etc.
-        reqCapacityGrossNVMe4PerDC, // for RocksDBcache HDD - overall, but granularity based on #media vs flash device (capacity and performance)
-        reqCapacityGrossNVMe5PerDC, // for RocksDBcache SSD
+        reqCapacityGrossNVMe4PerDC, // for RocksDB HDD - overall, but granularity based on #media vs flash device (capacity and performance)
+        reqCapacityGrossNVMe5PerDC, // for RocksDB SSD
         reqCapacityGrossNVMe6PerDC  // for RGW index data
         
     ) {
@@ -77,7 +77,7 @@ class Workload {
             ["output-sum-number-dc","sumNumberDC"],
             ["output-check-num-dc","checkNumDC"],
             ["output-check-input-dc","checkInputDC"],
-            ["selector-rgw-cache","selectorRGWCache"],
+            ["selector-rgw-cache","selectorNVMe2"],
             ["output-check-min-servers-dc","checkArrayMinServersDC",dcMinServerList],
             // This is for checking the min # of servers supported in the individual configuration - output only upon calculation and performed check
             // ["check-min-servers-all",0],
@@ -126,7 +126,7 @@ class Workload {
         this.sumNumberDC = 1
         this.checkNumDC = "ok"
         this.checkInputDC = "CONDITIONALLY OK - number of DCs = 1"
-        this.selectorRGWCache = 0
+        this.selectorNVMe2 = 0
         this.checkMinServersAll = 0
         /// Check servers per DC array to assign the seletions must be filled during creation of the object
         /// by evaluating the allowed number of DCs => currently, it is 7 DCs but might be different 
